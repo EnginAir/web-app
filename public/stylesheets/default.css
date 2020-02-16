@@ -1,0 +1,40 @@
+
+body {
+
+    background: #1d3e81;
+
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+
+}
+
+div.container div#map {
+    height: 100vh;
+
+}
+
+#navBarLinks {
+    font-family: 'Roboto-Condensed-Bold', sans-serif;
+}
+
+nav#navBar a.dropdown-item {
+    font-family: 'Roboto-Condensed', sans-serif;
+}
+
+@media (min-width: 768px) {
+    .navbar-nav.navbar-center {
+        position: absolute;
+        left: 50%;
+        transform: translatex(-50%);
+    }
+}
+
+nav #navBar input #toggleBtn {
+    font-family: 'Roboto-Condensed-BoldItalic', sans-serif;
+}
+
+
+
+
