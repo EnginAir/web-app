@@ -1,5 +1,6 @@
 <!--
-WIFI DATA
+Technician's Current Flights Page
+- Link in navigation bar: "Flights"
 -->
 
 <!DOCTYPE html>
@@ -18,7 +19,7 @@ WIFI DATA
     <link rel="stylesheet" href="../public/fonts/roboto-fontface/css/roboto-slab/roboto-slab-fontface.css" type="text/css" charset="utf-8" />
     <link rel="stylesheet" href="../public/stylesheets/default.css">
 
-    <title>CEUSS - WiFi Strengths</title>
+    <title>CEUSS - Flights</title>
 
 
 </head>
@@ -44,26 +45,37 @@ WIFI DATA
             <li class="nav-item">
                 <a class="nav-link" href="index.html">Home</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="flights_page.html">Flights</a>
+            <li class="nav-item active">
+                <a class="nav-link" href="technic_flights.html">Flights</a>
             </li>
             <li class="nav-item"><!--TODO: Landing Uploads, Data, or Status?-->
-                <a class="nav-link" href="landing_data_page.html">Landing Data</a>
-            <li class="nav-item">
-                <a class="nav-link" href="wifi_data_page.html">WiFi Strength</a>
+                <a class="nav-link" href="technic_upload_status.html">Landing Data</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="wifiDropdownMenuLink" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">WiFi Strength</a>
+                <div class="dropdown-menu" aria-labelledby="wifiDropdownMenuLink">
+                    <a class="dropdown-item" href="technic_wifi_config.html">Configuration Data</a>
+                    <a class="dropdown-item" href="technic_wifi_sim.html">Simulation</a>
+                </div>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="database_page.html">Database</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="databaseDropdownMenuLink" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">Database</a>
+                <div class="dropdown-menu" aria-labelledby="databaseDropdownMenuLink">
+                    <a class="dropdown-item" href="technic_database_table.html">Data</a>
+                    <a class="dropdown-item" href="technic_database_diagnostic_test.html">Diagnostic Testing</a>
+                </div>
             </li>
         </ul>
-
         <div class="nav navbar-nav navbar-right">
             <input type="checkbox" checked data-toggle="toggle" data-on="Technician" data-off="Pilot"
-                   data-onstyle="primary" data-offstyle="secondary" data-width="150" id="toggleBtn">
+                   data-onstyle="primary" data-offstyle="secondary" data-width="150" id="toggleBtn"
+                   onchange="renderPilot()">
         </div>
 
     </div>
 </nav>
+
 
 
 <!----------------MAP---------------->
@@ -73,6 +85,7 @@ WIFI DATA
 
         <div class="card" id="map">
 
+            <!--TODO-->
             <p class="lead mb-0">Last Data Upload: </p>
 
         </div>

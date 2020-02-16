@@ -1,0 +1,177 @@
+<!--
+Technician's Database Diagnostic Testing Page
+- Link in navigation bar: "Database" > Dropdown link: "Diagnostic Testing"
+-->
+
+<!DOCTYPE html>
+<html lang ="en">
+<head>
+    <meta charset="UTF-8">
+
+    <!---------------------------------------->
+    <!------------LOAD STYLESHEETS------------>
+    <!---------------------------------------->
+    <link rel="stylesheet" href="../public/stylesheets/bootstrap.min.css">
+    <link rel="stylesheet" href="../public/stylesheets/leaflet.css">
+    <link rel="stylesheet" href="../public/stylesheets/bootstrap4-toggle.min.css">
+    <link rel="stylesheet" href="../public/fonts/roboto-fontface/css/roboto/roboto-fontface.css" type="text/css" charset="utf-8" />
+    <link rel="stylesheet" href="../public/fonts/roboto-fontface/css/roboto-condensed/roboto-condensed-fontface.css" type="text/css" charset="utf-8" />
+    <link rel="stylesheet" href="../public/fonts/roboto-fontface/css/roboto-slab/roboto-slab-fontface.css" type="text/css" charset="utf-8" />
+    <link rel="stylesheet" href="../public/stylesheets/default.css">
+
+    <title>CEUSS - Database</title>
+
+
+</head>
+
+
+<body>
+
+<!-------------NAVIGATION BAR------------->
+
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top" id="navBar">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <a class="navbar-brand" href="#">
+        <img src="../public/images/Honeywell_Logo.png" class="mr-3" height="40px" width="120px" alt="">
+    </a>
+
+    <div class="collapse navbar-collapse" id="navbarToggler">
+
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0" id="navBarLinks">
+            <li class="nav-item dropdown">
+                <a class="nav-link \" href="index.html" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Home <span class="sr-only">(current)</span>
+                </a>
+
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="technic_flights.html">Flights</a>
+            </li>
+            <li class="nav-item"><!--TODO: Landing Uploads, Data, or Status?-->
+                <a class="nav-link" href="technic_upload_status.html">Landing Data</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="wifiDropdownMenuLink" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">WiFi Strength</a>
+                <div class="dropdown-menu" aria-labelledby="wifiDropdownMenuLink">
+                    <a class="dropdown-item" href="technic_wifi_config.html">Configuration Data</a>
+                    <a class="dropdown-item" href="technic_wifi_sim.html">Simulation</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown active">
+                <a class="nav-link dropdown-toggle" id="databaseDropdownMenuLink" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">Database</a>
+                <div class="dropdown-menu" aria-labelledby="databaseDropdownMenuLink">
+                    <a class="dropdown-item" href="technic_database_table.html">Data</a>
+                    <a class="dropdown-item" href="technic_database_diagnostic_test.html">Diagnostic Testing</a>
+                </div>
+            </li>
+        </ul>
+        <div class="nav navbar-nav navbar-right">
+            <input type="checkbox" checked data-toggle="toggle" data-on="Technician" data-off="Pilot"
+                   data-onstyle="primary" data-offstyle="secondary" data-width="150" id="toggleBtn"
+                   onchange="renderPilot()">
+        </div>
+
+    </div>
+</nav>
+
+
+
+
+<div class="container-fluid">
+    <div class="row">
+        <main>
+            <!-------------SEARCH BAR------------->
+            <h2>Search Bar</h2>
+            <form>
+                <div class="form-group">
+                    <label for="id"></label>
+                    <input type="email" class="form-control" id="id" placeholder="ID">
+                </div>
+            </form>
+
+            <!-------------DATABASE TABLE------------->
+
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Engine Roll-down GPS Location (RDL)</th>
+                    <th scope="col">Engine Roll-down Date/Time (RDT/D)</th>
+                    <th scope="col">Engine Start GPS Location (STL)</th>
+                    <th scope="col">Engine Start Time/Date (ST/D)</th>
+                    <th scope="col">Upload GPS Location (UL)</th>
+                    <th scope="col">WAP Signal Strength (WSS)</th>
+                    <th scope="col">WAP ID (WID)/th>
+                    <th scope="col">Airport Code</th>
+                    <th scope="col">Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row">134820</th>
+                    <td>33.348928/-84.523423</td>
+                    <td>1/1/19 15:02</td>
+                    <td>32.13/-81.2</td>
+                    <td>1/5/19 21:04</td>
+                    <td>32.18/-82.03</td>
+                    <td>Good</td>
+                    <td>123</td>
+                    <td>PHX</td>
+                    <td>FAILED</td>
+                </tr>
+                <tr>
+                    <th scope="row">223421</th>
+                    <td>33.348928/-84.523423</td>
+                    <td>1/1/19 15:02</td>
+                    <td>32.13/-81.2</td>
+                    <td>1/5/19 21:04</td>
+                    <td>32.18/-82.03</td>
+                    <td>Good</td>
+                    <td>123</td>
+                    <td>PHX</td>
+                    <td>FAILED</td>
+                </tr>
+                <tr>
+                    <th scope="row">3239480</th>
+                    <td>33.348928/-84.523423</td>
+                    <td>1/1/19 15:02</td>
+                    <td>32.13/-81.2</td>
+                    <td>1/5/19 21:04</td>
+                    <td>32.18/-82.03</td>
+                    <td>Good</td>
+                    <td>123</td>
+                    <td>PHX</td>
+                    <td>FAILED</td>
+                </tr>
+                </tbody>
+            </table>
+
+
+        </main>
+
+
+
+
+
+    </div>
+</div>
+
+
+
+
+
+<!---------------------------------------->
+<!-------------LOAD JS FILES-------------->
+<!---------------------------------------->
+<script src="../public/js/leaflet.js"></script>
+<script src="../public/js/jquery.min.js"></script>
+<script src="../public/js/bootstrap.min.js"></script>
+<script src="../public/js/bootstrap4-toggle.min.js"></script>
+<script src="../routes/map.js"></script>
+</body>
+</html>
+
