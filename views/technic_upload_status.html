@@ -18,8 +18,11 @@ Technician's Upload Status Page
     <link rel="stylesheet" href="../public/fonts/roboto-fontface/css/roboto-condensed/roboto-condensed-fontface.css" type="text/css" charset="utf-8" />
     <link rel="stylesheet" href="../public/fonts/roboto-fontface/css/roboto-slab/roboto-slab-fontface.css" type="text/css" charset="utf-8" />
     <link rel="stylesheet" href="../public/stylesheets/default.css">
+    <link rel="stylesheet" href="../public/stylesheets/search_bar.css">
 
     <title>CEUSS - Landing Data</title>
+    <link rel="stylesheet"
+          href="../../../Documents/***SPRING***/CAPSTONE/web-app-dev/node_modules/bootstrap-table/dist/bootstrap-table.min.css">
 
 
 </head>
@@ -29,7 +32,7 @@ Technician's Upload Status Page
 
 <!-------------NAVIGATION BAR------------->
 
-<nav class="navbar navbar-expand-md navbar-light bg-light" id="navBar">
+<nav class="navbar navbar-expand-md navbar-light bg-light mb-3" id="navBar">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -76,11 +79,67 @@ Technician's Upload Status Page
     </div>
 </nav>
 
+<div class="container-fluid m-2">
+    <div class="row">
+        <div class="col-12">
+            <div class="row">
+
+              <div class="col-3" id="searchBar">
+                  <h4 id="searchBarTitle">FILTER DATA</h4>
+                  <form class="p-2">
+
+                      <div class="form-group" id="searchBarList">
+                          <h6>Upload Status</h6>
+                          <div class="form-check">
+                              <input class="form-check-input" type="checkbox" id="statusFailed">
+                              <label class="form-check-label" for="statusFailed">
+                                  Failed
+                              </label>
+                          </div>
+                          <div class="form-check">
+                              <input class="form-check-input" type="checkbox" id="statusPending">
+                              <label class="form-check-label" for="statusPending">
+                                  Pending
+                              </label>
+                          </div>
+                          <div class="form-check">
+                              <input class="form-check-input" type="checkbox" id="statusSuccess">
+                              <label class="form-check-label" for="statusFailed">
+                                  Success
+                              </label>
+                          </div>
+                      </div>
+
+                      <div class="form-group form-inline">
+                          <label for="inputPassword6">LAT</label>
+                          <input type="password" id="inputPassword6" class="form-control mx-sm-3" aria-describedby="passwordHelpInline">
+
+                      </div>
+
+                      <button class="btn btn-primary float-right" id="searchBarSubmitBtn" type="submit">Search</button>
+                  </form>
+
+              </div>
+
+                <div class="col-9">
+                    <div class="container w-80 h-80">
+
+                        <div class="card" id="map">
+
+                            <p class="lead mb-0">Last Data Upload: </p>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
-
-<!----------------MAP---------------->
+<!----------------MAP---------------
 <div>
     <div class="container">
 
@@ -90,7 +149,7 @@ Technician's Upload Status Page
 
     </div>
 </div>
-
+-->
 
 
 <!---------------------------------------->

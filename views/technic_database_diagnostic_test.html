@@ -29,7 +29,7 @@ Technician's Database Diagnostic Testing Page
 
 <!-------------NAVIGATION BAR------------->
 
-<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top" id="navBar">
+<nav class="navbar navbar-expand-md navbar-light bg-light  mb-3" id="navBar">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -41,11 +41,8 @@ Technician's Database Diagnostic Testing Page
     <div class="collapse navbar-collapse" id="navbarToggler">
 
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0" id="navBarLinks">
-            <li class="nav-item dropdown">
-                <a class="nav-link \" href="index.html" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Home <span class="sr-only">(current)</span>
-                </a>
-
+            <li class="nav-item">
+                <a class="nav-link" href="index.html">Home</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="technic_flights.html">Flights</a>
@@ -80,78 +77,53 @@ Technician's Database Diagnostic Testing Page
 
 
 
-
+<!--TODO: yuuck, delete/fix-->
 <div class="container-fluid">
     <div class="row">
-        <main>
-            <!-------------SEARCH BAR------------->
-            <h2>Search Bar</h2>
-            <form>
-                <div class="form-group">
-                    <label for="id"></label>
-                    <input type="email" class="form-control" id="id" placeholder="ID">
+        <!-------------DATABASE TABLE------------->
+
+        <div class="row">
+            <div class="panel panel-primary filterable">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Users</h3>
+                    <div class="pull-right">
+                        <button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-filter"></span> Filter</button>
+                    </div>
                 </div>
-            </form>
-
-            <!-------------DATABASE TABLE------------->
-
-            <table class="table">
-                <thead class="thead-dark">
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Engine Roll-down GPS Location (RDL)</th>
-                    <th scope="col">Engine Roll-down Date/Time (RDT/D)</th>
-                    <th scope="col">Engine Start GPS Location (STL)</th>
-                    <th scope="col">Engine Start Time/Date (ST/D)</th>
-                    <th scope="col">Upload GPS Location (UL)</th>
-                    <th scope="col">WAP Signal Strength (WSS)</th>
-                    <th scope="col">WAP ID (WID)/th>
-                    <th scope="col">Airport Code</th>
-                    <th scope="col">Status</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <th scope="row">134820</th>
-                    <td>33.348928/-84.523423</td>
-                    <td>1/1/19 15:02</td>
-                    <td>32.13/-81.2</td>
-                    <td>1/5/19 21:04</td>
-                    <td>32.18/-82.03</td>
-                    <td>Good</td>
-                    <td>123</td>
-                    <td>PHX</td>
-                    <td>FAILED</td>
-                </tr>
-                <tr>
-                    <th scope="row">223421</th>
-                    <td>33.348928/-84.523423</td>
-                    <td>1/1/19 15:02</td>
-                    <td>32.13/-81.2</td>
-                    <td>1/5/19 21:04</td>
-                    <td>32.18/-82.03</td>
-                    <td>Good</td>
-                    <td>123</td>
-                    <td>PHX</td>
-                    <td>FAILED</td>
-                </tr>
-                <tr>
-                    <th scope="row">3239480</th>
-                    <td>33.348928/-84.523423</td>
-                    <td>1/1/19 15:02</td>
-                    <td>32.13/-81.2</td>
-                    <td>1/5/19 21:04</td>
-                    <td>32.18/-82.03</td>
-                    <td>Good</td>
-                    <td>123</td>
-                    <td>PHX</td>
-                    <td>FAILED</td>
-                </tr>
-                </tbody>
-            </table>
+                <table class="table">
+                    <thead>
+                    <tr class="filters">
+                        <th><input type="text" class="form-control" placeholder="#" disabled></th>
+                        <th><input type="text" class="form-control" placeholder="First Name" disabled></th>
+                        <th><input type="text" class="form-control" placeholder="Last Name" disabled></th>
+                        <th><input type="text" class="form-control" placeholder="Username" disabled></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                        <td>@fat</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Larry</td>
+                        <td>the Bird</td>
+                        <td>@twitter</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
 
-        </main>
 
 
 

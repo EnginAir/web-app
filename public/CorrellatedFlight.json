@@ -1,0 +1,66 @@
+[
+  {
+    "classname": "edu.nau.enginair.models.CorrellatedFlight",
+    "tailNumber": "A1234",
+    "landingPoint":
+    {
+      "type": "Point",
+      "geometry":  [45.3232, -89.9917]
+    },
+    "takoffPoint":
+    {
+      "type": "Point",
+      "geometry": [39.3232, -92.9917]
+    },
+    "landingDate": "2016-08",
+    "outcome": "SUCCESS_UPLOAD"
+  },
+  {
+    "classname": "edu.nau.enginair.models.CorrellatedFlight",
+    "tailNumber": "Y6903",
+    "landingPoint":
+    {
+      "type": "Point",
+      "geometry": [42.3232, -113.9917]
+    },
+    "takoffPoint":
+    {
+      "type": "Point",
+      "geometry": [41.3232, -122.9917]
+    },
+    "landingDate": "2020-02",
+    "outcome": "FAIL_NO_LANDING"
+  },
+  {
+    "classname": "edu.nau.enginair.models.CorrellatedFlight",
+    "tailNumber": "C2304",
+    "landingPoint":
+    {
+      "type": "Point",
+      "geometry": [32.3232, -110.9917]
+    },
+    "takoffPoint":
+    {
+      "type": "Point",
+      "geometry": [42.3232, -77.9917]
+    },
+    "landingDate": "2017-01",
+    "outcome": "FAIL_NO_WIFI_AIRPORT"
+  },
+  {
+    "classname": "edu.nau.enginair.models.CorrellatedFlight",
+    "tailNumber": "Q1203",
+    "landingPoint":
+    {
+      "type": "Point",
+      "geometry": [35.3232, -90.9917]
+    },
+    "takoffPoint":
+    {
+      "type": "Point",
+      "geometry": [36.3232, -77.9917]
+    },
+    "landingDate": "2012-11",
+    "outcome": "SUCCESS_UPLOAD"
+  }
+]

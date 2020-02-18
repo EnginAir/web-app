@@ -29,7 +29,7 @@ Technician's Database Table Page
 
 <!-------------NAVIGATION BAR------------->
 
-<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top" id="navBar">
+<nav class="navbar navbar-expand-md navbar-light bg-light  mb-3" id="navBar">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -41,18 +41,15 @@ Technician's Database Table Page
     <div class="collapse navbar-collapse" id="navbarToggler">
 
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0" id="navBarLinks">
-            <li class="nav-item dropdown">
-                <a class="nav-link \" href="index.html" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Home <span class="sr-only">(current)</span>
-                </a>
-
+            <li class="nav-item">
+                <a class="nav-link" href="index.html">Home</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="technic_flights.html">Flights</a>
             </li>
             <li class="nav-item"><!--TODO: Landing Uploads, Data, or Status?-->
                 <a class="nav-link" href="technic_upload_status.html">Landing Data</a>
-            <li class="nav-item dropdown active">
+            <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="wifiDropdownMenuLink" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">WiFi Strength</a>
                 <div class="dropdown-menu" aria-labelledby="wifiDropdownMenuLink">
@@ -60,7 +57,7 @@ Technician's Database Table Page
                     <a class="dropdown-item" href="technic_wifi_sim.html">Simulation</a>
                 </div>
             </li>
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown active">
                 <a class="nav-link dropdown-toggle" id="databaseDropdownMenuLink" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">Database</a>
                 <div class="dropdown-menu" aria-labelledby="databaseDropdownMenuLink">
@@ -83,19 +80,13 @@ Technician's Database Table Page
 
 <div class="container-fluid">
     <div class="row">
-        <main>
+
             <!-------------SEARCH BAR------------->
-            <h2>Search Bar</h2>
-            <form>
-                <div class="form-group">
-                    <label for="id"></label>
-                    <input type="email" class="form-control" id="id" placeholder="ID">
-                </div>
-            </form>
+
 
             <!-------------DATABASE TABLE------------->
 
-            <table class="table">
+            <table class="table" id="table" >
                 <thead class="thead-dark">
                 <tr>
                     <th scope="col">ID</th>
@@ -151,7 +142,6 @@ Technician's Database Table Page
             </table>
 
 
-        </main>
 
 
 
