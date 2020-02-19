@@ -18,6 +18,7 @@ Technician's Database Table Page
     <link rel="stylesheet" href="../public/fonts/roboto-fontface/css/roboto-condensed/roboto-condensed-fontface.css" type="text/css" charset="utf-8" />
     <link rel="stylesheet" href="../public/fonts/roboto-fontface/css/roboto-slab/roboto-slab-fontface.css" type="text/css" charset="utf-8" />
     <link rel="stylesheet" href="../public/stylesheets/default.css">
+    <link rel="stylesheet" href="../public/stylesheets/datatables.min.css"/>
 
     <title>CEUSS - Database</title>
 
@@ -86,7 +87,7 @@ Technician's Database Table Page
 
             <!-------------DATABASE TABLE------------->
 
-            <table class="table" id="table" >
+            <table class="table table-dark table-bordered" id="table" style="color: black">
                 <thead class="thead-dark">
                 <tr>
                     <th scope="col">ID</th>
@@ -162,6 +163,12 @@ Technician's Database Table Page
 <script src="../public/js/bootstrap.min.js"></script>
 <script src="../public/js/bootstrap4-toggle.min.js"></script>
 <script src="../public/js/map.js"></script>
+<script src="../public/js/datatables.min.js"></script>
+<script>
+    $(document).ready( function () {
+        $('#table').DataTable();
+    } );
+</script>
 </body>
 </html>
 
