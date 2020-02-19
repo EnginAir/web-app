@@ -24,10 +24,8 @@ function initMap() {
     }).fitBounds(maxBounds);
 
     // Creating a Layer object
-    var layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+    var layer = new L.TileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png').addTo(map);
 
-    // Adding layer to the map
-    map.addLayer(layer);
 
 
 }

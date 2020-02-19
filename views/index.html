@@ -36,12 +36,12 @@ https://www.w3schools.com/bootstrap4/bootstrap_utilities.asp
         </button>
 
         <a class="navbar-brand" href="#">
-            <img src="../public/images/Honeywell_Logo.png" class="mr-3" height="40px" width="120px" alt="">
+            <img src="../public/images/Honeywell_Logo.png" class="mr-3" height="40w"alt="">
         </a>
 
         <div class="collapse navbar-collapse" id="navbarToggler">
 
-            <ul class="navbar-nav mr-auto mt-2 mt-lg-0" id="navBarLinks">
+            <ul class="navbar-nav mr-auto mt-3 mt-lg-1" id="navBarLinks">
                 <li class="nav-item active">
                     <a class="nav-link" href="index.html">Home</a>
                 </li>
@@ -51,16 +51,15 @@ https://www.w3schools.com/bootstrap4/bootstrap_utilities.asp
                 <li class="nav-item"><!--TODO: Landing Uploads, Data, or Status?-->
                     <a class="nav-link" href="technic_upload_status.html">Landing Data</a>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="wifiDropdownMenuLink" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false">WiFi Strength</a>
+                    <a class="nav-link dropdown-toggle" href="" id="wifiDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">WiFi Strength</a>
+
                     <div class="dropdown-menu" aria-labelledby="wifiDropdownMenuLink">
                         <a class="dropdown-item" href="technic_wifi_config.html">Configuration Data</a>
                         <a class="dropdown-item" href="technic_wifi_sim.html">Simulation</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="databaseDropdownMenuLink" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">Database</a>
+                    <a class="nav-link dropdown-toggle" href="" id="databaseDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Database</a>
                     <div class="dropdown-menu" aria-labelledby="databaseDropdownMenuLink">
                         <a class="dropdown-item" href="technic_database_table.html">Data</a>
                         <a class="dropdown-item" href="technic_database_diagnostic_test.html">Diagnostic Testing</a>
@@ -80,7 +79,7 @@ https://www.w3schools.com/bootstrap4/bootstrap_utilities.asp
 
 
     <div class="container-fluid">
-        <div class="jumbotron jumbotron-fluid p-1">
+        <div class="jumbotron p-3 rounded-6">
             <h1>Connected Engine Upload Status System (CEUSS)</h1>
             <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dictum libero a interdum suscipit. Vivamus vehicula est consequat massa eleifend commodo. Sed ac ligula magna. Etiam mi velit, blandit id aliquam eget, commodo at ex. Nunc molestie, massa non accumsan commodo, justo sem dictum tortor, non consectetur tellus risus vitae elit. </p>
         </div>
@@ -102,7 +101,13 @@ https://www.w3schools.com/bootstrap4/bootstrap_utilities.asp
 
     </div>
 
-
+    <!-- Footer -->
+    <footer id="sticky-footer" class="py-4 bg-light text-blak-50">
+        <div class="container text-center">
+            <large>Copyright &copy; EnginAir</large>
+        </div>
+    </footer>
+    <!-- Footer -->
 
 <!---------------------------------------->
 <!-------------LOAD JS FILES-------------->
@@ -111,7 +116,7 @@ https://www.w3schools.com/bootstrap4/bootstrap_utilities.asp
 <script src="../public/js/jquery.min.js"></script>
 <script src="../public/js/bootstrap.min.js"></script>
 <script src="../public/js/bootstrap4-toggle.min.js"></script>
-<script src="../routes/map.js"></script>
+<script src="../public/js/map.js"></script>
 </body>
 </html>
 
