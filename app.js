@@ -20,6 +20,13 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/technic_flights', indexRouter);
+app.use('/technic_database_diagnostic_test', indexRouter);
+app.use('/technic_upload_status', indexRouter);
+app.use('/technic_wifi_config', indexRouter);
+app.use('/technic_wifi_sim', indexRouter);
+app.use('/technic_database_table', indexRouter);
+app.use('/pilot_home', indexRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
