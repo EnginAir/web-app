@@ -1,22 +1,27 @@
-<!-- views/pages/index.ejs -->
-<% const pageType = "home"; %>
+<!-- views/pages/defaultTemplate.ejs -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <% include ../partials/head %>
+    <% include ../partials/head %>
 </head>
 <body>
 
 <header>
-  <% include ../partials/header %>
+    <% include ../partials/index_header.ejs %>
 </header>
-
 <main>
-        <div id="map"></div>
-</main>
+    <div class="container"><!--spacer--><br/></div>
+    <div class="container">
+        <div class="jumbotron p-3 rounded-6">
+            <h1>Connected Engine Upload Status System (CEUSS)</h1>
+            <a href="/pilot">Click here to visit the pilot homepage.</a><br/>
+            <a href="/technician">Click here to visit the technician homepage.</a>
+        </div>
+    </div>
 
+</main>
 <footer>
-  <% include ../partials/footer %>
+    <% include ../partials/footer %>
 </footer>
 
 <!---------------------------------------->

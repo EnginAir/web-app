@@ -1,11 +1,11 @@
 
 // TODO: Find better place for render page functions
 function renderPilot() {
-    window.location.replace('pilot_home.html');
+    window.location.replace('/pilot');
 }
 
 function renderTechnician() {
-    window.location.replace('index.html');
+    window.location.replace('/technician');
 }
 
 function initMap() {
