@@ -12,26 +12,23 @@
 
         <ul class="navbar-nav mr-auto mt-3 mt-lg-1" id="navBarLinks">
             <li class="nav-item <%if (pageType == "home") { %>active<% } %>">
-                <a class="nav-link" href="index.html">Home</a>
+                <a class="nav-link" href="/technician/">Home</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="technic_flights.html">Flights</a>
-            </li>
-            <li class="nav-item"><!--TODO: Landing Uploads, Data, or Status?-->
-                <a class="nav-link" href="technic_upload_status.html">Landing Data</a>
-            <li class="nav-item dropdown">
+            <li class="nav-item <%if (pageType == "upload_status") { %>active<% } %>">
+                <a class="nav-link" href="/technician/upload_status">Landing Data</a>
+            <li class="nav-item dropdown <%if (pageType == "wifi") { %>active<% } %>">
                 <a class="nav-link dropdown-toggle" href="" id="wifiDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">WiFi Strength</a>
 
                 <div class="dropdown-menu" aria-labelledby="wifiDropdownMenuLink">
-                    <a class="dropdown-item" href="technic_wifi_config.html">Configuration Data</a>
-                    <a class="dropdown-item" href="technic_wifi_sim.html">Simulation</a>
+                    <a class="dropdown-item" href="/technician/wifi_config">Configuration Data</a>
+                    <a class="dropdown-item" href="/technician/wifi_sim">Simulation</a>
                 </div>
             </li>
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown <%if (pageType == "database") { %>active<% } %>">
                 <a class="nav-link dropdown-toggle" href="" id="databaseDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Database</a>
                 <div class="dropdown-menu" aria-labelledby="databaseDropdownMenuLink">
-                    <a class="dropdown-item" href="technic_database_table.html">Data</a>
-                    <a class="dropdown-item" href="technic_database_diagnostic_test.html">Diagnostic Testing</a>
+                    <a class="dropdown-item" href="/technician/database_table">Data</a>
+                    <a class="dropdown-item" href="/technician/database_diagnostic_test">Diagnostic Testing</a>
                 </div>
             </li>
         </ul>
