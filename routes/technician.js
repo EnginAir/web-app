@@ -5,5 +5,10 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
   res.render('pages/technic/home.ejs', { title: 'CEUSS - Technician Home' });
 });
-
+router.get('/database_diagnostic_test', function(req, res, next) {
+  res.render('pages/technic/database_diagnostic_test.ejs', { title: 'CEUSS - Database Diagnostics' });
+});
+router.get('/database_table', function(req, res, next) {
+  res.render('pages/technic/database_table.ejs', { title: 'CEUSS - Database Table' });
+});
 module.exports = router;
