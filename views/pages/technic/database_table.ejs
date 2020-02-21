@@ -1,0 +1,95 @@
+<!-- views/pages/index.ejs -->
+<% const pageType = "database"; %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../../partials/head %>
+</head>
+<body>
+
+<header>
+    <% include ../../partials/technic_header %>
+</header>
+
+<main>
+    <div class="container-fluid">
+
+
+            <!-------------SEARCH BAR------------->
+
+
+            <!-------------DATABASE TABLE------------->
+        <div class="container"><br><br><br></div>
+
+            <table class="table table-hover" id="table">
+                <thead>
+                <tr class="table-dark">
+                    <th>ID</th>
+                    <th>Engine Roll-down GPS Location (RDL)</th>
+                    <th>Engine Roll-down Date/Time (RDT/D)</th>
+                    <th>Engine Start GPS Location (STL)</th>
+                    <th>Engine Start Time/Date (ST/D)</th>
+                    <th>Upload GPS Location (UL)</th>
+                    <th>WAP Signal Strength (WSS)</th>
+                    <th>WAP ID (WID)</th>
+                    <th>Airport Code</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th>134820</th>
+                    <td>33.348928/-84.523423</td>
+                    <td>1/1/19 15:02</td>
+                    <td>32.13/-81.2</td>
+                    <td>1/5/19 21:04</td>
+                    <td>32.18/-82.03</td>
+                    <td>Good</td>
+                    <td>123</td>
+                    <td>PHX</td>
+                    <td>FAILED</td>
+                </tr>
+                <tr>
+                    <th>223421</th>
+                    <td>33.348928/-84.523423</td>
+                    <td>1/1/19 15:02</td>
+                    <td>32.13/-81.2</td>
+                    <td>1/5/19 21:04</td>
+                    <td>32.18/-82.03</td>
+                    <td>Good</td>
+                    <td>123</td>
+                    <td>PHX</td>
+                    <td>FAILED</td>
+                </tr>
+                <tr>
+                    <th>3239480</th>
+                    <td>33.348928/-84.523423</td>
+                    <td>1/1/19 15:02</td>
+                    <td>32.13/-81.2</td>
+                    <td>1/5/19 21:04</td>
+                    <td>32.18/-82.03</td>
+                    <td>Good</td>
+                    <td>123</td>
+                    <td>PHX</td>
+                    <td>FAILED</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+</main>
+
+<footer>
+    <% include ../../partials/footer %>
+</footer>
+
+<!---------------------------------------->
+<!-------------LOAD JS FILES-------------->
+<!---------------------------------------->
+<script src="/js/leaflet.js"></script>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/bootstrap4-toggle.min.js"></script>
+<script src="/js/map.js"></script>
+
+</body>
+</html>
