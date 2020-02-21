@@ -7,3 +7,29 @@ body {
     padding-top: 83px;
     padding-bottom: 70px;
 }
+
+.add {
+    display: none;
+}
+a.add, a.add:hover{
+    color: #27C46B;
+    font-size: 24px;
+    margin-right: -1px;
+    position: relative;
+    top: 3px;
+}
+a.edit, a.edit:hover {
+    color: #FFC107;
+}
+a.delete, a.delete:hover {
+    color: #E34724;
+}
+a {
+    cursor: pointer;
+    display: inline-block;
+    margin: 0 5px;
+    min-width: 24px;
+}
+table.table {
+    table-layout: fixed;
+}
