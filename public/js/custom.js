@@ -9,7 +9,7 @@ function showPassword() {
 
 $(document).ready(function() {
     $("body").tooltip({ selector: '[data-toggle=tooltip]' });
-});s
+});
 
 $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip();
@@ -58,8 +58,19 @@ $(document).ready(function(){
         $(".add-new").attr("disabled", "disabled");
     });
     // Delete row on delete button click
-    $(document).on("click", ".delete", function(){
-        $(this).parents("tr").remove();
-        $(".add-new").removeAttr("disabled");
+    $(document).on("click", ".delete", function(event){
+        event.preventDefault(); // Stops browser from navigating away from page
+        var mongoID = $(this).parents("tr").find(".mongoID")[0].dataset.mongoid;
+        $.ajax({
+            url: '/api/delete_wifi?mongoID=' + mongoID,
+            type: 'DELETE',
+            success: function () {
+                $(this).parents("tr").remove();
+                $(".add-new").removeAttr("disabled");
+            }.bind(this)
+        });
+
     });
 });
+
+

@@ -26,15 +26,15 @@
             <div class="container"><br><br><br></div>
             <div class="container">
                 <h1 class="display-5">Wifi Information</h1>
-                <form>
+                <form action="/api/add_wifi"  method="POST">
                     <fieldset>
                         <div class="form-group">
                             <label for="ssid">SSID</label>
-                            <input type="text" class="form-control" id="ssid" placeholder="attwifi">
+                            <input type="text" class="form-control" id="ssid" name="ssid" placeholder="attwifi">
                         </div>
                         <div class="form-group">
                             <label for="wifiPassword">Password</label>
-                            <input type="password" class="form-control" id="wifiPassword"
+                            <input type="password" class="form-control" id="wifiPassword" name="wifiPassword"
                                    placeholder="Password">
                             <div class="form-check">
                                 <label class="form-check-label">
@@ -47,23 +47,23 @@
 
                         <div class="form-group">
                             <label for="ssid">Airport Code</label>
-                            <input type="text" class="form-control" id="airportCode" placeholder="PHX">
+                            <input type="text" class="form-control" id="airportCode" name="airportCode" placeholder="PHX">
                         </div>
 
                         <div class="form-group">
                             <label for="latitude">Latitude</label>
-                            <input type="text" class="form-control" id="latitude"
+                            <input type="text" class="form-control" id="latitude" name="latitude"
                                    placeholder="37.234332396">
                         </div>
 
                         <div class="form-group">
                             <label for="logitude">Logitude</label>
-                            <input type="text" class="form-control" id="logitude"
+                            <input type="text" class="form-control" id="longitude"  name="longitude"
                                    placeholder="-115.80666344">
                         </div>
                         <button type="submit" class="btn btn-primary btn-block">Add</button>
                     </fieldset>
-                </form>
+                </>
             </div>
         </div>
 
@@ -95,21 +95,8 @@
                         <td>Action</td>
                     </tr>
                     </thead>
-                    <tbody>
-                    <% Users.forEach(function (user) { %>
-                    <tr>
-                        <td class="align-middle"><%= user.ssid %></td>
-                        <td class="align-middle"><%= user.password %></td>
-                        <td class="align-middle"><%= user.airportCode %></td>
-                        <td class="align-middle"><%= user.latitude %></td>
-                        <td class="align-middle"><%= user.longitude %></td>
-                        <td class="align-middle">
-                            <a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>
-                            <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons green_icon">&#xE254;</i></a>
-                            <a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons red_icon">&#xE872;</i></a>
-                        </td>
-                    </tr>
-                    <% }) %>
+                    <tbody id="wifiTable">
+
                     </tbody>
                 </table>
             </div>
@@ -121,6 +108,32 @@
 <footer>
     <% include ../../partials/footer %>
 </footer>
+
+<script>
+    $.get("/api/wifi".toString(), function (data) {
+        data.forEach(function (wifi) {
+            document.getElementById("wifiTable").innerHTML += "<tr>" +
+                "<td class=\"align-middle mongoID\" data-mongoid=\"" + wifi._id + "\">" + wifi.ssid + "</td>" +
+                "<td class=\"align-middle\">" + wifi.password + "</td>"+
+                "<td class=\"align-middle\">" + wifi.airportCode + "</td>" +
+                "<td class=\"align-middle\">" + wifi.latitude + "</td>" +
+                "<td class=\"align-middle\">" + wifi.longitude + "</td>" +
+                "<td class=\"align-middle\">" +
+                "<a class=\"add\" title=\"Add\" data-toggle=\"tooltip\"><i class=\"material-icons\">&#xE03B;</i></a>" +
+            "<a class=\"edit\" title=\"Edit\" data-toggle=\"tooltip\"><i class=\"material-icons green_icon\">&#xE254;</i></a>" +
+            "<a class=\"delete\" title=\"Delete\" data-toggle=\"tooltip\"><i class=\"material-icons red_icon\">&#xE872;</i></a>" +
+            "</td>" +
+            "</tr>"
+        });
+    });
+
+
+
+    function addData(){
+
+    }
+</script>
+
 
 <!---------------------------------------->
 <!-------------LOAD JS FILES-------------->
