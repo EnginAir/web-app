@@ -25,21 +25,6 @@ router.get('/wifi', function (req, res, next) {
     }
 });
 
-router.get('/correlatedFlight', function (req, res, next) {
-    if (req.query.tailNumber) {
-
-    } else if (req.query.outcome) {
-
-    } else {
-        CorrelatedFlight.paginate({}, {page: req.query.page ? req.query.page : 1, limit: 20}, function (err, doc) {
-            if (err) {
-                throw err;
-            }
-            res.json(doc.docs);
-        });
-    }
-});
-
 router.post('/add_wifi', function (req, res, next) {
     console.log(req.body.ssid);
     console.log(req.body.wifiPassword);
@@ -91,6 +76,21 @@ router.patch('/update_wifi', function (req, res, next) {
             res.json({});
         }
     });
+});
+
+router.get('/correlatedFlight', function (req, res, next) {
+    if (req.query.tailNumber) {
+
+    } else if (req.query.outcome) {
+
+    } else {
+        CorrelatedFlight.paginate({}, {page: req.query.page ? req.query.page : 1, limit: 20}, function (err, doc) {
+            if (err) {
+                throw err;
+            }
+            res.json(doc.docs);
+        });
+    }
 });
 
 module.exports = router;

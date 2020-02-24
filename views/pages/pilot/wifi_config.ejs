@@ -22,11 +22,11 @@
         </li>
     </ul>
     <div id="myTabContent" class="tab-content">
-        <div class="tab-pane fade active show" id="add">
+        <div class="tab-pane fade active show" id="add" name="add">
             <div class="container"><br><br><br></div>
             <div class="container">
                 <h1 class="display-5">Wifi Information</h1>
-                <form action="/api/add_wifi"  method="POST">
+                <form action="/api/add_wifi" method="POST">
                     <fieldset>
                         <div class="form-group">
                             <label for="ssid">SSID</label>
@@ -47,7 +47,8 @@
 
                         <div class="form-group">
                             <label for="ssid">Airport Code</label>
-                            <input type="text" class="form-control" id="airportCode" name="airportCode" placeholder="PHX">
+                            <input type="text" class="form-control" id="airportCode" name="airportCode"
+                                   placeholder="PHX">
                         </div>
 
                         <div class="form-group">
@@ -58,16 +59,16 @@
 
                         <div class="form-group">
                             <label for="logitude">Logitude</label>
-                            <input type="text" class="form-control" id="longitude"  name="longitude"
+                            <input type="text" class="form-control" id="longitude" name="longitude"
                                    placeholder="-115.80666344">
                         </div>
                         <button type="submit" class="btn btn-primary btn-block">Add</button>
                     </fieldset>
-                </>
+                </form>
             </div>
         </div>
 
-        <div class="tab-pane fade" id="viewEdit">
+        <div class="tab-pane fade" id="viewEdit" name="viewEdit">
             <div class="container"><br><br><br></div>
             <div class="container">
                 <input class="form-control mr-sm-1" type="text" placeholder="Search">
@@ -110,28 +111,36 @@
 </footer>
 
 <script>
+    $(document).ready(function () {
+        var url = document.location.toString();
+        if (url.match('#')) {
+            $('.nav-tabs a[href="#' + url.split('#')[1] + '"]').tab('show');
+        }
+
+        // Change hash for page-reload
+        $('.nav-tabs a').on('shown.bs.tab', function (e) {
+            window.location.hash = e.target.hash;
+        })
+    });
+
+
     $.get("/api/wifi".toString(), function (data) {
         data.forEach(function (wifi) {
             document.getElementById("wifiTable").innerHTML += "<tr>" +
                 "<td class=\"align-middle mongoID\" data-mongoid=\"" + wifi._id + "\">" + wifi.ssid + "</td>" +
-                "<td class=\"align-middle\">" + wifi.password + "</td>"+
+                "<td class=\"align-middle\">" + wifi.password + "</td>" +
                 "<td class=\"align-middle\">" + wifi.airportCode + "</td>" +
                 "<td class=\"align-middle\">" + wifi.latitude + "</td>" +
                 "<td class=\"align-middle\">" + wifi.longitude + "</td>" +
                 "<td class=\"align-middle\">" +
                 "<a class=\"add\" title=\"Add\" data-toggle=\"tooltip\"><i class=\"material-icons\">&#xE03B;</i></a>" +
-            "<a class=\"edit\" title=\"Edit\" data-toggle=\"tooltip\"><i class=\"material-icons green_icon\">&#xE254;</i></a>" +
-            "<a class=\"delete\" title=\"Delete\" data-toggle=\"tooltip\"><i class=\"material-icons red_icon\">&#xE872;</i></a>" +
-            "</td>" +
-            "</tr>"
+                "<a class=\"edit\" title=\"Edit\" data-toggle=\"tooltip\"><i class=\"material-icons green_icon\">&#xE254;</i></a>" +
+                "<a class=\"delete\" title=\"Delete\" data-toggle=\"tooltip\"><i class=\"material-icons red_icon\">&#xE872;</i></a>" +
+                "</td>" +
+                "</tr>"
         });
     });
 
-
-
-    function addData(){
-
-    }
 </script>
 
 
