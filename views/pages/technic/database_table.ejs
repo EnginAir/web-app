@@ -16,12 +16,101 @@
 
 
             <!-------------SEARCH BAR------------->
-
+<div class="card">
+            <div class="card-body">
+            <form id="clear">
+                <div class="row">
+                    <div class="col-md-2 pl-1">
+                        <div class="form-group">
+                            <label>ID</label>
+                            <input type="text" id="ID" name="ID" class="form-control" placeholder="ID">
+                        </div>
+                    </div>
+                    <div class="col-md-2 pl-1">
+                        <div class="form-group">
+                            <label>RDL</label>
+                            <input type="text" id="RDL" class="form-control" placeholder="RDL">
+                        </div>
+                    </div>
+                    <div class="col-md-2 pl-1">
+                        <div class="form-group">
+                            <label>RDT/D</label>
+                            <input type="text" id="RDT/D" class="form-control"  placeholder="RTD/T">
+                        </div>
+                    </div>
+                    <div class="col-md-2 pl-1">
+                        <div class="form-group">
+                            <label>STL</label>
+                            <input type="text" id="STL" class="form-control"  placeholder="STL">
+                        </div>
+                    </div>
+                    <div class="col-md-2 pl-1">
+                        <div class="form-group">
+                            <label>ST/D</label>
+                            <input type="text" id="ST/D" class="form-control"  placeholder="ST/D">
+                        </div>
+                    </div>
+                    <div class="col-md-2 pl-1">
+                        <div class="form-group">
+                            <label>UL</label>
+                            <input type="text" id="UL" class="form-control"  placeholder="UL">
+                        </div>
+                    </div>
+                    <div class="col-md-2 pl-1">
+                        <div class="form-group">
+                            <label>WSS</label>
+                            <select name="WSSID" class="form-control">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2 pl-1">
+                        <div class="form-group">
+                            <label>WID</label>
+                            <input type="text" id="WID" class="form-control"  placeholder="WID">
+                        </div>
+                    </div>
+                    <div class="col-md-2 pl-1">
+                        <div class="form-group">
+                            <label>CODE</label>
+                            <select name="CodeID" class="form-control">
+                                    <option>BHM</option>
+                                    <option>DHN</option>
+                                    <option>HSV</option>
+                                    <option>MOB</option>
+                                    <option>MGM</option>
+                                    <option>ANC</option>
+                                    <option>FAI</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2 pl-1">
+                        <div class="form-group">
+                            <label>CODE</label>
+                            <select name="CodeID" class="form-control">
+                                    <option>SUCCESS</option>
+                                    <option>PENDING</option>
+                                    <option>FAILED</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                </form>
+                <div class="text-center">
+                <a class="btn btn-success btn-lg " href="#"><i class="fa fa-filter "></i> Filter</a>
+                <a class="btn btn-secondary btn-lg " onclick="clear()" href="#"><i class="fa fa-eraser "></i> Clear Filter</a>
+                </div>
+            </div>
+        </div>
 
             <!-------------DATABASE TABLE------------->
-        <div class="container"><br><br><br></div>
+        <div class="container"><br><br></div>
 
-            <table class="table table-hover" id="table">
+            <table class="table table-striped table-bordered table-sm w-auto" id="table">
                 <thead>
                 <tr class="table-dark">
                     <th>ID</th>
@@ -90,6 +179,13 @@
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/bootstrap4-toggle.min.js"></script>
 <script src="/js/map.js"></script>
+<script src="/js/datatables.min.js"></script>
+<script>
+ $(document).ready(function () {
+     $('#table').DataTable({"searching": false});
+     $('.dataTables_length').addClass('bs-select');
+  });
+ </script>
 
 </body>
 </html>
