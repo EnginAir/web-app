@@ -32,11 +32,10 @@ $(document).ready(function () {
     $(document).on("click", ".add", function () {
 
         var array = [];
-        array.push($(this).parents("tr").find(".mongoID")[0].dataset.mongoid)
+        array.push($(this).parents("tr").find(".mongoID")[0].dataset.mongoid);
         var empty = false;
         var input = $(this).parents("tr").find('input[type="text"]');
         input.each(function () {
-
             console.log($(this).val());
             array.push($(this).val());
             if (!$(this).val()) {
@@ -46,10 +45,6 @@ $(document).ready(function () {
                 $(this).removeClass("error");
             }
         });
-
-        for( i of array){
-            console.log(i);
-        }
 
         $.ajax({
             url: '/api/update_wifi?mongoID=' + array[0] + '&ssid='+ array[1] + '&password='+ array[2] + '&airportCode='+ array[3] + '&latitude='+ array[4] + '&longitude='+ array[5],
@@ -65,7 +60,6 @@ $(document).ready(function () {
                 }
             }.bind(this)
         });
-
     });
     // Edit row on edit button click
     $(document).on("click", ".edit", function () {

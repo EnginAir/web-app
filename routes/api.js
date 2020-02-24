@@ -77,14 +77,6 @@ router.patch('/update_wifi', function (req, res, next) {
 
     console.log("The MangoID " + req.query.mongoID);
 
-    const wifi_update = {
-        ssid: req.query.ssid,
-        password: req.query.password,
-        airportCode: req.query.airportCode,
-        latitude: req.query.latitude,
-        longitude: req.query.longitude
-    };
-
     Wifi.findByIdAndUpdate({_id: req.query.mongoID}, {
         ssid: req.query.ssid,
         password: req.query.password,
