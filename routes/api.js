@@ -44,35 +44,61 @@ router.post('/add_wifi', function (req, res, next) {
     console.log(req.body.ssid);
     console.log(req.body.wifiPassword);
 
-        var wifi = new Wifi({
-            ssid: req.body.ssid,
-            password: req.body.wifiPassword,
-            airportCode: req.body.airportCode,
-            latitude: req.body.latitude,
-            longitude: req.body.longitude
-        });
-        wifi.save(function (err, wifiSaved) {
-            if (err) return console.error(err);
-            console.log(wifiSaved.ssid + " saved to wifi collection.");
-        });
+    var wifi = new Wifi({
+        ssid: req.body.ssid,
+        password: req.body.wifiPassword,
+        airportCode: req.body.airportCode,
+        latitude: req.body.latitude,
+        longitude: req.body.longitude
+    });
+    wifi.save(function (err, wifiSaved) {
+        if (err) return console.error(err);
+        console.log(wifiSaved.ssid + " saved to wifi collection.");
+    });
 
-        res.status(301).redirect('/pilot/wifi_config');
+    res.status(301).redirect('/pilot/wifi_config');
 
 });
 
 router.delete('/delete_wifi', function (req, res, next) {
 
     Wifi.remove({_id: req.query.mongoID}, function (err) {
-        if(err){
+        if (err) {
             res.status(500);
             res.json({error: err});
-        }
-        else{
+        } else {
             res.json({});
         }
     });
 
 });
 
+router.patch('/update_wifi', function (req, res, next) {
+
+    console.log("The MangoID " + req.query.mongoID);
+
+    const wifi_update = {
+        ssid: req.query.ssid,
+        password: req.query.password,
+        airportCode: req.query.airportCode,
+        latitude: req.query.latitude,
+        longitude: req.query.longitude
+    };
+
+    Wifi.findByIdAndUpdate({_id: req.query.mongoID}, {
+        ssid: req.query.ssid,
+        password: req.query.password,
+        airportCode: req.query.airportCode,
+        latitude: req.query.latitude,
+        longitude: req.query.longitude
+    }, function (err, result) {
+        if (err) {
+            res.status(500);
+            res.json({error: err});
+        } else {
+            res.json({});
+        }
+    });
+});
 
 module.exports = router;
