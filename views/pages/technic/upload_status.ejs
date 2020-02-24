@@ -30,5 +30,38 @@
 <script src="/js/bootstrap4-toggle.min.js"></script>
 <script src="/js/map.js"></script>
 
+<script>
+    var coord;
+    for (coord = 0; coord < fakeData.length; coord++) {
+        if (fakeData[coord].outcome === "SUCCESS_UPLOAD") {
+
+            marker = new L.circleMarker([fakeData[coord].landingPoint.geometry[0], fakeData[coord].landingPoint.geometry[1]], greenIcon)
+                .bindPopup("<b>Tail Number: </b>" + fakeData[coord].tailNumber +
+                           "<br /><b>X: </b>" + fakeData[coord].landingPoint.geometry[0] +
+                           "<br /><b>Y: </b>" + fakeData[coord].landingPoint.geometry[1] +
+                           "<br /><b>Status: </b> Success")
+                .addTo(map);
+        }
+        if (fakeData[coord].outcome === "FAIL_NO_LANDING" ||
+            fakeData[coord].outcome === "FAIL_NO_WIFI_AIRPORT" ||
+            fakeData[coord].outcome === "FAIL_NO_WIFI_AIRCRAFT") {
+            marker = new L.circleMarker([fakeData[coord].landingPoint.geometry[0], fakeData[coord].landingPoint.geometry[1]], redIcon)
+                .bindPopup("<b>Tail Number: </b>" + fakeData[coord].tailNumber +
+                           "<br /><b>X: </b>" + fakeData[coord].landingPoint.geometry[0] +
+                           "<br /><b>Y: </b>" + fakeData[coord].landingPoint.geometry[1] +
+                           "<br /><b>Status: </b> Failure")
+                .addTo(map);
+        }
+        if (fakeData[coord].outcome === "FAIL_WAP_CHANGED" ||
+            fakeData[coord].outcome === "FAIL_DEAD_EDG100") {
+            marker = new L.circleMarker([fakeData[coord].landingPoint.geometry[0], fakeData[coord].landingPoint.geometry[1]], yellowIcon)
+                .bindPopup("<b>Tail Number: </b>" + fakeData[coord].tailNumber +
+                           "<br /><b>X: </b>" + fakeData[coord].landingPoint.geometry[0] +
+                           "<br /><b>Y: </b>" + fakeData[coord].landingPoint.geometry[1] +
+                           "<br /><b>Status: </b> Pending")
+                .addTo(map);
+        }
+    }
+</script>
 </body>
 </html>
