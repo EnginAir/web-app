@@ -11,11 +11,76 @@
     <% include ../../partials/technic_header %>
 </header>
 <main>
+    <div id="container">
+        <div id="sidebar">
+            <div class="sidebar-wrapper">
+                <div class="panel panel-default" id="features" style="margin-left: 20px">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">WiFi Configuration</h4>
+                    </div>
+                    <div class="panel-body">
+                        <div class="card">
 
-    <!-- ALL BODY CONTENT GO'S HERE! -->
+                            <div class="card-body">
+                                <h6>Filter by WiFi Strength</h6>
+                                <form class="form-group">
+                                    <div class="form-row">
+                                        <label class="form-check-label" for="defaultCheck1">Strong</label>
+                                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                    </div>
+                                    <div class="form-row">
+                                        <label class="form-check-label" for="defaultCheck1">Medium</label>
+                                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                    </div>
+                                    <div class="form-row">
+                                        <label for="defaultCheck1">Weak</label>
+                                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <h6>Search by:</h6>
+                                <form class="form-group">
+                                    <div class="input-group input-group-sm mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="inputGroup-sizing-sm">LAT</span>
+                                        </div>
+                                        <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                                    </div>
+                                    <div class="input-group input-group-sm mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="inputGroup-sizing-sm">LON</span>
+                                        </div>
+                                        <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                                    </div>
+                                    <div class="input-group input-group-sm mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="inputGroup-sizing-sm">DB #</span>
+                                        </div>
+                                        <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                                    </div>
+                                    <div class="input-group input-group-sm mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="inputGroup-sizing-sm">Airport</span>
+                                        </div>
+                                        <input type="text" class="form-control" aria-label="Small">
+                                    </div>
 
 
+                                </form>
 
+                            </div>
+                        </div>
+                        <button id="submitForm" class="btn btn-light float-right" type="submit">Search</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="map"></div>
+    </div>
 </main>
 <footer>
     <% include ../../partials/footer %>

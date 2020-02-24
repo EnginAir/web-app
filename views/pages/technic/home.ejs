@@ -10,10 +10,24 @@
 <header>
   <% include ../../partials/technic_header %>
 </header>
-
 <main>
-        <div id="map"></div>
+        <div id="container">
+                <div id="sidebar">
+                        <div class="sidebar-wrapper">
+                                <div class="panel panel-default" id="features">
+                                        <div class="panel-heading">
+                                                <h4 class="panel-title">Flights in Progress</h4>
+                                        </div>
+                                        <div class="panel-body">
+
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+                <div id="map"></div>
+        </div>
 </main>
+
 
 <footer>
   <% include ../../partials/footer %>
@@ -28,5 +42,16 @@
 <script src="/js/bootstrap4-toggle.min.js"></script>
 <script src="/js/map.js"></script>
 
+<script>
+        var coord;
+        for (coord = 0; coord < fakeData.length; coord++) {
+                marker = new L.circleMarker([fakeData[coord].landingPoint.geometry[0], fakeData[coord].landingPoint.geometry[1]], whiteIcon)
+                        .bindPopup("<b>Tail Number: </b>" + fakeData[coord].tailNumber +
+                                   "<br /><b>X: </b>" + fakeData[coord].landingPoint.geometry[0] +
+                                   "<br /><b>Y: </b>" + fakeData[coord].landingPoint.geometry[1])
+                        .addTo(map);
+
+        }
+</script>
 </body>
 </html>

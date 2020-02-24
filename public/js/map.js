@@ -31,6 +31,7 @@ function initMap() {
         maxZoom: 19
     }).addTo(map);
 
+    L.control.scale().addTo(map);
 
 }
 
@@ -104,11 +105,11 @@ var fakeData = [
     },
     {
         "classname": "edu.nau.enginair.models.CorrellatedFlight",
-        "tailNumber": "42342",
+        "tailNumber": "V2342",
         "landingPoint":
             {
                 "type": "Point",
-                "geometry": [10.000, 52.0000]
+                "geometry": [36, -102.0000]
             },
         "takoffPoint":
             {
@@ -120,11 +121,11 @@ var fakeData = [
     },
     {
         "classname": "edu.nau.enginair.models.CorrellatedFlight",
-        "tailNumber": "323424324",
+        "tailNumber": "R32U3",
         "landingPoint":
             {
                 "type": "Point",
-                "geometry": [55, 92]
+                "geometry": [43, -99]
             },
         "takoffPoint":
             {
@@ -269,23 +270,36 @@ var fakeData = [
 /* MARKER ICONS */
 
 var greenIcon = {
-    radius: 8.0,
+    radius: 6.0,
     fillColor: '#4CBB17',
     color: '#000',
     weight: 1, opacity: 1, fillOpacity: 0.8
 };
 var yellowIcon = {
-    radius: 8.0,
+    radius: 6.0,
     fillColor: 'yellow',
     color: '#000',
     weight: 1, opacity: 1, fillOpacity: 0.8
 };
 var redIcon = {
-    radius: 8.0,
+    radius: 6.0,
     fillColor: 'red',
     color: '#000',
     weight: 1, opacity: 1, fillOpacity: 0.8
 };
+var whiteIcon = {
+    radius: 6.0,
+    fillColor: '#f8f8ff',
+    color: '#000',
+    weight: 1, opacity: 1, fillOpacity: 0.8
+};
+var blueIcon = {
+    radius: 6.0,
+    fillColor: '#0000FF',
+    color: '#000',
+    weight: 1, opacity: 1, fillOpacity: 0.6
+};
+
 
 
 
