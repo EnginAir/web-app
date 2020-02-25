@@ -6,80 +6,70 @@
     <% include ../../partials/head %>
 </head>
 <body>
-
 <header>
     <% include ../../partials/technic_header %>
 </header>
 <main>
-    <div id="container">
-        <div id="sidebar">
-            <div class="sidebar-wrapper">
-                <div class="panel panel-default" id="features" style="margin-left: 20px">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">Landing Data</h4>
-                    </div>
-                    <div class="panel-body">
-                        <div class="card">
-
-                            <div class="card-body">
-                                <h6>Filter by Upload Status</h6>
-                                <form class="form-group">
-                                    <div class="form-row">
-                                        <label class="form-check-label" for="defaultCheck1">Success</label>
-                                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                    </div>
-                                    <div class="form-row">
-                                        <label class="form-check-label" for="defaultCheck1">Pending</label>
-                                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                    </div>
-                                    <div class="form-row">
-                                        <label for="defaultCheck1">Failed</label>
-                                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                    </div>
-                                </form>
-                            </div>
+    <div class="row h-100 justify-content-center align-items-center m-0">
+        <div class="col-2">
+            <div class="card border-secondary mb-3">
+                <h4 class="card-header">Landing Data</h4>
+                <div class="card-body">
+                    <h5 class="card-title">Filter by Upload Status</h5>
+                    <form class="form-group">
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="checkbox" value="">
+                                Success
+                            </label>
                         </div>
-                        <div class="card">
-                            <div class="card-body">
-                                <h6>Search by:</h6>
-                                <form class="form-group">
-                                    <div class="input-group input-group-sm mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="inputGroup-sizing-sm">LAT</span>
-                                        </div>
-                                        <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                                    </div>
-                                    <div class="input-group input-group-sm mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="inputGroup-sizing-sm">LON</span>
-                                        </div>
-                                        <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                                    </div>
-                                    <div class="input-group input-group-sm mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="inputGroup-sizing-sm">DB #</span>
-                                        </div>
-                                        <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                                    </div>
-                                    <div class="input-group input-group-sm mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="inputGroup-sizing-sm">Airport</span>
-                                        </div>
-                                        <input type="text" class="form-control" aria-label="Small">
-                                    </div>
-
-
-                                </form>
-
-                            </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="checkbox" value="">
+                                Pending
+                            </label>
                         </div>
-                        <button id="submitForm" class="btn btn-light float-right" type="submit">Search</button>
-
-                    </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="checkbox" value="">
+                                Failed
+                            </label>
+                        </div>
+                        <hr class="my-4">
+                        <h5 class="card-title">Search By</h5>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Lat</span>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Lon</span>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">DB#</span>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Airport</span>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                        </div>
+                        <hr class="my-4">
+                        <button type="submit" class="btn btn-primary btn-block">Search</button>
+                    </form>
                 </div>
             </div>
         </div>
-        <div id="map"></div>
+        <div class="col px-0">
+            <div id="map"></div>
+        </div>
     </div>
 </main>
 <footer>
@@ -102,9 +92,9 @@
 
             marker = new L.circleMarker([fakeData[coord].landingPoint.geometry[0], fakeData[coord].landingPoint.geometry[1]], greenIcon)
                 .bindPopup("<b>Tail Number: </b>" + fakeData[coord].tailNumber +
-                           "<br /><b>X: </b>" + fakeData[coord].landingPoint.geometry[0] +
-                           "<br /><b>Y: </b>" + fakeData[coord].landingPoint.geometry[1] +
-                           "<br /><b>Status: </b> Success")
+                    "<br /><b>X: </b>" + fakeData[coord].landingPoint.geometry[0] +
+                    "<br /><b>Y: </b>" + fakeData[coord].landingPoint.geometry[1] +
+                    "<br /><b>Status: </b> Success")
                 .addTo(map);
         }
         if (fakeData[coord].outcome === "FAIL_NO_LANDING" ||
@@ -112,18 +102,18 @@
             fakeData[coord].outcome === "FAIL_NO_WIFI_AIRCRAFT") {
             marker = new L.circleMarker([fakeData[coord].landingPoint.geometry[0], fakeData[coord].landingPoint.geometry[1]], redIcon)
                 .bindPopup("<b>Tail Number: </b>" + fakeData[coord].tailNumber +
-                           "<br /><b>X: </b>" + fakeData[coord].landingPoint.geometry[0] +
-                           "<br /><b>Y: </b>" + fakeData[coord].landingPoint.geometry[1] +
-                           "<br /><b>Status: </b> Failure")
+                    "<br /><b>X: </b>" + fakeData[coord].landingPoint.geometry[0] +
+                    "<br /><b>Y: </b>" + fakeData[coord].landingPoint.geometry[1] +
+                    "<br /><b>Status: </b> Failure")
                 .addTo(map);
         }
         if (fakeData[coord].outcome === "FAIL_WAP_CHANGED" ||
             fakeData[coord].outcome === "FAIL_DEAD_EDG100") {
             marker = new L.circleMarker([fakeData[coord].landingPoint.geometry[0], fakeData[coord].landingPoint.geometry[1]], yellowIcon)
                 .bindPopup("<b>Tail Number: </b>" + fakeData[coord].tailNumber +
-                           "<br /><b>X: </b>" + fakeData[coord].landingPoint.geometry[0] +
-                           "<br /><b>Y: </b>" + fakeData[coord].landingPoint.geometry[1] +
-                           "<br /><b>Status: </b> Pending")
+                    "<br /><b>X: </b>" + fakeData[coord].landingPoint.geometry[0] +
+                    "<br /><b>Y: </b>" + fakeData[coord].landingPoint.geometry[1] +
+                    "<br /><b>Status: </b> Pending")
                 .addTo(map);
         }
     }

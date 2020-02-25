@@ -306,5 +306,8 @@ var blueIcon = {
 
 
 
-
+$(window).on("resize", function () {
+    $("#map").height($(window).height() - 153);
+    map.invalidateSize();
+}).trigger("resize");
 
