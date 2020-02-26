@@ -224,6 +224,7 @@
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/bootstrap4-toggle.min.js"></script>
 <script src="/js/map.js"></script>
+<script src="/js/datatables.min.js"></script>
 
 <script>
     var modalBtns = [...document.querySelectorAll(".button")];
@@ -249,5 +250,11 @@
     }
 
 </script>
+<script>
+ $(document).ready(function () {
+     $('#table').DataTable({"searching": false, "ordering": false});
+     $('.dataTables_length').addClass('bs-select');
+  });
+ </script>
 </body>
 </html>
