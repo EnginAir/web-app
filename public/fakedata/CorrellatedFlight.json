@@ -1,0 +1,290 @@
+[
+  {
+    "classname": "edu.nau.enginair.models.CorrellatedFlight",
+    "tailNumber": "A1234",
+    "landingPoint":
+    {
+      "type": "Point",
+      "geometry":  [45.3232, -89.9917]
+    },
+    "takoffPoint":
+    {
+      "type": "Point",
+      "geometry": [39.3232, -92.9917]
+    },
+    "landingDate": "2016-08-17",
+    "outcome": "SUCCESS_UPLOAD"
+  },
+  {
+    "classname": "edu.nau.enginair.models.CorrellatedFlight",
+    "tailNumber": "Y6903",
+    "landingPoint":
+    {
+      "type": "Point",
+      "geometry": [42.3232, -113.9917]
+    },
+    "takoffPoint":
+    {
+      "type": "Point",
+      "geometry": [41.3232, -122.9917]
+    },
+    "landingDate": "2020-02-13",
+    "outcome": "FAIL_NO_LANDING"
+  },
+  {
+    "classname": "edu.nau.enginair.models.CorrellatedFlight",
+    "tailNumber": "C2304",
+    "landingPoint":
+    {
+      "type": "Point",
+      "geometry": [32.3232, -110.9917]
+    },
+    "takoffPoint":
+    {
+      "type": "Point",
+      "geometry": [42.3232, -77.9917]
+    },
+    "landingDate": "2017-01-18",
+    "outcome": "WARN_IN_PROGRESS"
+  },
+  {
+    "classname": "edu.nau.enginair.models.CorrellatedFlight",
+    "tailNumber": "Q1203",
+    "landingPoint":
+    {
+      "type": "Point",
+      "geometry": [35.3232, -90.9917]
+    },
+    "takoffPoint":
+    {
+      "type": "Point",
+      "geometry": [36.3232, -77.9917]
+    },
+    "landingDate": "2012-11-22",
+    "outcome": "FAIL_NO_WIFI_AIRPORT"
+  },
+  {
+    "classname": "edu.nau.enginair.models.CorrellatedFlight",
+    "tailNumber": "42342",
+    "landingPoint":
+    {
+      "type": "Point",
+      "geometry": [40.551217, -85.602364]
+    },
+    "takoffPoint":
+    {
+      "type": "Point",
+      "geometry": [39.011902, -98.484246]
+    },
+    "landingDate": "1999-10-01",
+    "outcome": "FAIL_NO_WIFI_AIRCRAFT"
+  },
+  {
+    "classname": "edu.nau.enginair.models.CorrellatedFlight",
+    "tailNumber": "A00727",
+    "landingPoint":
+    {
+      "type": "Point",
+      "geometry": [39.011902, -98.484246]
+    },
+    "takoffPoint":
+    {
+      "type": "Point",
+      "geometry": [44.314844, -85.602364]
+    },
+    "landingDate": "2020-02-05",
+    "outcome": "FAIL_DEAD_EDG100"
+  },
+  {
+    "classname": "edu.nau.enginair.models.CorrellatedFlight",
+    "tailNumber": "P567KW",
+    "landingPoint":
+    {
+      "type": "Point",
+      "geometry": [37.964253, -91.831833]
+    },
+    "takoffPoint":
+    {
+      "type": "Point",
+      "geometry": [43.804133, -120.554201]
+    },
+    "landingDate": "2013-06-29",
+    "outcome": "FAIL_WAP_CHANGED"
+  },
+  {
+    "classname": "edu.nau.enginair.models.CorrellatedFlight",
+    "tailNumber": "7C6B38",
+    "landingPoint":
+    {
+      "type": "Point",
+      "geometry": [41.30269,-89.63696]
+    },
+    "takoffPoint":
+    {
+      "type": "Point",
+      "geometry": [31.968599, -99.901813]
+    },
+    "landingDate": "2013-06-12",
+    "outcome": "SUCCESS_UPLOAD"
+  },
+  {
+    "classname": "edu.nau.enginair.models.CorrellatedFlight",
+    "tailNumber": "A741E1",
+    "landingPoint":
+    {
+      "type": "Point",
+      "geometry": [35.49413,-92.5421]
+    },
+    "takoffPoint":
+    {
+      "type": "Point",
+      "geometry": [43.075968, -107.290284]
+    },
+    "landingDate": "2018-04-11",
+    "outcome": "SUCCESS_UPLOAD"
+  },
+  {
+    "classname": "edu.nau.enginair.models.CorrellatedFlight",
+    "tailNumber": "C81D9D",
+    "landingPoint":
+    {
+      "type": "Point",
+      "geometry": [30.93163,-90.81726]
+    },
+    "takoffPoint":
+    {
+      "type": "Point",
+      "geometry": [63.588753, -154.493062]
+    },
+    "landingDate": "2017-11-03",
+    "outcome": "SUCCESS_UPLOAD"
+  },
+  {
+    "classname": "edu.nau.enginair.models.CorrellatedFlight",
+    "tailNumber": "J678Q2",
+    "landingPoint":
+    {
+      "type": "Point",
+      "geometry": [38.905985, -77.033418]
+    },
+    "takoffPoint":
+    {
+      "type": "Point",
+      "geometry": [38.910832, -75.52767]
+    },
+    "landingDate": "2017-09-07",
+    "outcome": "FAIL_DEAD_EDG100"
+  },
+  {
+    "classname": "edu.nau.enginair.models.CorrellatedFlight",
+    "tailNumber": "U5039T",
+    "landingPoint":
+    {
+      "type": "Point",
+      "geometry": [34.048928, -111.093731]
+    },
+    "takoffPoint":
+    {
+      "type": "Point",
+      "geometry": [39.550051, -105.782067]
+    },
+    "landingDate": "2016-11-07",
+    "outcome": "SUCCESS_UPLOAD"
+  },
+  {
+    "classname": "edu.nau.enginair.models.CorrellatedFlight",
+    "tailNumber": "O3577P",
+    "landingPoint":
+    {
+      "type": "Point",
+      "geometry": [47.551493, -101.002012]
+    },
+    "takoffPoint":
+    {
+      "type": "Point",
+      "geometry": [41.492537, -99.901813]
+    },
+    "landingDate": "2016-07-01",
+    "outcome": "FAIL_NO_LANDING"
+  },
+  {
+    "classname": "edu.nau.enginair.models.CorrellatedFlight",
+    "tailNumber": "K505HP",
+    "landingPoint":
+    {
+      "type": "Point",
+      "geometry": [43.299428, -74.217933]
+    },
+    "takoffPoint":
+    {
+      "type": "Point",
+      "geometry": [41.203322, -77.194525]
+    },
+    "landingDate": "2013-05-18",
+    "outcome": "FAIL_NO_WIFI_AIRPORT"
+  },
+  {
+    "classname": "edu.nau.enginair.models.CorrellatedFlight",
+    "tailNumber": "T6034F",
+    "landingPoint":
+    {
+      "type": "Point",
+      "geometry": [39.32098, -111.093731]
+    },
+    "takoffPoint":
+    {
+      "type": "Point",
+      "geometry": [43.78444, -88.787868]
+    },
+    "landingDate": "2018-05-29",
+    "outcome": "FAIL_NO_WIFI_AIRCRAFT"
+  },
+  {
+    "classname": "edu.nau.enginair.models.CorrellatedFlight",
+    "tailNumber": "G80890",
+    "landingPoint":
+    {
+      "type": "Point",
+      "geometry": [44.558803, -72.577841]
+    },
+    "takoffPoint":
+    {
+      "type": "Point",
+      "geometry": [43.804133, -120.554201]
+    },
+    "landingDate": "2013-07-03",
+    "outcome": "FAIL_WAP_CHANGED"
+  },
+  {
+    "classname": "edu.nau.enginair.models.CorrellatedFlight",
+    "tailNumber": "W808BZ",
+    "landingPoint":
+    {
+      "type": "Point",
+      "geometry": [34.97273, -105.032363]
+    },
+    "takoffPoint":
+    {
+      "type": "Point",
+      "geometry": [18.220833, -66.590149]
+    },
+    "landingDate": "2017-11-03",
+    "outcome": "SUCCESS_UPLOAD"
+  },
+  {
+    "classname": "edu.nau.enginair.models.CorrellatedFlight",
+    "tailNumber": "AAFFD2",
+    "landingPoint":
+    {
+      "type": "Point",
+      "geometry": [31.244823, -92.145024]
+    },
+    "takoffPoint":
+    {
+      "type": "Point",
+      "geometry": [41.580095, -71.477429]
+    },
+    "landingDate": "2014-10-24",
+    "outcome": "SUCCESS_UPLOAD"
+  }
+]
