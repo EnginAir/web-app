@@ -1,0 +1,159 @@
+
+.wrapper {
+    width: 100%;
+    max-width: 1600px;
+    margin: 20px auto 100px auto;
+    padding: 0;
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.9);
+    overflow: hidden;
+    position: relative;
+}
+
+.row tr {
+    margin: 0;
+    padding: 0;
+}
+
+table {
+    width: 100%;
+    table-layout: auto;
+}
+
+.tbl-header{
+    background-color: rgba(255, 255, 255, .1);
+    color: rgba(255, 255, 255, .9);
+    border-left: 3px solid rgba(255, 255, 255, 0.1);
+    font-size: 18px;
+}
+
+.tbl-header:hover{
+    background-color: rgba(255, 255, 255, .1);
+    color: rgba(255, 255, 255, .9);
+    border-left: 3px solid rgba(255, 255, 255, 0.1);
+}
+
+.tbl-content{
+    width: 100%;
+    max-width: 1600px;
+    height:400px;
+    overflow-x:auto;
+    margin-top: 0px;
+    background-color: #303030;
+}
+th{
+    padding: 20px 15px;
+    text-align: left;
+    font-weight: 500;
+    font-size: 18px;
+    text-transform: uppercase;
+}
+td{
+    padding: 20px 15px;
+    text-align: left;
+    vertical-align: middle;
+    font-weight: 300;
+    font-size: 18px;
+    border-top: solid 1px rgba(0,0,0,0.1);
+}
+
+.row:hover {
+    height: 80px;
+    background-color: #1A1A1A;
+}
+
+.row tr td {
+    margin: 0;
+    font-size: 18px;
+    display: inline-block;
+}
+
+.row {
+
+    height: 70px;
+    font-size: 0;
+    transition: all 0.2s ease-out;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+
+
+
+/* links */
+.success a, .pending a, .failure a {
+    text-decoration: none;
+    transition: color 0.2s ease-out;
+}
+
+.tbl-header tr td {
+    padding: 15px 13px;
+}
+
+.row tr td {
+    padding: 5px 10px;
+}
+
+
+
+.success a {
+    color: #52d29a;
+}
+
+.success a:hover {
+    color: #279766;
+}
+
+.success {
+    border-left: 30px solid #1d6e4b;
+}
+
+.success:hover {
+    border-left: 30px solid #52d29a;
+}
+
+.pending a {
+    color: rgba(226, 231, 54, 0.7);
+}
+
+.pending a:hover {
+    color: rgba(201, 198, 60, 0.7);
+}
+
+.pending {
+    border-left: 30px solid rgba(157, 121, 25, 0.7);
+}
+
+.pending:hover {
+    border-left: 30px solid rgba(231, 196, 104, 0.7);
+}
+
+.failure a {
+    color: #e62f24;
+}
+
+.failure a:hover {
+    color: #c33d17;
+}
+
+.failure {
+    border-left: 30px solid #952f12;
+}
+
+.failure:hover {
+    border-left: 30px solid #eb7655;
+}
+
+
+
+/*
+::-webkit-scrollbar {
+    width: 12px;
+}
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.7);
+}
+::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.7);
+}
+*/
+
