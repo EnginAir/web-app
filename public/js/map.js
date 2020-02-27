@@ -274,7 +274,7 @@ legend.onAdd = function (map) {
     div.innerHTML += '<i class="legendIcon" style="background: #4CBB17"></i>Succesful Upload<br><br>';
     div.innerHTML += '<i class="legendIcon" style="background: yellow"></i>Pending Upload<br><br>';
     div.innerHTML += '<i class="legendIcon" style="background: red"></i>Failed Upload<br><br>';
-    div.innerHTML += '<i class="legendIcon" style="background: radial-gradient(#FF0000, #70FF00);"></i>WiFi Access Point';
+    div.innerHTML += '<i class="legendIcon" style="background: radial-gradient(#70FF00, #FF0000);"></i>WiFi Access Point';
 
 
     return div;
