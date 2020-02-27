@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require("mongoose");
 const router = express.Router();
 
+
 const Wifi = require('../lib/models/wifi');
 const CorrelatedFlight = require('../lib/models/correlatedFlight');
 
@@ -33,9 +34,14 @@ router.post('/add_wifi', function (req, res, next) {
         ssid: req.body.ssid,
         password: req.body.wifiPassword,
         airportCode: req.body.airportCode,
-        latitude: req.body.latitude,
-        longitude: req.body.longitude
+        latLong: {
+            type: "point",
+            geometry: [req.body.latitude, req.body.longitude]
+        },
+        range: 93
     });
+
+    console.log("Wifi Range: " + wifi.range);
     wifi.save(function (err, wifiSaved) {
         if (err) return console.error(err);
         console.log(wifiSaved.ssid + " saved to wifi collection.");

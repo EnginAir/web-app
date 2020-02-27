@@ -90,3 +90,34 @@ $(document).ready(function () {
 });
 
 
+$( "#success" ).click(function() {
+    if($('.successUpload').css('display') == 'none'){
+        $('.successUpload').css('display', '');
+    }
+    else{
+        $('.successUpload').css('display', 'none');
+    }
+});
+$( "#pending" ).click(function() {
+    if($('.pendingUpload').css('display') == 'none'){
+        $('.pendingUpload').css('display', '');
+    }
+    else{
+        $('.pendingUpload').css('display', 'none');
+    }
+});
+$( "#failed" ).click(function() {
+    if($('.failedUpload').css('display') == 'none'){
+        $('.failedUpload').css('display', '');
+    }
+    else{
+        $('.failedUpload').css('display', 'none');
+    }});
+$( "#wifi" ).click(function() {
+    if($('.heatmap-canvas').css('display') == 'none'){
+        $('.heatmap-canvas').css('display', '');
+    }
+    else{
+        $('.heatmap-canvas').css('display', 'none');
+    }});
+

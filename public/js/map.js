@@ -35,7 +35,6 @@ function initMap() {
 
 }
 
-
 initMap();
 
 var fakeData = [
@@ -266,6 +265,26 @@ var fakeData = [
 
 ];
 
+var legend = L.control({position: 'bottomright'});
+
+legend.onAdd = function (map) {
+
+    var div = L.DomUtil.create('div', 'info legend');
+
+    div.innerHTML += '<i class="legendIcon" style="background: #4CBB17"></i>Succesful Upload<br><br>';
+    div.innerHTML += '<i class="legendIcon" style="background: yellow"></i>Pending Upload<br><br>';
+    div.innerHTML += '<i class="legendIcon" style="background: red"></i>Failed Upload<br><br>';
+    div.innerHTML += '<i class="legendIcon" style="background: radial-gradient(#FF0000, #70FF00);"></i>WiFi Access Point';
+
+
+    return div;
+};
+
+legend.addTo(map);
+
+
+
+
 
 /* MARKER ICONS */
 
@@ -302,7 +321,44 @@ var blueIcon = {
 
 
 
+var wifiData = {
+    max: 800,
+    data: []
+};
 
+var cfg = {
+    // radius should be small ONLY if scaleRadius is true (or small radius is intended)
+    // if scaleRadius is false it will be the constant radius used in pixels
+    // "radius": .005,
+    "maxOpacity":.2,
+    // scales the radius based on map zoom
+    "scaleRadius": false,
+    // if set to false the heatmap uses the global maximum for colorization
+    // if activated: uses the data maximum within the current map boundaries
+    //   (there will always be a red spot with useLocalExtremas true)
+    "useLocalExtrema": true,
+    // which field name in your data represents the latitude - default "lat"
+    latField: 'lat',
+    // which field name in your data represents the longitude - default "lng"
+    lngField: 'lng',
+    // which field name in your data represents the data value - default "value"
+    valueField: 'radius',
+
+    gradient: {
+        0.0: "rgb(255, 0, 0)",
+        0.1: "rgb(255, 0, 0)",
+        0.2: "rgb(250, 101, 0)",
+        0.3: "rgb(250, 101, 0)",
+        0.4: "rgb(243, 129, 0)",
+        0.5: "rgb(232, 154, 0)",
+        0.6: "rgb(217, 177, 0)",
+        0.7: "rgb(199, 198, 0)",
+        0.8: "rgb(178, 218, 0)",
+        0.9: "rgb(150, 237, 0)",
+        1.0: "rgb(112, 255, 0)"
+    },
+    blur: 1
+};
 
 
 

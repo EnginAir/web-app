@@ -19,20 +19,26 @@
                     <form class="form-group">
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" checked="" value="">
+                                <input id="success" class="form-check-input" type="checkbox" checked="" value="">
                                 Success
                             </label>
                         </div>
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" checked="" value="">
+                                <input id="pending" class="form-check-input" type="checkbox" checked="" value="">
                                 Pending
                             </label>
                         </div>
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" checked="" value="">
+                                <input id="failed" class="form-check-input" type="checkbox" checked="" value="">
                                 Failed
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input id="wifi" class="form-check-input" type="checkbox" checked="" value="">
+                                Show WiFi Access Points
                             </label>
                         </div>
                         <hr class="my-4">
@@ -41,25 +47,25 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">Lat</span>
                             </div>
-                            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                            <input type="text" class="form-control">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">Lon</span>
                             </div>
-                            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                            <input type="text" class="form-control">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">DB#</span>
                             </div>
-                            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                            <input type="text" class="form-control">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">Airport</span>
                             </div>
-                            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                            <input type="text" class="form-control">
                         </div>
                         <hr class="my-4">
                         <button type="submit" class="btn btn-primary btn-block">Search</button>
@@ -79,18 +85,29 @@
 <!---------------------------------------->
 <!-------------LOAD JS FILES-------------->
 <!---------------------------------------->
-<script src="/js/leaflet.js"></script>
 <script src="/js/jquery.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/bootstrap4-toggle.min.js"></script>
+<script src="/js/leaflet.js"></script>
 <script src="/js/map.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/heatmapjs@2.0.2/heatmap.min.js"></script>
+<script src="/js/leaflet-heatmap.js"></script>
+<script src="/js/leaflet-heatmap-radius.js"></script>
+<script src="/js/custom.js"></script>
 
 <script>
+
+
     var coord;
     for (coord = 0; coord < fakeData.length; coord++) {
         if (fakeData[coord].outcome === "SUCCESS_UPLOAD") {
 
-            marker = new L.circleMarker([fakeData[coord].landingPoint.geometry[0], fakeData[coord].landingPoint.geometry[1]], greenIcon)
+            marker = new L.circleMarker([fakeData[coord].landingPoint.geometry[0], fakeData[coord].landingPoint.geometry[1]], {
+                radius: 6.0,
+                fillColor: '#4CBB17',
+                color: '#000',
+                weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'successUpload'
+            })
                 .bindPopup("<b>Tail Number: </b>" + fakeData[coord].tailNumber +
                     "<br /><b>X: </b>" + fakeData[coord].landingPoint.geometry[0] +
                     "<br /><b>Y: </b>" + fakeData[coord].landingPoint.geometry[1] +
@@ -100,7 +117,12 @@
         if (fakeData[coord].outcome === "FAIL_NO_LANDING" ||
             fakeData[coord].outcome === "FAIL_NO_WIFI_AIRPORT" ||
             fakeData[coord].outcome === "FAIL_NO_WIFI_AIRCRAFT") {
-            marker = new L.circleMarker([fakeData[coord].landingPoint.geometry[0], fakeData[coord].landingPoint.geometry[1]], redIcon)
+            marker = new L.circleMarker([fakeData[coord].landingPoint.geometry[0], fakeData[coord].landingPoint.geometry[1]], {
+                radius: 6.0,
+                fillColor: 'red',
+                color: '#000',
+                weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'failedUpload'
+            })
                 .bindPopup("<b>Tail Number: </b>" + fakeData[coord].tailNumber +
                     "<br /><b>X: </b>" + fakeData[coord].landingPoint.geometry[0] +
                     "<br /><b>Y: </b>" + fakeData[coord].landingPoint.geometry[1] +
@@ -109,7 +131,12 @@
         }
         if (fakeData[coord].outcome === "FAIL_WAP_CHANGED" ||
             fakeData[coord].outcome === "FAIL_DEAD_EDG100") {
-            marker = new L.circleMarker([fakeData[coord].landingPoint.geometry[0], fakeData[coord].landingPoint.geometry[1]], yellowIcon)
+            marker = new L.circleMarker([fakeData[coord].landingPoint.geometry[0], fakeData[coord].landingPoint.geometry[1]], {
+                radius: 6.0,
+                fillColor: 'yellow',
+                color: '#000',
+                weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'pendingUpload'
+            })
                 .bindPopup("<b>Tail Number: </b>" + fakeData[coord].tailNumber +
                     "<br /><b>X: </b>" + fakeData[coord].landingPoint.geometry[0] +
                     "<br /><b>Y: </b>" + fakeData[coord].landingPoint.geometry[1] +
@@ -118,6 +145,23 @@
         }
     }
 
+
+    // api call for getting flights from DB read to be implamented
+    $.get("/api/correlatedFlight".toString(), function (data) {
+        data.forEach(function (flight) {
+            console.log(flight.outcome);
+        })
+    });
+
+    // gets wifi stuff
+    $.get("/api/wifi".toString(), function (data) {
+        data.forEach(function (wifi) {
+            wifiData.data.push({lat: wifi.latLong.geometry[0], lng: wifi.latLong.geometry[1], radius: wifi.range});
+        })
+        var heatmapLayer = new HeatmapOverlay(cfg);
+        heatmapLayer.setData(wifiData);
+        heatmapLayer.addTo(map);
+    });
 
 </script>
 </body>
