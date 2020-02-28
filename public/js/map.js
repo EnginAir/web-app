@@ -84,7 +84,7 @@ var fakeData = [
                 "geometry": [42.3232, -77.9917]
             },
         "landingDate": "2017-01",
-        "outcome": "FAIL_NO_WIFI_AIRPORT"
+        "outcome": "WARN_PENDING_FLIGHT"
     },
     {
         "classname": "edu.nau.enginair.models.CorrellatedFlight",
@@ -148,7 +148,7 @@ var fakeData = [
                 "geometry": []
             },
         "landingDate": "2013-06",
-        "outcome": "FAIL_NO_LANDING"
+        "outcome": "WARN_PENDING_FLIGHT"
     },
     {
         "classname": "edu.nau.enginair.models.CorrellatedFlight",
@@ -180,7 +180,7 @@ var fakeData = [
                 "geometry": []
             },
         "landingDate": "2013-06",
-        "outcome": "FAIL_NO_WIFI_AIRPORT"
+        "outcome": "WARN_PENDING_FLIGHT"
     },
     {
         "classname": "edu.nau.enginair.models.CorrellatedFlight",
@@ -330,7 +330,7 @@ var cfg = {
     // radius should be small ONLY if scaleRadius is true (or small radius is intended)
     // if scaleRadius is false it will be the constant radius used in pixels
     // "radius": .005,
-    "maxOpacity":.2,
+    "maxOpacity":.3,
     // scales the radius based on map zoom
     "scaleRadius": false,
     // if set to false the heatmap uses the global maximum for colorization
