@@ -100,9 +100,9 @@
 
     var coord;
     for (coord = 0; coord < fakeData.length; coord++) {
-        if (fakeData[coord].outcome === "SUCCESS_UPLOAD") {
+        if (fakeData[coord].outcome.includes('SUCCESS')) {
 
-            marker = new L.circleMarker([fakeData[coord].landingPoint.geometry[0], fakeData[coord].landingPoint.geometry[1]], {
+            marker = new L.circleMarker(fakeData[coord].landingPoint.geometry, {
                 radius: 6.0,
                 fillColor: '#4CBB17',
                 color: '#000',
@@ -114,10 +114,8 @@
                     "<br /><b>Status: </b> Success")
                 .addTo(map);
         }
-        if (fakeData[coord].outcome === "FAIL_NO_LANDING" ||
-            fakeData[coord].outcome === "FAIL_NO_WIFI_AIRPORT" ||
-            fakeData[coord].outcome === "FAIL_NO_WIFI_AIRCRAFT") {
-            marker = new L.circleMarker([fakeData[coord].landingPoint.geometry[0], fakeData[coord].landingPoint.geometry[1]], {
+        if (fakeData[coord].outcome.includes('FAIL')) {
+            marker = new L.circleMarker(fakeData[coord].landingPoint.geometry, {
                 radius: 6.0,
                 fillColor: 'red',
                 color: '#000',
@@ -129,9 +127,8 @@
                     "<br /><b>Status: </b> Failure")
                 .addTo(map);
         }
-        if (fakeData[coord].outcome === "FAIL_WAP_CHANGED" ||
-            fakeData[coord].outcome === "FAIL_DEAD_EDG100") {
-            marker = new L.circleMarker([fakeData[coord].landingPoint.geometry[0], fakeData[coord].landingPoint.geometry[1]], {
+        if (fakeData[coord].outcome.includes('WARN')) {
+            marker = new L.circleMarker(fakeData[coord].landingPoint.geometry, {
                 radius: 6.0,
                 fillColor: 'yellow',
                 color: '#000',
