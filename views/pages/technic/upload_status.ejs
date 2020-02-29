@@ -92,62 +92,106 @@
 <script src="/js/map.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/heatmapjs@2.0.2/heatmap.min.js"></script>
 <script src="/js/leaflet-heatmap.js"></script>
-<script src="/js/leaflet-heatmap-radius.js"></script>
 <script src="/js/custom.js"></script>
 
 <script>
 
 
-    var coord;
-    for (coord = 0; coord < fakeData.length; coord++) {
-        if (fakeData[coord].outcome.includes('SUCCESS')) {
-
-            marker = new L.circleMarker(fakeData[coord].landingPoint.geometry, {
-                radius: 6.0,
-                fillColor: '#4CBB17',
-                color: '#000',
-                weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'successUpload'
-            })
-                .bindPopup("<b>Tail Number: </b>" + fakeData[coord].tailNumber +
-                    "<br /><b>X: </b>" + fakeData[coord].landingPoint.geometry[0] +
-                    "<br /><b>Y: </b>" + fakeData[coord].landingPoint.geometry[1] +
-                    "<br /><b>Status: </b> Success")
-                .addTo(map);
-        }
-        if (fakeData[coord].outcome.includes('FAIL')) {
-            marker = new L.circleMarker(fakeData[coord].landingPoint.geometry, {
-                radius: 6.0,
-                fillColor: 'red',
-                color: '#000',
-                weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'failedUpload'
-            })
-                .bindPopup("<b>Tail Number: </b>" + fakeData[coord].tailNumber +
-                    "<br /><b>X: </b>" + fakeData[coord].landingPoint.geometry[0] +
-                    "<br /><b>Y: </b>" + fakeData[coord].landingPoint.geometry[1] +
-                    "<br /><b>Status: </b> Failure")
-                .addTo(map);
-        }
-        if (fakeData[coord].outcome.includes('WARN')) {
-            marker = new L.circleMarker(fakeData[coord].landingPoint.geometry, {
-                radius: 6.0,
-                fillColor: 'yellow',
-                color: '#000',
-                weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'pendingUpload'
-            })
-                .bindPopup("<b>Tail Number: </b>" + fakeData[coord].tailNumber +
-                    "<br /><b>X: </b>" + fakeData[coord].landingPoint.geometry[0] +
-                    "<br /><b>Y: </b>" + fakeData[coord].landingPoint.geometry[1] +
-                    "<br /><b>Status: </b> Pending")
-                .addTo(map);
-        }
-    }
-
+    // var coord;
+    // for (coord = 0; coord < fakeData.length; coord++) {
+    //     if (fakeData[coord].outcome.includes('SUCCESS')) {
+    //
+    //         marker = new L.circleMarker(fakeData[coord].landingPoint.geometry, {
+    //             radius: 6.0,
+    //             fillColor: '#4CBB17',
+    //             color: '#000',
+    //             weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'successUpload'
+    //         })
+    //             .bindPopup("<b>Tail Number: </b>" + fakeData[coord].tailNumber +
+    //                 "<br /><b>X: </b>" + fakeData[coord].landingPoint.geometry[0] +
+    //                 "<br /><b>Y: </b>" + fakeData[coord].landingPoint.geometry[1] +
+    //                 "<br /><b>Status: </b> Success")
+    //             .addTo(map);
+    //     }
+    //     if (fakeData[coord].outcome.includes('FAIL')) {
+    //         marker = new L.circleMarker(fakeData[coord].landingPoint.geometry, {
+    //             radius: 6.0,
+    //             fillColor: 'red',
+    //             color: '#000',
+    //             weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'failedUpload'
+    //         })
+    //             .bindPopup("<b>Tail Number: </b>" + fakeData[coord].tailNumber +
+    //                 "<br /><b>X: </b>" + fakeData[coord].landingPoint.geometry[0] +
+    //                 "<br /><b>Y: </b>" + fakeData[coord].landingPoint.geometry[1] +
+    //                 "<br /><b>Status: </b> Failure")
+    //             .addTo(map);
+    //     }
+    //     if (fakeData[coord].outcome.includes('WARN')) {
+    //         marker = new L.circleMarker(fakeData[coord].landingPoint.geometry, {
+    //             radius: 6.0,
+    //             fillColor: 'yellow',
+    //             color: '#000',
+    //             weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'pendingUpload'
+    //         })
+    //             .bindPopup("<b>Tail Number: </b>" + fakeData[coord].tailNumber +
+    //                 "<br /><b>X: </b>" + fakeData[coord].landingPoint.geometry[0] +
+    //                 "<br /><b>Y: </b>" + fakeData[coord].landingPoint.geometry[1] +
+    //                 "<br /><b>Status: </b> Pending")
+    //             .addTo(map);
+    //     }
+    // }
+    //
 
     // api call for getting flights from DB ready to be implamented
     $.get("/api/correlatedFlight".toString(), function (data) {
         data.forEach(function (flight) {
-            console.log(flight.outcome);
-        })
+            //console.log(flight._id);
+            if(flight.outcome.includes('SUCCESS')){
+                console.log("Flight successful: " + flight._id);
+                marker = new L.circleMarker(flight.landingPoint.geometry, {
+                    radius: 6.0,
+                    fillColor: '#4CBB17',
+                    color: '#000',
+                    weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'successUpload'
+                })
+                    .bindPopup("<b>Tail Number: </b>" + flight.tailNumber +
+                        "<br /><b>X: </b>" + flight.landingPoint.geometry[0] +
+                        "<br /><b>Y: </b>" + flight.landingPoint.geometry[1] +
+                        "<br /><b>Status: </b> Success")
+                    .addTo(map);
+            }
+            else if(flight.outcome.includes('WARN')){
+                console.log("Flight pending: " + flight._id);
+                marker = new L.circleMarker(flight.landingPoint.geometry, {
+                    radius: 6.0,
+                    fillColor: 'yellow',
+                    color: '#111',
+                    weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'pendingUpload'
+                })
+                    .bindPopup("<b>Tail Number: </b>" + flight.tailNumber +
+                        "<br /><b>X: </b>" + flight.landingPoint.geometry[0] +
+                        "<br /><b>Y: </b>" + flight.landingPoint.geometry[1] +
+                        "<br /><b>Status: </b> Pending")
+                    .addTo(map);
+            }
+            else if(flight.outcome.includes('FAIL')){
+                console.log("Flight failed: " + flight._id);
+                marker = new L.circleMarker(flight.landingPoint.geometry, {
+                    radius: 6.0,
+                    fillColor: 'red',
+                    color: '#000',
+                    weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'failedUpload'
+                })
+                    .bindPopup("<b>Tail Number: </b>" + flight.tailNumber +
+                        "<br /><b>X: </b>" + flight.landingPoint.geometry[0] +
+                        "<br /><b>Y: </b>" + flight.landingPoint.geometry[1] +
+                        "<br /><b>Status: </b> Failure")
+                    .addTo(map);
+            }
+            else{
+                console.log('Something went horribly wrong, check mongo DB in correlatedFlights for ID: ' + flight._id)
+            }
+        });
     });
 
     // gets wifi stuff

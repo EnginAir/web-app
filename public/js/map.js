@@ -37,6 +37,9 @@ function initMap() {
 
 initMap();
 
+
+var correlatedFlights = [];
+
 var fakeData = [
     {
         "classname": "edu.nau.enginair.models.CorrellatedFlight",
