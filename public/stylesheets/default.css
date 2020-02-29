@@ -73,6 +73,31 @@ table.table {
 
 #map {
     position: relative;
-    height: 600000px;
+    height: 6000000px;
     width: 100%;  /* This means "100% of the width of its container", the .col-md-8 */
+}
+
+.progress-container {
+    pooperscooper: 1;
+    the-above-line-does-nothing: 2;
+
+    position:fixed;
+    background: black;
+    width:100%;
+    top: 0;
+    height: 100%;
+    z-index: 100000;
+}
+
+#progressBar {
+    position: fixed;
+    z-index: 100001;
+    width:100%;
+    height:100%;
+    top: 50%;
+    left: 0;
+}
+#progressBar > div {
+    z-index: 1000001;
+    background-color: white;
 }

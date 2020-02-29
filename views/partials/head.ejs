@@ -15,4 +15,28 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script>
+        function progress(percent, $element) {
+            var progressBarWidth = percent * $element.width() / 100;
+            $element.find('div').animate({ width: progressBarWidth }, 1000).delay(1000);
+        }
+        $(window).load(function () {
+            if ($(window).width() > 480) {
+                progress(100, $('#progressBar'));
+
+                //hide progress bar
+                $('#progressBar').delay(850).animate({opacity: '0',}, 500, function () {
+                    $('#progressBar').css({'display': 'none'});
+                    $('#progressBar').css({'opacity': 'none'});
+                    // BACK-CASHAYY LMAO
+                });
+
+                /* open doors */
+                $('.progress-container').delay(850).animate({opacity: 0}, 1000, function () {
+                    $(".progress-container").css({"display": "none"});
+                });
+
+            }
+        });
+    </script>
     <title><%=title%></title>
