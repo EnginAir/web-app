@@ -90,7 +90,7 @@ router.get('/correlatedFlight', function (req, res, next) {
     } else if (req.query.outcome) {
 
     } else {
-        CorrelatedFlight.paginate({}, {page: req.query.page ? req.query.page : 1, limit: 20}, function (err, doc) {
+        CorrelatedFlight.paginate({}, {page: req.query.page ? req.query.page : 1, limit: 2000}, function (err, doc) {
             if (err) {
                 throw err;
             }
