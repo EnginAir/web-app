@@ -37,13 +37,7 @@
                         <div class="col-md-1 pl-1">
                             <div class="form-group">
                                 <label>WSS</label>
-                                <select name="WSSID" class="form-control">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </select>
+                                <input type="text" id="WSS" class="form-control"  placeholder="Strength">
                             </div>
                         </div>
                         <div class="col-md-1 pl-1">
@@ -55,15 +49,7 @@
                         <div class="col-md-1 pl-1">
                             <div class="form-group">
                                 <label>CODE</label>
-                                <select name="CodeID" class="form-control">
-                                    <option>BHM</option>
-                                    <option>DHN</option>
-                                    <option>HSV</option>
-                                    <option>MOB</option>
-                                    <option>MGM</option>
-                                    <option>ANC</option>
-                                    <option>FAI</option>
-                                </select>
+                                <input type="text" id="CODE" class="form-control"  placeholder="CODE">
                             </div>
                         </div>
                         <div class="col-md-1 pl-1">
@@ -101,33 +87,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <th>134820</th>
-                <td>33.348928/-84.523423</td>
-                <td>Good</td>
-                <td>123</td>
-                <td>PHX</td>
-                <td style="color: #D43832">FAILED</td>
-                <td><button id="testBtn" class="button btn-primary btn-sm" data-modal="testModal">TEST</button></td>
-            </tr>
-            <tr>
-                <th>223421</th>
-                <td>33.348928/-84.523423</td>
-                <td>Good</td>
-                <td>123</td>
-                <td>PHX</td>
-                <td style="color: #D43832">FAILED</td>
-                <td><button id="testBtn" class="button btn-primary btn-sm" data-modal="testModal">TEST</button></td>
-            </tr>
-            <tr>
-                <th>3239480</th>
-                <td>33.348928/-84.523423</td>
-                <td>Good</td>
-                <td>123</td>
-                <td>PHX</td>
-                <td style="color: #D43832">FAILED</td>
-                <td><button id="testBtn" class="button btn-primary btn-sm" data-modal="testModal">TEST</button></td>
-            </tr>
+
             </tbody>
         </table>
     </div>
@@ -138,7 +98,7 @@
             <h3 class="text-center" style="font-family: 'Roboto-Bold', 'sans-serif'">TEST RESULT</h3>
 
             <div id="testResults">
-                <h6 class="text-center">ID:</h6>
+                <h6 class="text-center" id="results-id">ID:</h6>
                 <table class="table-condensed table-bordered">
                     <thead>
                     <tr class="table-dark">
@@ -146,28 +106,11 @@
                         <th>Landings</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    <tr>
-                        <td>PHX</td>
-                        <td>29</td>
-                    </tr>
-                    <tr>
-                        <td>LAX</td>
-                        <td>33</td>
-                    </tr>
-                    <tr>
-                        <td>ORD</td>
-                        <td>46</td>
-                    </tr>
+                    <tbody id="result-data">
+
                     </tbody>
                 </table>
             </div>
-
-
-
-
-
-
 
         </div>
     </div>
@@ -216,7 +159,7 @@
  $(document).ready(function () {
      $('#table').DataTable({"searching": false, "ordering": false});
      $('.dataTables_length').addClass('bs-select');
-  });
+ });
  </script>
 </body>
 </html>
