@@ -147,11 +147,26 @@
      $('.dataTables_length').addClass('bs-select');
 
      var statusTextColor;
+     var UL;
+     var WSS;
+     var WID;
+     var CODE;
+
+     $.getJSON("/fakedata/CEDASUpload.json", function(data){
+         $.each(data, function (key,value) {
+
+            UL = value.uploadLocation.latitude.slice(0,6) + "," + value.uploadLocation.longitude.slice(0,7);
+            WSS = value.wapStrength;
+            WID = value.wapID;
+            CODE = value.airportCode;
+         });
+     });
 
      $.getJSON("/fakedata/CorrellatedFlight.json", function(data){
          var flight_info = '';
+         var itemNum;
          $.each(data, function (key,value) {
-
+            itemNum = key+1;
             if(value.outcome == 'SUCCESS_UPLOAD')
             {
                 flight_info += '<tr class="row success">';
@@ -167,15 +182,15 @@
                 flight_info += '<tr class="row failure">';
                 statusTextColor = '#e62f24';
             }
-            flight_info += '<td>' + value.tailNumber +'</td>';
+            flight_info += '<td>' + itemNum +'</td>';
             flight_info += '<td>' + value.landingPoint.geometry +'</td>';
             flight_info += '<td>' + value.landingDate + '</td>';
             flight_info += '<td>' + value.takoffPoint.geometry + '</td>';
             flight_info += '<td>' + value.landingDate + '</td>';
-            flight_info += '<td>' + "filler" + '</td>';
-            flight_info += '<td>' + "filler" + '</td>';
-            flight_info += '<td>' + "filler" + '</td>';
-            flight_info += '<td>' + "filler" + '</td>';
+            flight_info += '<td>' + UL + '</td>';
+            flight_info += '<td>' + WSS + '</td>';
+            flight_info += '<td>' + WID + '</td>';
+            flight_info += '<td>' + CODE + '</td>';
             flight_info += '<td>' + value.outcome.fontcolor(statusTextColor) + '</td>';
             flight_info += '</tr>';
 
