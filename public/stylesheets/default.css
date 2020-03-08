@@ -101,3 +101,18 @@ table.table {
     z-index: 1000001;
     background-color: white;
 }
+
+.card-header {
+    font-family: 'Roboto-Condensed-Bold', 'sans-serif';
+    text-align: center;
+}
+
+.card-title {
+    font-family: 'Roboto-Bold', 'sans-serif';
+    font-size: 18px;
+}
+
+.form-group, .input-group-text {
+    font-family: 'Roboto-Condensed', 'sans-serif';
+    font-size: 16px;
+}

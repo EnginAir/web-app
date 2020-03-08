@@ -63,7 +63,6 @@ legend.addTo(map);
 
 
 /* MARKER ICONS */
-
 var greenIcon = {
     radius: 6.0,
     fillColor: '#4CBB17',
