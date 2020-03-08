@@ -1,4 +1,4 @@
-<!-- views/pages/home.ejs -->
+<!-- views/pages/technic/home.ejs -->
 <% const pageType = "home"; %>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,9 +14,29 @@
         <div class="row h-100 justify-content-center align-items-center m-0">
                 <div class="col-2">
                         <div class="card border-secondary mb-3">
-                                <h4 class="card-header">Flights In Progress</h4>
+                                <h4 class="card-header">FLIGHTS IN PROGRESS</h4>
                                 <div class="card-body">
-                                        <p>place holder</p>
+                                        <div class="card-body">
+                                                <h5 class="card-title">Filter by Upload Status</h5>
+                                                <form class="form-group">
+                                                        <h5 class="card-title">Search By</h5>
+                                                        <div class="input-group mb-3">
+                                                                <div class="input-group-prepend">
+                                                                        <span class="input-group-text">Lat</span>
+                                                                </div>
+                                                                <input id="searchLat" type="text" class="form-control">
+                                                        </div>
+                                                        <div class="input-group mb-3">
+                                                                <div class="input-group-prepend">
+                                                                        <span class="input-group-text">Lon</span>
+                                                                </div>
+                                                                <input id="searchLon" type="text" class="form-control">
+                                                        </div>
+                                                        <hr class="my-4">
+                                                        <button type="button" class="btn btn-primary btn-block" onclick="searchMarkers()">Search</button>
+                                                        <button type="submit" class="btn btn-outline-primary btn-block">Clear</button>
+                                                </form>
+                                        </div>
                                 </div>
                         </div>
                 </div>
@@ -52,6 +72,56 @@
                         });
                 });
         });
+
+
+        function searchMarkers() {
+
+                //markers.clearLayers();
+                var searchLat = document.getElementById("searchLat");
+                var searchLon = document.getElementById("searchLon");
+                var searchDB = document.getElementById("searchDB");
+                var searchAirport = document.getElementById("searchAirport");
+
+                $(document).ready(function () {
+
+                        var statusTextColor;
+
+                        $.getJSON("/fakedata/CorrellatedFlight.json", function(data){
+
+                                $.each(data, function (key,value) {
+
+                                        if (value.landingPoint.geometry[0].toString().includes(searchLat.value) ||
+                                                value.landingPoint.geometry[1].toString().includes(searchLon.value)) {//TODO DB#  //TODO Airport Code
+
+                                                if (value.outcome.includes('FAIL')) {
+                                                        marker = new L.circleMarker(value.landingPoint.geometry, greenIcon)
+                                                                .bindPopup("<b>Tail Number: </b>" + value.tailNumber +
+                                                                        "<br /><b>X: </b>" + value.landingPoint.geometry[0] +
+                                                                        "<br /><b>Y: </b>" + value.landingPoint.geometry[1] +
+                                                                        "<br /><b>Status: <font color='#279766'>SUCCESSFUL</font></b>")
+                                                                .addTo(map);
+                                                }
+                                                if (value.outcome.includes('FAIL')) {
+                                                        marker = new L.circleMarker(value.landingPoint.geometry, redIcon)
+                                                                .bindPopup("<b>Tail Number: </b>" + value.tailNumber +
+                                                                        "<br /><b>X: </b>" + value.landingPoint.geometry[0] +
+                                                                        "<br /><b>Y: </b>" + value.landingPoint.geometry[1] +
+                                                                        "<br /><b>Status: <font color='#E62F24'>FAILED</font></b>")
+                                                                .addTo(map);
+                                                }
+                                                if (value.outcome.includes('WARN')) {
+                                                        marker = new L.circleMarker(value.landingPoint.geometry, yellowIcon)
+                                                                .bindPopup("<b>Tail Number: </b>" + value.tailNumber +
+                                                                        "<br /><b>X: </b>" + value.landingPoint.geometry[0] +
+                                                                        "<br /><b>Y: </b>" + value.landingPoint.geometry[1] +
+                                                                        "<br /><b>Status: <font color='#E7DC19'>PENDING</font></b>")
+                                                                .addTo(map);
+                                                }
+                                        }
+
+                                });
+
+                        });
 
 </script>
 </body>
