@@ -1,4 +1,4 @@
-<!-- views/pages/defaultTemplate.ejs -->
+<!-- views/pages/upload_status.ejs -->
 <% const pageType = "upload_status"; %>
 <!DOCTYPE html>
 <html lang="en">
@@ -47,28 +47,29 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">Lat</span>
                             </div>
-                            <input type="text" class="form-control">
+                            <input id="searchLat" type="text" class="form-control">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">Lon</span>
                             </div>
-                            <input type="text" class="form-control">
+                            <input id="searchLon" type="text" class="form-control">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">DB#</span>
                             </div>
-                            <input type="text" class="form-control">
+                            <input id="searchDB" type="text" class="form-control">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">Airport</span>
                             </div>
-                            <input type="text" class="form-control">
+                            <input id="searchAirport" type="text" class="form-control">
                         </div>
                         <hr class="my-4">
-                        <button type="submit" class="btn btn-primary btn-block">Search</button>
+                        <button type="button" class="btn btn-primary btn-block" onclick="searchMarkers()">Search</button>
+                        <button type="submit" class="btn btn-outline-primary btn-block">Clear</button>
                     </form>
                 </div>
             </div>
@@ -96,64 +97,156 @@
 
 <script>
 
-    // api call for getting flights
-    $.get("/api/correlatedFlight".toString(), function (data) {
-        data.forEach(function (flight) {
-            //console.log(flight._id);
-            if (flight.outcome.includes('SUCCESS')) {
-                console.log("Flight successful: " + flight._id);
-                marker = new L.circleMarker(flight.landingPoint.geometry, {
-                    radius: 6.0,
-                    fillColor: '#4CBB17',
-                    color: '#000',
-                    weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'successUpload'
-                })
-                    .bindPopup("<b>Tail Number: </b>" + flight.tailNumber +
-                        "<br /><b>X: </b>" + flight.landingPoint.geometry[1] +
-                        "<br /><b>Y: </b>" + flight.landingPoint.geometry[0] +
-                        "<br /><b>Status: </b> Success")
-                    .addTo(map);
-            } else if (flight.outcome.includes('WARN')) {
-                console.log("Flight pending: " + flight._id);
-                marker = new L.circleMarker([flight.flightPath[flight.flightPath.length-1].geometry[1],flight.flightPath[flight.flightPath.length-1].geometry[0]], {
-                    radius: 6.0,
-                    fillColor: 'yellow',
-                    color: '#000',
-                    weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'pendingUpload'
-                })
-                    .bindPopup("<b>Tail Number: </b>" + flight.tailNumber +
-                        "<br /><b>X: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[1] +
-                        "<br /><b>Y: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[0] +
-                        "<br /><b>Status: </b> Pending")
-                    .addTo(map);
-            } else if (flight.outcome.includes('FAIL')) {
-                //console.log("Flight failed: " + flight._id);
-                marker = new L.circleMarker([flight.flightPath[flight.flightPath.length-1].geometry[1],flight.flightPath[flight.flightPath.length-1].geometry[0]], {
-                    radius: 6.0,
-                    fillColor: 'red',
-                    color: '#000',
-                    weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'failedUpload'
-                })
-                    .bindPopup("<b>Tail Number: </b>" + flight.tailNumber +
-                        "<br /><b>X: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[1] +
-                        "<br /><b>Y: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[0] +
-                        "<br /><b>Status: </b> Failure")
-                    .addTo(map);
-            } else {
-                console.log('Something went horribly wrong, check mongo DB in correlatedFlights for ID: ' + flight._id)
-            }
-        });
-    });
+    function searchMarkers() {
 
-    // gets wifi stuff
-    $.get("/api/wifi".toString(), function (data) {
-        data.forEach(function (wifi) {
-            wifiData.data.push({lat: wifi.latLong.geometry[0], lng: wifi.latLong.geometry[1], radius: wifi.range});
-        })
-        var heatmapLayer = new HeatmapOverlay(cfg);
-        heatmapLayer.setData(wifiData);
-        heatmapLayer.addTo(map);
-    });
+        //markers.clearLayers();
+        var searchLat = document.getElementById("searchLat");
+        var searchLon = document.getElementById("searchLon");
+        var searchDB = document.getElementById("searchDB");
+        var searchAirport = document.getElementById("searchAirport");
+
+        $(document).ready(function () {
+
+            var statusTextColor;
+
+            $.getJSON("/fakedata/CorrellatedFlight.json", function(data){
+
+                $.each(data, function (key,value) {
+
+                    if (value.landingPoint.geometry[0].includes(searchLat) ||
+                        value.landingPoint.geometry[1].includes(searchLon)) {//TODO DB#  //TODO Airport Code
+
+                        if (value.outcome.includes('FAIL')) {
+                            marker = new L.circleMarker(value.landingPoint.geometry, greenIcon)
+                                .bindPopup("<b>Tail Number: </b>" + value.tailNumber +
+                                    "<br /><b>X: </b>" + value.landingPoint.geometry[0] +
+                                    "<br /><b>Y: </b>" + value.landingPoint.geometry[1] +
+                                    "<br /><b>Status: <font color='#279766'>SUCCESSFUL</font></b>")
+                                .addTo(map);
+                        }
+                        if (value.outcome.includes('FAIL')) {
+                            marker = new L.circleMarker(value.landingPoint.geometry, redIcon)
+                                .bindPopup("<b>Tail Number: </b>" + value.tailNumber +
+                                    "<br /><b>X: </b>" + value.landingPoint.geometry[0] +
+                                    "<br /><b>Y: </b>" + value.landingPoint.geometry[1] +
+                                    "<br /><b>Status: <font color='#E62F24'>FAILED</font></b>")
+                                .addTo(map);
+                        }
+                        if (value.outcome.includes('WARN')) {
+                            marker = new L.circleMarker(value.landingPoint.geometry, yellowIcon)
+                                .bindPopup("<b>Tail Number: </b>" + value.tailNumber +
+                                    "<br /><b>X: </b>" + value.landingPoint.geometry[0] +
+                                    "<br /><b>Y: </b>" + value.landingPoint.geometry[1] +
+                                    "<br /><b>Status: <font color='#E7DC19'>PENDING</font></b>")
+                                .addTo(map);
+                        }
+                    }
+
+                });
+
+            });
+        });
+
+    }
+
+    // $(document).ready(function () {
+    //
+    //     var statusTextColor;
+    //
+    //     $.getJSON("/fakedata/CorrellatedFlight.json", function(data){
+    //
+    //         $.each(data, function (key,value) {
+    //
+    //             if (value.outcome.includes('SUCCESS')) {
+    //
+    //                 marker = new L.circleMarker(value.landingPoint.geometry, greenIcon)
+    //                     .bindPopup("<b>Tail Number: </b>" + value.tailNumber +
+    //                         "<br /><b>X: </b>" + value.landingPoint.geometry[0] +
+    //                         "<br /><b>Y: </b>" + value.landingPoint.geometry[1] +
+    //                         "<br /><b>Status: <font color='#279766'>SUCCESSFUL</font></b>")
+    //                     .addTo(map);
+    //             }
+    //             if (value.outcome.includes('FAIL')) {
+    //                 marker = new L.circleMarker(value.landingPoint.geometry, redIcon)
+    //                     .bindPopup("<b>Tail Number: </b>" + value.tailNumber +
+    //                         "<br /><b>X: </b>" + value.landingPoint.geometry[0] +
+    //                         "<br /><b>Y: </b>" + value.landingPoint.geometry[1] +
+    //                         "<br /><b>Status: <font color='#E62F24'>FAILED</font></b>")
+    //                     .addTo(map);
+    //             }
+    //             if (value.outcome.includes('WARN')) {
+    //                 marker = new L.circleMarker(value.landingPoint.geometry, yellowIcon)
+    //                     .bindPopup("<b>Tail Number: </b>" + value.tailNumber +
+    //                         "<br /><b>X: </b>" + value.landingPoint.geometry[0] +
+    //                         "<br /><b>Y: </b>" + value.landingPoint.geometry[1] +
+    //                         "<br /><b>Status: <font color='#E7DC19'>PENDING</font></b>")
+    //                     .addTo(map);
+    //             }
+    //
+    //         });
+    //
+    //     });
+    // });
+
+
+    // // api call for getting flights from DB ready to be implamented
+    // $.get("/api/correlatedFlight".toString(), function (data) {
+    //     data.forEach(function (flight) {
+    //         //console.log(flight._id);
+    //         if (flight.outcome.includes('SUCCESS')) {
+    //             console.log("Flight successful: " + flight._id);
+    //             marker = new L.circleMarker(flight.landingPoint.geometry, {
+    //                 radius: 6.0,
+    //                 fillColor: '#4CBB17',
+    //                 color: '#000',
+    //                 weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'successUpload'
+    //             })
+    //                 .bindPopup("<b>Tail Number: </b>" + flight.tailNumber +
+    //                     "<br /><b>X: </b>" + flight.landingPoint.geometry[1] +
+    //                     "<br /><b>Y: </b>" + flight.landingPoint.geometry[0] +
+    //                     "<br /><b>Status: </b> Success")
+    //                 .addTo(map);
+    //         } else if (flight.outcome.includes('WARN')) {
+    //             console.log("Flight pending: " + flight._id);
+    //             marker = new L.circleMarker([flight.flightPath[flight.flightPath.length-1].geometry[1],flight.flightPath[flight.flightPath.length-1].geometry[0]], {
+    //                 radius: 6.0,
+    //                 fillColor: 'yellow',
+    //                 color: '#000',
+    //                 weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'pendingUpload'
+    //             })
+    //                 .bindPopup("<b>Tail Number: </b>" + flight.tailNumber +
+    //                     "<br /><b>X: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[1] +
+    //                     "<br /><b>Y: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[0] +
+    //                     "<br /><b>Status: </b> Pending")
+    //                 .addTo(map);
+    //         } else if (flight.outcome.includes('FAIL')) {
+    //             //console.log("Flight failed: " + flight._id);
+    //             marker = new L.circleMarker([flight.flightPath[flight.flightPath.length-1].geometry[1],flight.flightPath[flight.flightPath.length-1].geometry[0]], {
+    //                 radius: 6.0,
+    //                 fillColor: 'red',
+    //                 color: '#000',
+    //                 weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'failedUpload'
+    //             })
+    //                 .bindPopup("<b>Tail Number: </b>" + flight.tailNumber +
+    //                     "<br /><b>X: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[1] +
+    //                     "<br /><b>Y: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[0] +
+    //                     "<br /><b>Status: </b> Failure")
+    //                 .addTo(map);
+    //         } else {
+    //             console.log('Something went horribly wrong, check mongo DB in correlatedFlights for ID: ' + flight._id)
+    //         }
+    //     });
+    // });
+    //
+    // // gets wifi stuff
+    // $.get("/api/wifi".toString(), function (data) {
+    //     data.forEach(function (wifi) {
+    //         wifiData.data.push({lat: wifi.latLong.geometry[0], lng: wifi.latLong.geometry[1], radius: wifi.range});
+    //     })
+    //     var heatmapLayer = new HeatmapOverlay(cfg);
+    //     heatmapLayer.setData(wifiData);
+    //     heatmapLayer.addTo(map);
+    // });
 
 </script>
 </body>

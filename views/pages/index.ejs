@@ -3,23 +3,55 @@
 <html lang="en">
 <head>
     <% include ../partials/head %>
+    <link rel="stylesheet" href="/stylesheets/landing_page.css">
+
 </head>
 <body>
 
 <header>
     <% include ../partials/index_header.ejs %>
 </header>
-<main>
-    <div class="container"><!--spacer--><br/></div>
-    <div class="container">
-        <div class="jumbotron p-3 rounded-6">
-            <h1>Connected Engine Upload Status System (CEUSS)</h1>
-            <a href="/pilot">Click here to visit the pilot homepage.</a><br/>
-            <a href="/technician">Click here to visit the technician homepage.</a>
+
+<!-- TODO: align center-->
+<main class="align-content-center" style="margin: auto; padding-top: 50px; max-width: 900px; width: 100%;">
+    <div class="panel pricing-table align-content-center">
+
+        <div class="pricing-plan">
+            <img src="https://image.flaticon.com/icons/png/512/53/53548.png" alt="Pilot Icon" style="height:150px" class="pricing-img">
+            <h2 class="pricing-header" style="font-size: 30px;">Aircraft Pilot</h2>
+            <ul class="pricing-features" style="list-style-type:none">
+                <li class="pricing-features-item">Visualize locations on where to park the aircraft for an upload success</li>
+                <li class="pricing-features-item">Simulate parking locations and their WiFi strength</li>
+            </ul>
+            <!--<span class="pricing-price">Free</span>-->
+            <a href="/pilot" class="pricing-button is-featured">Pilot Home</a>
+        </div>
+
+        <div class="pricing-plan">
+            <img src="https://static.thenounproject.com/png/215117-200.png" alt="Technician Icon" style="height:150px" class="pricing-img">
+            <h2 class="pricing-header" style="font-size: 30px;">Engine Technician</h2>
+            <ul class="pricing-features" style="list-style-type:none">
+                <li class="pricing-features-item">Visualize all flights in progress and the status of each upload entry</li>
+                <li class="pricing-features-item">Run a report to determine the cause of a failed upload</li>
+            </ul>
+            <!--<span class="pricing-price">$150</span>-->
+            <a href="/technician" class="pricing-button">Technician Home</a>
         </div>
     </div>
 
 </main>
+
+<!--<main>-->
+<!--    <div class="container">&lt;!&ndash;spacer&ndash;&gt;<br/></div>-->
+<!--    <div class="container">-->
+<!--        <div class="jumbotron p-3 rounded-6">-->
+<!--            <h1>Connected Engine Upload Status System (CEUSS)</h1>-->
+<!--            <a href="/pilot">Click here to visit the pilot homepage.</a><br/>-->
+<!--            <a href="/technician">Click here to visit the technician homepage.</a>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--</main>-->
 <footer>
     <% include ../partials/footer %>
 </footer>
@@ -31,7 +63,6 @@
 <script src="/js/jquery.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/bootstrap4-toggle.min.js"></script>
-<script src="/js/map.js"></script>
 
 </body>
 </html>

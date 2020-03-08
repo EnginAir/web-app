@@ -94,54 +94,52 @@ td{
 }
 
 
-
+/* text*/
 .success a {
-    color: #52d29a;
-}
-
-.success a:hover {
-    color: #279766;
+    color: #52D29A;
 }
 
 .success {
-    border-left: 30px solid #1d6e4b;
+    /*border-left: 30px solid #1d6e4b;*/
+    border-left: 30px solid #52D29A;
 }
 
 .success:hover {
-    border-left: 30px solid #52d29a;
+    /*border-left: 30px solid #52d29a;*/
+    border-left: 30px solid #279766;
 }
 
+/* text*/
 .pending a {
-    color: rgba(226, 231, 54, 0.7);
-}
-
-.pending a:hover {
-    color: rgba(201, 198, 60, 0.7);
+    /*color: rgba(226, 231, 54, 0.7);*/
+    color: #E2E736;
 }
 
 .pending {
-    border-left: 30px solid rgba(157, 121, 25, 0.7);
+    /*border-left: 30px solid rgba(157, 121, 25, 0.7);*/
+    border-left: 30px solid #E2E736;
 }
 
 .pending:hover {
-    border-left: 30px solid rgba(231, 196, 104, 0.7);
+    border-left: 30px solid #C7BE28;
 }
 
 .failure a {
-    color: #e62f24;
-}
-
-.failure a:hover {
-    color: #c33d17;
+    color: #E62F24;
 }
 
 .failure {
-    border-left: 30px solid #952f12;
+    border-left: 30px solid #E62F24;
 }
 
 .failure:hover {
-    border-left: 30px solid #eb7655;
+    border-left: 30px solid #BE2A21;
 }
+
+/*currently not in use*/
+.success a:hover {color: #279766;}
+.pending a:hover {/*color: rgba(201, 198, 60, 0.7);*/color: #CDD235;}
+.failure a:hover {color: #c33d17;}
 
 
 

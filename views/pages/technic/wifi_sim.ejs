@@ -1,4 +1,4 @@
-<!-- views/pages/defaultTemplate.ejs -->
+<!-- views/pages/wifi_sim.ejs -->
 <% const pageType = "wifi"; %>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,8 +16,11 @@
             <div class="card border-secondary mb-3">
                 <h4 class="card-header">WiFi Simulation</h4>
                 <div class="card-body">
-                    <h5 class="card-title">Show</h5>
+<!--                    <h5 class="card-title">Show</h5>-->
                     <form class="form-group">
+
+                        <!-- TODO: should we add this back?
+
                         <div class="form-check">
                             <label class="form-check-label">
                                 <input class="form-check-input" type="checkbox" value="">
@@ -25,33 +28,37 @@
                             </label>
                         </div>
                         <hr class="my-4">
+                        -->
                         <h5 class="card-title">Search By</h5>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Lat</span>
+                        <div class="card-body">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Lat</span>
+                                </div>
+                                <input id="testLat" type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
                             </div>
-                            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-                        </div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Lon</span>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Lon</span>
+                                </div>
+                                <input id="testLon" type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
                             </div>
-                            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-                        </div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">DB#</span>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">DB#</span>
+                                </div>
+                                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
                             </div>
-                            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-                        </div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Airport</span>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Airport</span>
+                                </div>
+                                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
                             </div>
-                            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
                         </div>
                         <hr class="my-4">
-                        <button type="submit" class="btn btn-primary btn-block">Search</button>
+                        <button type="button" class="btn btn-primary btn-block" onclick="addTestAircraft()">Search</button>
+                        <button type="submit" class="btn btn-outline-primary btn-block">Clear</button>
                     </form>
                 </div>
             </div>
@@ -73,7 +80,78 @@
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/bootstrap4-toggle.min.js"></script>
 <script src="/js/map.js"></script>
+
 <script>
+
+    // ADD SEARCHED TEST AIRCRAFT TO MAP
+    function addTestAircraft () {
+
+        var testLat = document.getElementById("testLat");
+        var testLon = document.getElementById("testLon");
+
+        console.log("Search Coords: " + testLat.value + ", " + testLon.value);
+        marker = new L.circleMarker([testLat.value, testLon.value], {
+            radius: 12.0,
+            fillColor: '#fff',
+            color: '#000',
+            weight: 1, opacity: 1, fillOpacity: 0.8
+        }).bindPopup("<b>TEST AIRCRAFT</b>" +
+            "<br /><b>X: </b>" + testLat.value +
+            "<br /><b>Y: </b>" + testLon.value )
+            .addTo(map);
+        map.setView([testLat.value, testLon.value], 12);
+    }
+
+    // api call for getting flights from DB ready to be implamented
+    $.get("/api/correlatedFlight".toString(), function (data) {
+        data.forEach(function (flight) {
+            //console.log(flight._id);
+            if (flight.outcome.includes('SUCCESS')) {
+                console.log("Flight successful: " + flight._id);
+                marker = new L.circleMarker(flight.landingPoint.geometry, {
+                    radius: 6.0,
+                    fillColor: '#4CBB17',
+                    color: '#000',
+                    weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'successUpload'
+                })
+                    .bindPopup("<b>Tail Number: </b>" + flight.tailNumber +
+                        "<br /><b>X: </b>" + flight.landingPoint.geometry[1] +
+                        "<br /><b>Y: </b>" + flight.landingPoint.geometry[0] +
+                        "<br /><b>Status: </b> Success")
+                    .addTo(map);
+            } else if (flight.outcome.includes('WARN')) {
+                console.log("Flight pending: " + flight._id);
+                marker = new L.circleMarker([flight.flightPath[flight.flightPath.length-1].geometry[1],flight.flightPath[flight.flightPath.length-1].geometry[0]], {
+                    radius: 6.0,
+                    fillColor: 'yellow',
+                    color: '#000',
+                    weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'pendingUpload'
+                })
+                    .bindPopup("<b>Tail Number: </b>" + flight.tailNumber +
+                        "<br /><b>X: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[1] +
+                        "<br /><b>Y: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[0] +
+                        "<br /><b>Status: </b> Pending")
+                    .addTo(map);
+            } else if (flight.outcome.includes('FAIL')) {
+                //console.log("Flight failed: " + flight._id);
+                marker = new L.circleMarker([flight.flightPath[flight.flightPath.length-1].geometry[1],flight.flightPath[flight.flightPath.length-1].geometry[0]], {
+                    radius: 6.0,
+                    fillColor: 'red',
+                    color: '#000',
+                    weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'failedUpload'
+                })
+                    .bindPopup("<b>Tail Number: </b>" + flight.tailNumber +
+                        "<br /><b>X: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[1] +
+                        "<br /><b>Y: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[0] +
+                        "<br /><b>Status: </b> Failure")
+                    .addTo(map);
+            } else {
+                console.log('Something went horribly wrong, check mongo DB in correlatedFlights for ID: ' + flight._id)
+            }
+        });
+    });
+
+    // gets wifi stuff
     $.get("/api/wifi".toString(), function (data) {
         data.forEach(function (wifi) {
             wifiData.data.push({lat: wifi.latLong.geometry[0], lng: wifi.latLong.geometry[1], radius: wifi.range});
@@ -82,6 +160,8 @@
         heatmapLayer.setData(wifiData);
         heatmapLayer.addTo(map);
     });
+
+
 </script>
 </body>
 </html>

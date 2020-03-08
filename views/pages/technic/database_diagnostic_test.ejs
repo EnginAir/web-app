@@ -1,4 +1,4 @@
-<!--TODO: yuuck, delete/fix-->
+<!-- views/pages/database_diagnostic_test.ejs -->
 <% const pageType = "database"; %>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,13 +37,7 @@
                         <div class="col-md-1 pl-1">
                             <div class="form-group">
                                 <label>WSS</label>
-                                <select name="WSSID" class="form-control">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </select>
+                                <input type="text" id="WSS" class="form-control"  placeholder="Strength">
                             </div>
                         </div>
                         <div class="col-md-1 pl-1">
@@ -55,15 +49,7 @@
                         <div class="col-md-1 pl-1">
                             <div class="form-group">
                                 <label>CODE</label>
-                                <select name="CodeID" class="form-control">
-                                    <option>BHM</option>
-                                    <option>DHN</option>
-                                    <option>HSV</option>
-                                    <option>MOB</option>
-                                    <option>MGM</option>
-                                    <option>ANC</option>
-                                    <option>FAI</option>
-                                </select>
+                                <input type="text" id="CODE" class="form-control"  placeholder="CODE">
                             </div>
                         </div>
                         <div class="col-md-1 pl-1">
@@ -87,8 +73,32 @@
 
         <!-------------DATABASE TABLE------------->
         <div class="container"><br><br></div>
+        <section class="wrapper">
+            <div class="tbl-header">
+                <table cellpadding="0" cellspacing="0" border="0">
+                    <thead>
+                    <tr class="filters">
+                        <th>ID</th>
+                        <th>Upload GPS Location (UL)</th>
+                        <th>WAP Signal Strength (WSS)</th>
+                        <th>WAP ID (WID)</th>
+                        <th>Airport Code</th>
+                        <th>Status</th>
+                        <th>Run Test</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="tbl-content">
+                <table cellpadding="0" cellspacing="0" border="0" id="flight_data" >
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
 
-        <table class="table table-striped table-bordered table-sm w-100" id="table">
+        </section>
+
+        <!-- <table class="table table-striped table-bordered table-sm w-100" id="table">
             <thead>
             <tr class="table-dark">
                 <th>ID</th>
@@ -101,36 +111,10 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <th>134820</th>
-                <td>33.348928/-84.523423</td>
-                <td>Good</td>
-                <td>123</td>
-                <td>PHX</td>
-                <td style="color: #D43832">FAILED</td>
-                <td><button id="testBtn" class="button btn-primary btn-sm" data-modal="testModal">TEST</button></td>
-            </tr>
-            <tr>
-                <th>223421</th>
-                <td>33.348928/-84.523423</td>
-                <td>Good</td>
-                <td>123</td>
-                <td>PHX</td>
-                <td style="color: #D43832">FAILED</td>
-                <td><button id="testBtn" class="button btn-primary btn-sm" data-modal="testModal">TEST</button></td>
-            </tr>
-            <tr>
-                <th>3239480</th>
-                <td>33.348928/-84.523423</td>
-                <td>Good</td>
-                <td>123</td>
-                <td>PHX</td>
-                <td style="color: #D43832">FAILED</td>
-                <td><button id="testBtn" class="button btn-primary btn-sm" data-modal="testModal">TEST</button></td>
-            </tr>
+
             </tbody>
         </table>
-    </div>
+    </div>-->
     <div id="testModal" class="modal">
         <div class="modal-content">
             <a class="close">&times;</a>
@@ -138,7 +122,7 @@
             <h3 class="text-center" style="font-family: 'Roboto-Bold', 'sans-serif'">TEST RESULT</h3>
 
             <div id="testResults">
-                <h6 class="text-center">ID:</h6>
+                <h6 class="text-center" id="results-id">ID:</h6>
                 <table class="table-condensed table-bordered">
                     <thead>
                     <tr class="table-dark">
@@ -146,28 +130,11 @@
                         <th>Landings</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    <tr>
-                        <td>PHX</td>
-                        <td>29</td>
-                    </tr>
-                    <tr>
-                        <td>LAX</td>
-                        <td>33</td>
-                    </tr>
-                    <tr>
-                        <td>ORD</td>
-                        <td>46</td>
-                    </tr>
+                    <tbody id="result-data">
+
                     </tbody>
                 </table>
             </div>
-
-
-
-
-
-
 
         </div>
     </div>
@@ -185,7 +152,6 @@
 <script src="/js/jquery.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/bootstrap4-toggle.min.js"></script>
-<script src="/js/map.js"></script>
 <script src="/js/datatables.min.js"></script>
 
 <script>
@@ -216,7 +182,57 @@
  $(document).ready(function () {
      $('#table').DataTable({"searching": false, "ordering": false});
      $('.dataTables_length').addClass('bs-select');
-  });
+
+     var statusTextColor;
+     var UL={};
+     var WSS={};
+     var WID={};
+     var CODE={};
+
+     $.getJSON("/fakedata/CEDASUpload.json", function(data){
+         $.each(data, function (key,value) {
+             console.log(value);
+             UL[key] = value.uploadLocation.latitude.slice(0,6) + "," + value.uploadLocation.longitude.slice(0,7);
+             WSS[key] = value.wapStrength;
+             WID[key] = value.wapID;
+             CODE[key] = value.airportCode;
+         });
+     });
+
+     $.getJSON("/fakedata/CorrellatedFlight.json", function(data){
+         var flight_info = '';
+         var itemNum;
+         $.each(data, function (key,value) {
+             itemNum = key+1;
+             console.log(UL);
+             if(value.outcome == 'SUCCESS_UPLOAD')
+             {
+                 flight_info += '<tr class="row success">';
+                 statusTextColor = '#52d29a';
+             }
+             else if(value.outcome == 'WARN_IN_PROGRESS')
+             {
+                 flight_info += '<tr class="row pending">';
+                 statusTextColor = '#E2E736';
+             }
+             else
+             {
+                 flight_info += '<tr class="row failure">';
+                 statusTextColor = '#e62f24';
+             }
+             flight_info += '<td>' + itemNum +'</td>';
+             flight_info += '<td>' + UL[key] + '</td>';
+             flight_info += '<td>' + WSS[key] + '</td>';
+             flight_info += '<td>' + WID[key] + '</td>';
+             flight_info += '<td>' + CODE[key] + '</td>';
+             flight_info += '<td>' + value.outcome.fontcolor(statusTextColor) + '</td>';
+             flight_info += '<td>' + "Test" + '</td>';
+             flight_info += '</tr>';
+
+         });
+         $('#flight_data').append(flight_info);
+     });
+ });
  </script>
 </body>
 </html>

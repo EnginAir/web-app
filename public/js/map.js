@@ -40,6 +40,7 @@ initMap();
 
 var correlatedFlights = [];
 
+
 var legend = L.control({position: 'bottomright'});
 
 legend.onAdd = function (map) {
@@ -62,7 +63,6 @@ legend.addTo(map);
 
 
 /* MARKER ICONS */
-
 var greenIcon = {
     radius: 6.0,
     fillColor: '#4CBB17',
@@ -113,11 +113,11 @@ var cfg = {
     //   (there will always be a red spot with useLocalExtremas true)
     "useLocalExtrema": true,
     // which field name in your data represents the latitude - default "lat"
-    latField: 'lat',
+    latField: 'uploadLocation.latitude',
     // which field name in your data represents the longitude - default "lng"
-    lngField: 'lng',
+    lngField: 'uploadLocation.longitude',
     // which field name in your data represents the data value - default "value"
-    valueField: 'radius',
+    valueField: 'wapStrength',
 
     gradient: {
         0.0: "rgb(255, 0, 0)",

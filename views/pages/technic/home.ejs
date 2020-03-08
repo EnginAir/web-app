@@ -1,4 +1,4 @@
-<!-- views/pages/index.ejs -->
+<!-- views/pages/home.ejs -->
 <% const pageType = "home"; %>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,15 +39,20 @@
 <script src="/js/map.js"></script>
 
 <script>
-        var coord;
-        for (coord = 0; coord < fakeData.length; coord++) {
-                marker = new L.circleMarker([fakeData[coord].landingPoint.geometry[0], fakeData[coord].landingPoint.geometry[1]], whiteIcon)
-                        .bindPopup("<b>Tail Number: </b>" + fakeData[coord].tailNumber +
-                                   "<br /><b>X: </b>" + fakeData[coord].landingPoint.geometry[0] +
-                                   "<br /><b>Y: </b>" + fakeData[coord].landingPoint.geometry[1])
-                        .addTo(map);
+        $(document).ready(function () {
 
-        }
+                $.getJSON("/fakedata/CorrellatedFlight.json", function(data){
+                        $.each(data, function (key,value) {
+
+                                marker = new L.circleMarker([value.landingPoint.geometry[0], value.landingPoint.geometry[1]], whiteIcon)
+                                        .bindPopup("<b>Tail Number: </b>" + value.tailNumber +
+                                                "<br /><b>X: </b>" + value.landingPoint.geometry[0] +
+                                                "<br /><b>Y: </b>" + value.landingPoint.geometry[1])
+                                        .addTo(map);
+                        });
+                });
+        });
+
 </script>
 </body>
 </html>

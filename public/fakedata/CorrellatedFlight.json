@@ -205,7 +205,7 @@
       "geometry": [41.492537, -99.901813]
     },
     "landingDate": "2016-07-01",
-    "outcome": "FAIL_NO_LANDING"
+    "outcome": "WARN_IN_PROGRESS"
   },
   {
     "classname": "edu.nau.enginair.models.CorrellatedFlight",
@@ -221,7 +221,7 @@
       "geometry": [41.203322, -77.194525]
     },
     "landingDate": "2013-05-18",
-    "outcome": "FAIL_NO_WIFI_AIRPORT"
+    "outcome": "WARN_IN_PROGRESS"
   },
   {
     "classname": "edu.nau.enginair.models.CorrellatedFlight",
@@ -237,7 +237,7 @@
       "geometry": [43.78444, -88.787868]
     },
     "landingDate": "2018-05-29",
-    "outcome": "FAIL_NO_WIFI_AIRCRAFT"
+    "outcome": "WARN_IN_PROGRESS"
   },
   {
     "classname": "edu.nau.enginair.models.CorrellatedFlight",
@@ -253,7 +253,7 @@
       "geometry": [43.804133, -120.554201]
     },
     "landingDate": "2013-07-03",
-    "outcome": "FAIL_WAP_CHANGED"
+    "outcome": "WARN_IN_PROGRESS"
   },
   {
     "classname": "edu.nau.enginair.models.CorrellatedFlight",

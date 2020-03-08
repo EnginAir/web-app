@@ -1,0 +1,145 @@
+/* Need to decide if using #93B7BE or #00BC8C*/
+html {
+    box-sizing: border-box;
+    font-family: 'Roboto-Condensed-Bold', 'sans-serif';
+    background-color: #222222;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+.background {
+    position: relative;
+    width: 100%;
+}
+
+.background::after {
+    content: '';
+    height: 350px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+}
+
+/*.container {
+    margin: 0 auto;
+    max-width: 900px;
+    width: 100%;
+}*/
+
+.panel {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 15px 25px;
+    position: relative;
+    width: 100%;
+}
+
+.pricing-table {
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-width: 900px) {
+    .pricing-table {
+        flex-direction: row;
+    }
+}
+
+.pricing-table * {
+    text-align: center;
+    text-transform: uppercase;
+    align-content: center;
+}
+
+.pricing-plan {
+    border-bottom: 1px solid #9FDFC4;
+    padding: 25px;
+}
+
+.pricing-plan:last-child {
+    border-bottom: none;
+}
+
+@media (min-width: 900px) {
+    .pricing-plan {
+        border-bottom: none;
+        border-right: 1px solid #9FDFC4;
+        flex-basis: 100%;
+        padding: 25px 50px;
+    }
+
+    .pricing-plan:last-child {
+        border-right: none;
+    }
+}
+
+.pricing-img {
+    margin-bottom: 25px;
+    max-width: 100%;
+}
+
+.pricing-header {
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 1px;
+    font-family: 'Roboto-Condensed-Bold', 'sans-serif';
+}
+
+.pricing-features {
+    color: #00BC8C;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin: 50px 0 25px;
+}
+
+.pricing-features-item {
+    border-top: 1px solid #9FDFC4;
+    font-size: 12px;
+    line-height: 1.5;
+    padding: 15px 0;
+}
+
+.pricing-features-item:last-child {
+    border-bottom: 1px solid #9FDFC4;
+}
+
+.pricing-price {
+    color: #00BC8C;
+    display: block;
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.pricing-button {
+    border: 1px solid #9FDFC4;
+    border-radius: 10px;
+    color: #00BC8C;
+    display: inline-block;
+    margin: 25px 0;
+    padding: 15px 35px;
+    text-decoration: none;
+    transition: all 150ms ease-in-out;
+}
+
+.pricing-button:hover,
+.pricing-button:focus {
+    background-color: #00BC8C;
+}
+
+.pricing-button.is-featured {
+    background-color: #00BC8C;
+    color: #fff;
+}
+
+.pricing-button.is-featured:hover,
+.pricing-button.is-featured:active {
+    background-color: #00BC8C;
+}
+
+#footer {
+    padding: 0;
+}

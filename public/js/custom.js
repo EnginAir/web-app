@@ -113,11 +113,11 @@ $( "#failed" ).click(function() {
     else{
         $('.failedUpload').css('display', 'none');
     }});
-$( "#wifi" ).click(function() {
-    if($('.heatmap-canvas').css('display') == 'none'){
-        $('.heatmap-canvas').css('display', '');
-    }
-    else{
-        $('.heatmap-canvas').css('display', 'none');
-    }});
+// $( "#wifi" ).click(function() {
+//     if($('.heatmap-canvas').css('display') == 'none'){
+//         $('.heatmap-canvas').css('display', '');
+//     }
+//     else{
+//         $('.heatmap-canvas').css('display', 'none');
+//     }});
 
