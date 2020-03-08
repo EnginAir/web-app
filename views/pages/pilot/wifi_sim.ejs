@@ -30,25 +30,25 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">Lat</span>
                             </div>
-                            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                            <input type="text" class="form-control" aria-label="Latitude">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">Lon</span>
                             </div>
-                            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                            <input type="text" class="form-control" aria-label="Longitude">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text">DB#</span>
+                                <span class="input-group-text">ID</span>
                             </div>
-                            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                            <input type="text" class="form-control" aria-label="Flight ID">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">Airport</span>
                             </div>
-                            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                            <input type="text" class="form-control" aria-label="Airport">
                         </div>
                         <hr class="my-4">
                         <button type="submit" class="btn btn-primary btn-block">Search</button>
@@ -73,6 +73,15 @@
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/bootstrap4-toggle.min.js"></script>
 <script src="/js/map.js"></script>
-
+<script>
+    $.get("/api/wifi".toString(), function (data) {
+        data.forEach(function (wifi) {
+            wifiData.data.push({lat: wifi.latLong.geometry[0], lng: wifi.latLong.geometry[1], radius: wifi.range});
+        })
+        var heatmapLayer = new HeatmapOverlay(cfg);
+        heatmapLayer.setData(wifiData);
+        heatmapLayer.addTo(map);
+    });
+</script>
 </body>
 </html>
