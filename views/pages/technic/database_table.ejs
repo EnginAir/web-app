@@ -147,18 +147,18 @@
      $('.dataTables_length').addClass('bs-select');
 
      var statusTextColor;
-     var UL;
-     var WSS;
-     var WID;
-     var CODE;
+     var UL={};
+     var WSS={};
+     var WID={};
+     var CODE={};
 
      $.getJSON("/fakedata/CEDASUpload.json", function(data){
          $.each(data, function (key,value) {
 
-            UL = value.uploadLocation.latitude.slice(0,6) + "," + value.uploadLocation.longitude.slice(0,7);
-            WSS = value.wapStrength;
-            WID = value.wapID;
-            CODE = value.airportCode;
+            UL[key] = value.uploadLocation.latitude.slice(0,6) + "," + value.uploadLocation.longitude.slice(0,7);
+            WSS[key] = value.wapStrength;
+            WID[key] = value.wapID;
+            CODE[key] = value.airportCode;
          });
      });
 
@@ -187,10 +187,10 @@
             flight_info += '<td>' + value.landingDate + '</td>';
             flight_info += '<td>' + value.takoffPoint.geometry + '</td>';
             flight_info += '<td>' + value.landingDate + '</td>';
-            flight_info += '<td>' + UL + '</td>';
-            flight_info += '<td>' + WSS + '</td>';
-            flight_info += '<td>' + WID + '</td>';
-            flight_info += '<td>' + CODE + '</td>';
+            flight_info += '<td>' + UL[key] + '</td>';
+            flight_info += '<td>' + WSS[key] + '</td>';
+            flight_info += '<td>' + WID[key] + '</td>';
+            flight_info += '<td>' + CODE[key] + '</td>';
             flight_info += '<td>' + value.outcome.fontcolor(statusTextColor) + '</td>';
             flight_info += '</tr>';
 

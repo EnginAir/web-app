@@ -73,8 +73,32 @@
 
         <!-------------DATABASE TABLE------------->
         <div class="container"><br><br></div>
+        <section class="wrapper">
+            <div class="tbl-header">
+                <table cellpadding="0" cellspacing="0" border="0">
+                    <thead>
+                    <tr class="filters">
+                        <th>ID</th>
+                        <th>Upload GPS Location (UL)</th>
+                        <th>WAP Signal Strength (WSS)</th>
+                        <th>WAP ID (WID)</th>
+                        <th>Airport Code</th>
+                        <th>Status</th>
+                        <th>Run Test</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="tbl-content">
+                <table cellpadding="0" cellspacing="0" border="0" id="flight_data" >
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
 
-        <table class="table table-striped table-bordered table-sm w-100" id="table">
+        </section>
+
+        <!-- <table class="table table-striped table-bordered table-sm w-100" id="table">
             <thead>
             <tr class="table-dark">
                 <th>ID</th>
@@ -90,7 +114,7 @@
 
             </tbody>
         </table>
-    </div>
+    </div>-->
     <div id="testModal" class="modal">
         <div class="modal-content">
             <a class="close">&times;</a>
@@ -158,6 +182,56 @@
  $(document).ready(function () {
      $('#table').DataTable({"searching": false, "ordering": false});
      $('.dataTables_length').addClass('bs-select');
+
+     var statusTextColor;
+     var UL={};
+     var WSS={};
+     var WID={};
+     var CODE={};
+
+     $.getJSON("/fakedata/CEDASUpload.json", function(data){
+         $.each(data, function (key,value) {
+             console.log(value);
+             UL[key] = value.uploadLocation.latitude.slice(0,6) + "," + value.uploadLocation.longitude.slice(0,7);
+             WSS[key] = value.wapStrength;
+             WID[key] = value.wapID;
+             CODE[key] = value.airportCode;
+         });
+     });
+
+     $.getJSON("/fakedata/CorrellatedFlight.json", function(data){
+         var flight_info = '';
+         var itemNum;
+         $.each(data, function (key,value) {
+             itemNum = key+1;
+             console.log(UL);
+             if(value.outcome == 'SUCCESS_UPLOAD')
+             {
+                 flight_info += '<tr class="row success">';
+                 statusTextColor = '#52d29a';
+             }
+             else if(value.outcome == 'WARN_IN_PROGRESS')
+             {
+                 flight_info += '<tr class="row pending">';
+                 statusTextColor = '#E2E736';
+             }
+             else
+             {
+                 flight_info += '<tr class="row failure">';
+                 statusTextColor = '#e62f24';
+             }
+             flight_info += '<td>' + itemNum +'</td>';
+             flight_info += '<td>' + UL[key] + '</td>';
+             flight_info += '<td>' + WSS[key] + '</td>';
+             flight_info += '<td>' + WID[key] + '</td>';
+             flight_info += '<td>' + CODE[key] + '</td>';
+             flight_info += '<td>' + value.outcome.fontcolor(statusTextColor) + '</td>';
+             flight_info += '<td>' + "Test" + '</td>';
+             flight_info += '</tr>';
+
+         });
+         $('#flight_data').append(flight_info);
+     });
  });
  </script>
 </body>
