@@ -1,5 +1,4 @@
 const express = require('express');
-const mongoose = require("mongoose");
 const router = express.Router();
 
 
@@ -12,25 +11,24 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/wifi', function (req, res, next) {
-    if (req.query.ssid) {
-
-    } else if (req.query.airportCode) {
-
-    } else {
-        Wifi.paginate({}, {page: req.query.page ? req.query.page : 1, limit: 20}, function (err, doc) {
-            if (err) {
-                throw err;
-            }
-            res.json(doc.docs);
-        });
+    if(req.query === undefined) {
+        req.query = {};
     }
+    let page = req.query.page;
+    req.query.page = undefined;
+    Wifi.paginate(req.query, {page: page ? page : 1, limit: 20}, function (err, doc) {
+        if (err) {
+            throw err;
+        }
+        res.json(doc.docs);
+    });
 });
 
 router.post('/add_wifi', function (req, res, next) {
     console.log(req.body.ssid);
     console.log(req.body.wifiPassword);
 
-    var wifi = new Wifi({
+    let wifi = new Wifi({
         ssid: req.body.ssid,
         password: req.body.wifiPassword,
         airportCode: req.body.airportCode,
@@ -66,8 +64,6 @@ router.delete('/delete_wifi', function (req, res, next) {
 
 router.patch('/update_wifi', function (req, res, next) {
 
-    console.log("The MangoID " + req.query.mongoID);
-
     Wifi.findByIdAndUpdate({_id: req.query.mongoID}, {
         ssid: req.query.ssid,
         password: req.query.password,
@@ -84,19 +80,18 @@ router.patch('/update_wifi', function (req, res, next) {
     });
 });
 
-router.get('/correlatedFlight', function (req, res, next) {
-    if (req.query.tailNumber) {
-
-    } else if (req.query.outcome) {
-
-    } else {
-        CorrelatedFlight.paginate({}, {page: req.query.page ? req.query.page : 1, limit: 20}, function (err, doc) {
-            if (err) {
-                throw err;
-            }
-            res.json(doc.docs);
-        });
+router.get('/correlated_flight', function (req, res, next) {
+    if(req.query === undefined) {
+        req.query = {};
     }
+    let page = req.query.page;
+    req.query.page = undefined;
+    CorrelatedFlight.paginate(req.query, {page: page ? page : 1, limit: 20}, function (err, doc) {
+        if (err) {
+            throw err;
+        }
+        res.json(doc.docs);
+    });
 });
 
 module.exports = router;
