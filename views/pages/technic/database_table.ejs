@@ -161,20 +161,26 @@
      $('#table').DataTable({"searching": false, "ordering": false});
      $('.dataTables_length').addClass('bs-select');
 
+     var statusTextColor;
+
      $.getJSON("/fakedata/CorrellatedFlight.json", function(data){
          var flight_info = '';
          $.each(data, function (key,value) {
+
             if(value.outcome == 'SUCCESS_UPLOAD')
             {
                 flight_info += '<tr class="row success">';
+                statusTextColor = '#52d29a';
             }
             else if(value.outcome == 'WARN_IN_PROGRESS')
             {
                 flight_info += '<tr class="row pending">';
+                statusTextColor = '#E2E736';
             }
             else
             {
                 flight_info += '<tr class="row failure">';
+                statusTextColor = '#e62f24';
             }
             flight_info += '<td>' + value.tailNumber +'</td>';
             flight_info += '<td>' + value.landingPoint.geometry +'</td>';
@@ -185,7 +191,7 @@
             flight_info += '<td>' + "filler" + '</td>';
             flight_info += '<td>' + "filler" + '</td>';
             flight_info += '<td>' + "filler" + '</td>';
-            flight_info += '<td>' + value.outcome + '</td>';
+            flight_info += '<td>' + value.outcome.fontcolor(statusTextColor) + '</td>';
             flight_info += '</tr>';
 
          });
