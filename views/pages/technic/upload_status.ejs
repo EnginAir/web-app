@@ -204,7 +204,7 @@
         data.forEach(function (flight) {
             //console.log(flight._id);
             if (flight.outcome.includes('SUCCESS')) {
-                var marker = new L.circleMarker(flight.landingPoint.geometry, {
+                var marker = new L.circleMarker([flight.landingPoint.geometry[1], flight.landingPoint.geometry[0]], {
                     radius: 6.0,
                     fillColor: '#4CBB17',
                     color: '#000',
@@ -252,7 +252,7 @@
     // gets wifi stuff
     $.get("/api/wifi".toString(), function (data) {
         data.forEach(function (wifi) {
-            wifiData.data.push({lat: wifi.latLong.geometry[0], lng: wifi.latLong.geometry[1], radius: wifi.range});
+            wifiData.data.push({lat: wifi.latLong.geometry[1], lng: wifi.latLong.geometry[0], radius: wifi.range});
         })
         var heatmapLayer = new HeatmapOverlay(cfg);
         heatmapLayer.setData(wifiData);
@@ -267,7 +267,7 @@
                 //console.log(flight._id);
                 if (flight.outcome.includes('SUCCESS')) {
                     console.log("Flight successful: " + flight._id);
-                    marker = new L.circleMarker(flight.landingPoint.geometry, {
+                    marker = new L.circleMarker([flight.landingPoint.geometry[1], flight.landingPoint.geometry[0]], {
                         radius: 6.0,
                         fillColor: '#4CBB17',
                         color: '#000',
