@@ -63,9 +63,9 @@
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text">Airport</span>
+                                <span class="input-group-text">Tail Number</span>
                             </div>
-                            <input id="searchAirport" type="text" class="form-control">
+                            <input id="tailNumber" type="text" class="form-control">
                         </div>
                         <hr class="my-4">
                         <!--TODO: FIX: if searched all points then want to see the searched data point, have to clear first-->
@@ -200,54 +200,54 @@
 
 
     // api call for getting flights from DB ready to be implamented
-    $.get("/api/correlated_flight?limit=40000".toString(), function (data) {
-        data.forEach(function (flight) {
-            //console.log(flight._id);
-            if (flight.outcome.includes('SUCCESS')) {
-                var marker = new L.circleMarker([flight.landingPoint.geometry[1], flight.landingPoint.geometry[0]], {
-                    radius: 6.0,
-                    fillColor: '#4CBB17',
-                    color: '#000',
-                    weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'successUpload'
-                })
-                    .bindPopup("<b>Tail Number: </b>" + flight.tailNumber +
-                        "<br /><b>X: </b>" + flight.landingPoint.geometry[1] +
-                        "<br /><b>Y: </b>" + flight.landingPoint.geometry[0] +
-                        "<br /><b>Status: </b> Success")
-                    .addTo(map);
-                console.log("Flight successful: " + flight._id);
-
-            } else if (flight.outcome.includes('WARN')) {
-                console.log("Flight pending: " + flight._id);
-                var marker = new L.circleMarker([flight.flightPath[flight.flightPath.length-1].geometry[1],flight.flightPath[flight.flightPath.length-1].geometry[0]], {
-                    radius: 6.0,
-                    fillColor: 'yellow',
-                    color: '#000',
-                    weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'pendingUpload'
-                })
-                    .bindPopup("<b>Tail Number: </b>" + flight.tailNumber +
-                        "<br /><b>X: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[1] +
-                        "<br /><b>Y: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[0] +
-                        "<br /><b>Status: </b> Pending")
-                    .addTo(map);
-            } else if (flight.outcome.includes('FAIL')) {
-                //console.log("Flight failed: " + flight._id);
-                var marker = new L.circleMarker([flight.flightPath[flight.flightPath.length-1].geometry[1],flight.flightPath[flight.flightPath.length-1].geometry[0]], {
-                    radius: 6.0,
-                    fillColor: 'red',
-                    color: '#000',
-                    weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'failedUpload'
-                })
-                    .bindPopup("<b>Tail Number: </b>" + flight.tailNumber +
-                        "<br /><b>X: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[1] +
-                        "<br /><b>Y: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[0] +
-                        "<br /><b>Status: </b> Failure")
-                    .addTo(map);
-            } else {
-                console.log('Something went horribly wrong, check mongo DB in correlatedFlights for ID: ' + flight._id)
-            }
-        });
-    });
+    // $.get("/api/correlated_flight?limit=40000".toString(), function (data) {
+    //     data.forEach(function (flight) {
+    //         //console.log(flight._id);
+    //         if (flight.outcome.includes('SUCCESS')) {
+    //             var marker = new L.circleMarker([flight.landingPoint.geometry[1], flight.landingPoint.geometry[0]], {
+    //                 radius: 6.0,
+    //                 fillColor: '#4CBB17',
+    //                 color: '#000',
+    //                 weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'successUpload'
+    //             })
+    //                 .bindPopup("<b>Tail Number: </b>" + flight.tailNumber +
+    //                     "<br /><b>X: </b>" + flight.landingPoint.geometry[1] +
+    //                     "<br /><b>Y: </b>" + flight.landingPoint.geometry[0] +
+    //                     "<br /><b>Status: </b> Success")
+    //                 .addTo(map);
+    //             console.log("Flight successful: " + flight._id);
+    //
+    //         } else if (flight.outcome.includes('WARN')) {
+    //             console.log("Flight pending: " + flight._id);
+    //             var marker = new L.circleMarker([flight.flightPath[flight.flightPath.length-1].geometry[1],flight.flightPath[flight.flightPath.length-1].geometry[0]], {
+    //                 radius: 6.0,
+    //                 fillColor: 'yellow',
+    //                 color: '#000',
+    //                 weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'pendingUpload'
+    //             })
+    //                 .bindPopup("<b>Tail Number: </b>" + flight.tailNumber +
+    //                     "<br /><b>X: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[1] +
+    //                     "<br /><b>Y: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[0] +
+    //                     "<br /><b>Status: </b> Pending")
+    //                 .addTo(map);
+    //         } else if (flight.outcome.includes('FAIL')) {
+    //             //console.log("Flight failed: " + flight._id);
+    //             var marker = new L.circleMarker([flight.flightPath[flight.flightPath.length-1].geometry[1],flight.flightPath[flight.flightPath.length-1].geometry[0]], {
+    //                 radius: 6.0,
+    //                 fillColor: 'red',
+    //                 color: '#000',
+    //                 weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'failedUpload'
+    //             })
+    //                 .bindPopup("<b>Tail Number: </b>" + flight.tailNumber +
+    //                     "<br /><b>X: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[1] +
+    //                     "<br /><b>Y: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[0] +
+    //                     "<br /><b>Status: </b> Failure")
+    //                 .addTo(map);
+    //         } else {
+    //             console.log('Something went horribly wrong, check mongo DB in correlatedFlights for ID: ' + flight._id)
+    //         }
+    //     });
+    // });
 
     // gets wifi stuff
     $.get("/api/wifi".toString(), function (data) {
@@ -261,8 +261,9 @@
 
 
 
-    $("search").click(function(){
-        $.get("/api/correlated_flight?tailNumber" + "" + "&_id=" + "".toString(), function (data) {
+    $("#search").click(function(){
+        console.log("test");
+        $.get("/api/correlated_flight?tailNumber=" + $("#tailNumber").val() + "&_id=" + $("#searchDB").val() + "&landingPoint.geometry=" + $("#searchLon").val() + "&landingPoint.geometry=" + $("#searchLat").val().toString(), function (data) {
             data.forEach(function (flight) {
                 //console.log(flight._id);
                 if (flight.outcome.includes('SUCCESS')) {
