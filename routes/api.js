@@ -9,7 +9,7 @@ function filterEmpty(args) {
     for(let arg in args) {
         if(args.hasOwnProperty(arg)) {
             if (args[arg] === "") {
-                args[arg] = undefined;
+                delete args[arg];
             }
         }
     }
@@ -97,8 +97,8 @@ router.get('/correlated_flight', function (req, res, next) {
     }
     let page = req.query.page;
     let limit = parseInt(req.query.limit);
-    req.query.page = undefined;
-    req.query.limit = undefined;
+    delete req.query.page;
+    delete req.query.limit;
     CorrelatedFlight.paginate(filterEmpty(req.query), {page: page ? page : 1, limit: limit ? limit : 20}, function (err, doc) {
         if (err) {
             throw err;
