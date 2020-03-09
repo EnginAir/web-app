@@ -1,4 +1,4 @@
-<!-- views/pages/index.ejs -->
+<!-- views/pages/pilot/wifi_config.ejs -->
 <% const pageType = "wifi_config"; %>
 <!DOCTYPE html>
 <html lang="en">
@@ -10,142 +10,72 @@
 <header>
     <% include ../../partials/pilot_header %>
 </header>
-
 <main>
-    <br>
-    <ul class="nav nav-tabs nav-justified">
-        <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#add">Add New Wifi Configuration</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#viewEdit">View / Edit Wifi Configuration</a>
-        </li>
-    </ul>
-    <div id="myTabContent" class="tab-content">
-        <div class="tab-pane fade active show" id="add" name="add">
-            <div class="container"><br><br><br></div>
-            <div class="container">
-                <h1 class="display-5">Wifi Information</h1>
-                <form action="/api/add_wifi" method="POST">
-                    <fieldset>
-                        <div class="form-group">
-                            <label for="ssid">SSID</label>
-                            <input type="text" class="form-control" id="ssid" name="ssid" placeholder="attwifi">
+    <div class="row h-100 justify-content-center align-items-center m-0">
+        <div class="col-2">
+            <div class="card border-secondary mb-3">
+                <h4 class="card-header">WIFI CONFIGURATION</h4>
+                <div class="card-body">
+                    <h5 class="card-title">Filter by WiFi Strength</h5>
+                    <form class="form-group">
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="checkbox" checked="" value="">
+                                Strong
+                            </label>
                         </div>
-                        <div class="form-group">
-                            <label for="wifiPassword">Password</label>
-                            <input type="password" class="form-control" id="wifiPassword" name="wifiPassword"
-                                   placeholder="Password">
-                            <div class="form-check">
-                                <label class="form-check-label">
-                                    <input class="form-check-input" type="checkbox" value=""
-                                           onclick="showPassword()">
-                                    Show Password
-                                </label>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="checkbox" checked="" value="">
+                                Medium
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="checkbox" checked="" value="">
+                                Weak
+                            </label>
+                        </div>
+                        <hr class="my-4">
+                        <h5 class="card-title">Search By</h5>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Lat</span>
                             </div>
+                            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
                         </div>
-
-                        <div class="form-group">
-                            <label for="ssid">Airport Code</label>
-                            <input type="text" class="form-control" id="airportCode" name="airportCode"
-                                   placeholder="PHX">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Lon</span>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
                         </div>
-
-                        <div class="form-group">
-                            <label for="latitude">Latitude</label>
-                            <input type="text" class="form-control" id="latitude" name="latitude"
-                                   placeholder="37.234332396">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">DB#</span>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
                         </div>
-
-                        <div class="form-group">
-                            <label for="logitude">Logitude</label>
-                            <input type="text" class="form-control" id="longitude" name="longitude"
-                                   placeholder="-115.80666344">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Airport</span>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block">Add</button>
-                    </fieldset>
-                </form>
+                        <hr class="my-4">
+                        <button type="button" class="btn btn-primary btn-block">Search</button>
+                    </form>
+                </div>
             </div>
         </div>
-
-        <div class="tab-pane fade" id="viewEdit" name="viewEdit">
-            <div class="container"><br><br><br></div>
-            <div class="container">
-                <input class="form-control mr-sm-1" type="text" placeholder="Search">
-                <form class="form-inline my-2 my-lg-0">
-                    <div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
-                        <label class="btn btn-primary active">
-                            <input type="radio" name="options" id="ssidSearch" autocomplete="off" checked=""> SSID
-                        </label>
-                        <label class="btn btn-primary rounded-bottom">
-                            <input type="radio" name="options" id="airportCodeSearch" autocomplete="off"> Airport Code
-                        </label>
-                    </div>
-                </form>
-            </div>
-            <div class="container"><br><br><br></div>
-            <div class="container">
-                <table class="table table-hover">
-                    <thead>
-                    <tr class="table-dark">
-                        <td>SSID</td>
-                        <td>Password</td>
-                        <td>Airport Code</td>
-                        <td>Latitude</td>
-                        <td>Logitude</td>
-                        <td>Action</td>
-                    </tr>
-                    </thead>
-                    <tbody id="wifiTable">
-
-                    </tbody>
-                </table>
-            </div>
+        <div class="col px-0">
+            <div id="map"></div>
         </div>
-    </div>
     </div>
 </main>
-
 <footer>
     <% include ../../partials/footer %>
 </footer>
-
-<script>
-
-
-
-    $(document).ready(function () {
-        var url = document.location.toString();
-        if (url.match('#')) {
-            $('.nav-tabs a[href="#' + url.split('#')[1] + '"]').tab('show');
-        }
-
-        // Change hash for page-reload
-        $('.nav-tabs a').on('shown.bs.tab', function (e) {
-            window.location.hash = e.target.hash;
-        })
-    });
-
-
-    $.get("/api/wifi".toString(), function (data) {
-        data.forEach(function (wifi) {
-            document.getElementById("wifiTable").innerHTML += "<tr>" +
-                "<td class=\"align-middle mongoID\" data-mongoid=\"" + wifi._id + "\">" + wifi.ssid + "</td>" +
-                "<td class=\"align-middle\">" + wifi.password + "</td>" +
-                "<td class=\"align-middle\">" + wifi.airportCode + "</td>" +
-                "<td class=\"align-middle\">" + wifi.latLong.geometry[0] + "</td>" +
-                "<td class=\"align-middle\">" + wifi.latLong.geometry[1] + "</td>" +
-                "<td class=\"align-middle\">" +
-                "<a class=\"add\" title=\"Add\" data-toggle=\"tooltip\"><i class=\"material-icons\">&#xE03B;</i></a>" +
-                "<a class=\"edit\" title=\"Edit\" data-toggle=\"tooltip\"><i class=\"material-icons green_icon\">&#xE254;</i></a>" +
-                "<a class=\"delete\" title=\"Delete\" data-toggle=\"tooltip\"><i class=\"material-icons red_icon\">&#xE872;</i></a>" +
-                "</td>" +
-                "</tr>"
-        });
-    });
-
-</script>
-
 
 <!---------------------------------------->
 <!-------------LOAD JS FILES-------------->
@@ -155,7 +85,71 @@
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/bootstrap4-toggle.min.js"></script>
 <script src="/js/map.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/heatmapjs@2.0.2/heatmap.min.js"></script>
+<script src="/js/leaflet-heatmap.js"></script>
 <script src="/js/custom.js"></script>
+<script>
 
+    // api call for getting flights from DB ready to be implamented
+    $.get("/api/correlatedFlight".toString(), function (data) {
+        data.forEach(function (flight) {
+            //console.log(flight._id);
+            if (flight.outcome.includes('SUCCESS')) {
+                console.log("Flight successful: " + flight._id);
+                marker = new L.circleMarker(flight.landingPoint.geometry, {
+                    radius: 6.0,
+                    fillColor: '#4CBB17',
+                    color: '#000',
+                    weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'successUpload'
+                })
+                    .bindPopup("<b>Tail Number: </b>" + flight.tailNumber +
+                        "<br /><b>X: </b>" + flight.landingPoint.geometry[1] +
+                        "<br /><b>Y: </b>" + flight.landingPoint.geometry[0] +
+                        "<br /><b>Status: </b> Success")
+                    .addTo(map);
+            } else if (flight.outcome.includes('WARN')) {
+                console.log("Flight pending: " + flight._id);
+                marker = new L.circleMarker([flight.flightPath[flight.flightPath.length-1].geometry[1],flight.flightPath[flight.flightPath.length-1].geometry[0]], {
+                    radius: 6.0,
+                    fillColor: 'yellow',
+                    color: '#000',
+                    weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'pendingUpload'
+                })
+                    .bindPopup("<b>Tail Number: </b>" + flight.tailNumber +
+                        "<br /><b>X: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[1] +
+                        "<br /><b>Y: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[0] +
+                        "<br /><b>Status: </b> Pending")
+                    .addTo(map);
+            } else if (flight.outcome.includes('FAIL')) {
+                //console.log("Flight failed: " + flight._id);
+                marker = new L.circleMarker([flight.flightPath[flight.flightPath.length-1].geometry[1],flight.flightPath[flight.flightPath.length-1].geometry[0]], {
+                    radius: 6.0,
+                    fillColor: 'red',
+                    color: '#000',
+                    weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'failedUpload'
+                })
+                    .bindPopup("<b>Tail Number: </b>" + flight.tailNumber +
+                        "<br /><b>X: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[1] +
+                        "<br /><b>Y: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[0] +
+                        "<br /><b>Status: </b> Failure")
+                    .addTo(map);
+            } else {
+                console.log('Something went horribly wrong, check mongo DB in correlatedFlights for ID: ' + flight._id)
+            }
+        });
+    });
+
+    // gets wifi stuff
+    $.get("/api/wifi".toString(), function (data) {
+        data.forEach(function (wifi) {
+            wifiData.data.push({lat: wifi.latLong.geometry[0], lng: wifi.latLong.geometry[1], radius: wifi.range});
+        })
+        var heatmapLayer = new HeatmapOverlay(cfg);
+        heatmapLayer.setData(wifiData);
+        heatmapLayer.addTo(map);
+    });
+
+
+</script>
 </body>
 </html>
