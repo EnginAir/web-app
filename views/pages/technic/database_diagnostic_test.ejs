@@ -156,30 +156,6 @@
 <script src="/js/datatables.min.js"></script>
 
 <script>
-    var modalBtns = [...document.querySelectorAll(".button")];
-    modalBtns.forEach(function(btn){
-        btn.onclick = function() {
-            var modal = btn.getAttribute('data-modal');
-            document.getElementById(modal).style.display = "block";
-        }
-    });
-
-    var closeBtns = [...document.querySelectorAll(".close")];
-    closeBtns.forEach(function(btn){
-        btn.onclick = function() {
-            var modal = btn.closest('.modal');
-            modal.style.display = "none";
-        }
-    });
-
-    window.onclick = function(event) {
-        if (event.target.className === "modal") {
-            event.target.style.display = "none";
-        }
-    }
-
-</script>
-<script>
  $(document).ready(function () {
      $('#table').DataTable({"searching": false, "ordering": false});
      $('.dataTables_length').addClass('bs-select');
@@ -206,7 +182,7 @@
          $.each(data, function (key,value) {
              itemNum = key+1;
              console.log(UL);
-             if(value.outcome == 'SUCCESS_UPLOAD')
+             /*if(value.outcome == 'SUCCESS_UPLOAD')
              {
                  flight_info += '<tr class="row success">';
                  statusTextColor = '#52d29a';
@@ -215,25 +191,50 @@
              {
                  flight_info += '<tr class="row pending">';
                  statusTextColor = '#E2E736';
-             }
-             else
-             {
+             }*/
+             if (value.outcome.includes("FAIL")) {
                  flight_info += '<tr class="row failure">';
                  statusTextColor = '#e62f24';
+
+                 flight_info += '<td>' + itemNum + '</td>';
+                 flight_info += '<td>' + UL[key] + '</td>';
+                 flight_info += '<td>' + WSS[key] + '</td>';
+                 flight_info += '<td>' + WID[key] + '</td>';
+                 flight_info += '<td>' + CODE[key] + '</td>';
+                 flight_info += '<td>' + value.outcome.fontcolor(statusTextColor) + '</td>';
+                 flight_info += '<td><button class="button" id="modalBtn">' + "Test" + '</button></td>';
+                 flight_info += '</tr>';
              }
-             flight_info += '<td>' + itemNum +'</td>';
-             flight_info += '<td>' + UL[key] + '</td>';
-             flight_info += '<td>' + WSS[key] + '</td>';
-             flight_info += '<td>' + WID[key] + '</td>';
-             flight_info += '<td>' + CODE[key] + '</td>';
-             flight_info += '<td>' + value.outcome.fontcolor(statusTextColor) + '</td>';
-             flight_info += '<td>' + "Test" + '</td>';
-             flight_info += '</tr>';
 
          });
          $('#flight_data').append(flight_info);
      });
  });
- </script>
+
+
+
+ var modalBtns = [...document.querySelectorAll(".button")];
+ modalBtns.forEach(function(btn){
+     btn.onclick = function() {
+         var modal = btn.getAttribute('data-modal');
+         document.getElementById(modal).style.display = "block";
+     }
+ });
+
+ var closeBtns = [...document.querySelectorAll(".close")];
+ closeBtns.forEach(function(btn){
+     btn.onclick = function() {
+         var modal = btn.closest('.modal');
+         modal.style.display = "none";
+     }
+ });
+
+ window.onclick = function(event) {
+     if (event.target.className === "modal") {
+         event.target.style.display = "none";
+     }
+ }
+
+</script>
 </body>
 </html>
