@@ -138,7 +138,7 @@ var cfg = {
 
 
 $(window).on("resize", function () {
-    $("#map").height($(window).height() - 153);
+    $("#map").height($(window).height() - 138);
     map.invalidateSize();
 }).trigger("resize");
 
