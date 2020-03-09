@@ -52,16 +52,6 @@
                                 <input type="text" id="CODE" class="form-control"  placeholder="CODE">
                             </div>
                         </div>
-                        <div class="col-md-1 pl-1">
-                            <div class="form-group">
-                                <label>CODE</label>
-                                <select name="CodeID" class="form-control">
-                                    <option>SUCCESS</option>
-                                    <option>PENDING</option>
-                                    <option>FAILED</option>
-                                </select>
-                            </div>
-                        </div>
                     </div>
                 </form>
                 <div class="text-center">
@@ -206,8 +196,14 @@
                  flight_info += '</tr>';
              }
 
+             if(value.outcome != 'SUCCESS_UPLOAD' && value.outcome != 'WARN_IN_PROGRESS') {
+
+                 $('#flight_data').append(flight_info);
+                 flight_info = '';
+             }
+             flight_info = '';
          });
-         $('#flight_data').append(flight_info);
+
      });
  });
 

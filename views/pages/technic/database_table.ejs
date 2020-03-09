@@ -4,7 +4,6 @@
 <html lang="en">
 <head>
     <% include ../../partials/head %>
-    <link rel="stylesheet" href="/stylesheets/tableStyle.css">
     <link rel="stylesheet" href="/stylesheets/databasePages.css">
 </head>
 <body>
@@ -48,38 +47,8 @@
                     </div>
                     <div class="col-md-1 pl-1">
                         <div class="form-group">
-                            <label>ST/D</label>
-                            <input type="text" id="ST/D" class="form-control"  placeholder="ST/D">
-                        </div>
-                    </div>
-                    <div class="col-md-1 pl-1">
-                        <div class="form-group">
-                            <label>UL</label>
-                            <input type="text" id="UL" class="form-control"  placeholder="UL">
-                        </div>
-                    </div>
-                    <div class="col-md-1 pl-1">
-                        <div class="form-group">
-                            <label>WSS</label>
-                            <input type="text" id="WSS" class="form-control"  placeholder="Strength">
-                        </div>
-                    </div>
-                    <div class="col-md-1 pl-1">
-                        <div class="form-group">
-                            <label>WID</label>
-                            <input type="text" id="WID" class="form-control"  placeholder="WID">
-                        </div>
-                    </div>
-                    <div class="col-md-1 pl-1">
-                        <div class="form-group">
                             <label>CODE</label>
-                            <input type="text" id="CODE" class="form-control"  placeholder="CODE">
-                        </div>
-                    </div>
-                    <div class="col-md-1 pl-1">
-                        <div class="form-group">
-                            <label>CODE</label>
-                            <select name="CodeID" class="form-control">
+                            <select name="CodeID" class="form-control" id="Code">
                                     <option>SUCCESS</option>
                                     <option>PENDING</option>
                                     <option>FAILED</option>
@@ -89,7 +58,7 @@
                 </div>
                 </form>
                 <div class="text-center">
-                <a class="btn btn-success btn-lg " href="#"><i class="fa fa-filter "></i> Filter</a>
+                <a class="btn btn-success btn-lg "  href="#"id="search"><i class="fa fa-filter "></i> Filter</a>
                 <a class="btn btn-secondary btn-lg " onclick="clear()" href="#"><i class="fa fa-eraser "></i> Clear Filter</a>
                 </div>
             </div>
@@ -100,18 +69,13 @@
 
             <section class="wrapper">
                 <div class="tbl-header">
-                    <table cellpadding="0" cellspacing="0" border="0">
+                    <table cellpadding="0" cellspacing="0" border="0" >
                         <thead>
                             <tr class="filters">
                                 <th>ID</th>
                                 <th>RDL</th>
                                 <th>RDT/D</th>
                                 <th>STL</th>
-                                <th>ST/D</th>
-                                <th>UL</th>
-                                <th>WSS</th>
-                                <th>WID</th>
-                                <th>CODE</th>
                                 <th>STAT</th>
                             </tr>
                         </thead>
@@ -139,66 +103,75 @@
 <script src="/js/jquery.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/bootstrap4-toggle.min.js"></script>
-<script src="/js/datatables.min.js"></script>
-<script src="/js/colorHandling.js"></script>
 <script>
  $(document).ready(function () {
-     $('#table').DataTable({"searching": false, "ordering": false});
-     $('.dataTables_length').addClass('bs-select');
-
      var statusTextColor;
-     var UL={};
-     var WSS={};
-     var WID={};
-     var CODE={};
+     var flight_info = '';
+     $.get("/api/correlated_flight?", function (data) {
+         data.forEach(function (flight) {
+             if(flight.outcome == 'SUCCESS_UPLOAD')
+             {
+                 flight_info += '<tr class="row success">';
+                 statusTextColor = '#52d29a';
+             }
+             else if(flight.outcome == 'WARN_IN_PROGRESS')
+             {
+                 flight_info += '<tr class="row pending">';
+                 statusTextColor = '#E2E736';
+             }
+             else
+             {
+                 flight_info += '<tr class="row failure">';
+                 statusTextColor = '#e62f24';
+             }
 
-     $.getJSON("/fakedata/CEDASUpload.json", function(data){
-         $.each(data, function (key,value) {
+             flight_info += '<td>' + flight._id.slice(-4) +'</td>';
 
-            UL[key] = value.uploadLocation.latitude.slice(0,6) + "," + value.uploadLocation.longitude.slice(0,7);
-            WSS[key] = value.wapStrength;
-            WID[key] = value.wapID;
-            CODE[key] = value.airportCode;
+             if (flight.landingPoint)
+             {
+                 var lat = flight.landingPoint.geometry[1];
+                 var lon = flight.landingPoint.geometry[0];
+                 flight_info += '<td>' + lat.toFixed(3) +','+ lon.toFixed(3) +'</td>';
+
+                 var landingDate = flight.landingDate.slice(5,7) + '/'+ flight.landingDate.slice(8,10) + '/' + flight.landingDate.slice(0,4);
+                 flight_info += '<td>' + landingDate + '</td>';
+             }
+             else
+             {
+                 flight_info += '<td> in progress </td>';
+                 flight_info += '<td> in progress </td>';
+             }
+
+             if (flight.takeoffPoint)
+             {
+                 var lat = flight.takeoffPoint.geometry[1];
+                 var lon = flight.takeoffPoint.geometry[0];
+                 flight_info += '<td>' + lat.toFixed(3) +','+ lon.toFixed(3) +'</td>';
+             }
+             else
+             {
+                 flight_info += '<td> in progress </td>';
+
+             }
+
+             flight_info += '<td>' + flight.outcome.fontcolor(statusTextColor) + '</td>';
+             flight_info += '</tr>';
+             $('#flight_data').append(flight_info);
+             flight_info = '';
          });
      });
 
-     $.getJSON("/fakedata/CorrellatedFlight.json", function(data){
-         var flight_info = '';
-         var itemNum;
-         $.each(data, function (key,value) {
-            itemNum = key+1;
-            if(value.outcome == 'SUCCESS_UPLOAD')
-            {
-                flight_info += '<tr class="row success">';
-                statusTextColor = '#52d29a';
-            }
-            else if(value.outcome == 'WARN_IN_PROGRESS')
-            {
-                flight_info += '<tr class="row pending">';
-                statusTextColor = '#E2E736';
-            }
-            else
-            {
-                flight_info += '<tr class="row failure">';
-                statusTextColor = '#e62f24';
-            }
-            flight_info += '<td>' + itemNum +'</td>';
-            flight_info += '<td>' + value.landingPoint.geometry +'</td>';
-            flight_info += '<td>' + value.landingDate + '</td>';
-            flight_info += '<td>' + value.takoffPoint.geometry + '</td>';
-            flight_info += '<td>' + value.landingDate + '</td>';
-            flight_info += '<td>' + UL[key] + '</td>';
-            flight_info += '<td>' + WSS[key] + '</td>';
-            flight_info += '<td>' + WID[key] + '</td>';
-            flight_info += '<td>' + CODE[key] + '</td>';
-            flight_info += '<td>' + value.outcome.fontcolor(statusTextColor) + '</td>';
-            flight_info += '</tr>';
 
+ });
+
+ $("#search").click(function(){
+     $.get("/api/correlated_flight?_id=" + $("#ID").val() + "&outcome=" + $("#Code").val().toLowerCase() , function (data) {
+         data.forEach(function (flight)
+         {
+             console.log(flight._id);
          });
-         $('#flight_data').append(flight_info);
      });
-  });
- </script>
-
+ });
+</script>
 </body>
 </html>

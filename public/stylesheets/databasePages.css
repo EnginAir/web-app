@@ -136,10 +136,6 @@ td{
     border-left: 30px solid #BE2A21;
 }
 
-/*currently not in use*/
-.success a:hover {color: #279766;}
-.pending a:hover {/*color: rgba(201, 198, 60, 0.7);*/color: #CDD235;}
-.failure a:hover {color: #c33d17;}
 
 
 
