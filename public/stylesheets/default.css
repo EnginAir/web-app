@@ -28,14 +28,14 @@ a.edit, a.edit:hover {
 a.delete, a.delete:hover {
     color: #E34724;
 }
-
+/*
 a {
     cursor: pointer;
     display: inline-block;
     margin: 0 5px;
     min-width: 24px;
 }
-
+*/
 table.table {
     table-layout: fixed;
 }
@@ -54,8 +54,7 @@ table.table {
 .info {
     padding: 6px 8px;
     font: 14px/16px Arial, Helvetica, sans-serif;
-    background: #444;
-    background: rgba(68, 68, 68);
+    background: rgba(68, 68, 68, 255);
     border-radius: 5px;
     color: white;
 
