@@ -5,6 +5,17 @@ const router = express.Router();
 const Wifi = require('../lib/models/wifi');
 const CorrelatedFlight = require('../lib/models/correlatedFlight');
 
+function filterEmpty(args) {
+    for(let arg in args) {
+        if(args.hasOwnProperty(arg)) {
+            if (args[arg] === "") {
+                args[arg] = undefined;
+            }
+        }
+    }
+    return args;
+}
+
 /* GET home page. */
 router.get('/', function (req, res, next) {
     res.json({version: "v1"});
@@ -16,7 +27,7 @@ router.get('/wifi', function (req, res, next) {
     }
     let page = req.query.page;
     req.query.page = undefined;
-    Wifi.paginate(req.query, {page: page ? page : 1, limit: 20}, function (err, doc) {
+    Wifi.paginate(filterEmpty(req.query), {page: page ? page : 1, limit: 20}, function (err, doc) {
         if (err) {
             throw err;
         }
@@ -88,7 +99,7 @@ router.get('/correlated_flight', function (req, res, next) {
     let limit = parseInt(req.query.limit);
     req.query.page = undefined;
     req.query.limit = undefined;
-    CorrelatedFlight.paginate(req.query, {page: page ? page : 1, limit: limit ? limit : 20}, function (err, doc) {
+    CorrelatedFlight.paginate(filterEmpty(req.query), {page: page ? page : 1, limit: limit ? limit : 20}, function (err, doc) {
         if (err) {
             throw err;
         }
