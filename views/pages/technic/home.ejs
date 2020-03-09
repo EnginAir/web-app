@@ -3,51 +3,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <% include ../../partials/head %>
+    <% include ../../partials/head %>
 </head>
 <body>
 
 <header>
-  <% include ../../partials/technic_header %>
+    <% include ../../partials/technic_header %>
 </header>
 <main>
-        <div class="row h-100 justify-content-center align-items-center m-0">
-                <div class="col-2">
-                        <div class="card border-secondary mb-3">
-                                <h4 class="card-header">FLIGHTS IN PROGRESS</h4>
-                                <div class="card-body">
-                                        <div class="card-body">
-                                                <h5 class="card-title">Filter by Upload Status</h5>
-                                                <form class="form-group">
-                                                        <h5 class="card-title">Search By</h5>
-                                                        <div class="input-group mb-3">
-                                                                <div class="input-group-prepend">
-                                                                        <span class="input-group-text">Lat</span>
-                                                                </div>
-                                                                <input id="searchLat" type="text" class="form-control">
-                                                        </div>
-                                                        <div class="input-group mb-3">
-                                                                <div class="input-group-prepend">
-                                                                        <span class="input-group-text">Lon</span>
-                                                                </div>
-                                                                <input id="searchLon" type="text" class="form-control">
-                                                        </div>
-                                                        <hr class="my-4">
-                                                        <button type="button" class="btn btn-light btn-block" onclick="searchMarkers()">Search</button>
-                                                        <button type="reset" class="btn btn-primary btn-block" onclick="allMarkers()">See All</button>
-                                                        <button type="submit" class="btn btn-outline-primary btn-block">Clear</button>
-                                                </form>
-                                        </div>
+    <div class="row h-100 justify-content-center align-items-center m-0">
+        <div class="col-2">
+            <div class="card border-secondary mb-3">
+                <h4 class="card-header">FLIGHTS IN PROGRESS</h4>
+                <div class="card-body">
+                    <div class="card-body">
+                        <form class="form-group">
+                            <h5 class="card-title">Search By</h5>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Tail#</span>
                                 </div>
-                        </div>
+                                <input id="tailNumber" type="text" class="form-control">
+                            </div>
+                            <hr class="my-4">
+                            <button type="button" class="btn btn-light btn-block" onclick="searchMarkers()">Search</button>
+                            <button type="reset" class="btn btn-primary btn-block" onclick="allMarkers()">See All</button>
+                        </form>
+                    </div>
                 </div>
-                <div class="col px-0">
-                        <div id="map"></div>
-                </div>
+            </div>
         </div>
+        <div class="col px-0">
+            <div id="map"></div>
+        </div>
+    </div>
 </main>
 <footer>
-  <% include ../../partials/footer %>
+    <% include ../../partials/footer %>
 </footer>
 
 <!---------------------------------------->
@@ -60,68 +52,38 @@
 <script src="/js/map.js"></script>
 
 <script>
-
-        var myLayerGroup=L.layerGroup().addTo(map);
-
-
-        function searchMarkers() {
-                map.removeLayer(myLayerGroup);
-
-                var searchLat = document.getElementById("searchLat");
-                var searchLon = document.getElementById("searchLon");
-
-                var TAIL_NUMBER = {};
-                var LANDING = {};
-                $(document).ready(function () {
-                        var statusTextColor;
-                        $.getJSON("/fakedata/CorrellatedFlight.json", function (data) {
-
-                                $.each(data, function (key, value) {
-                                        TAIL_NUMBER[key] = value.tailNumber;
-                                        LANDING[key] = value.landingPoint.geometry;
-
-                                        if (searchLat.value !== "") {
-                                                if (value.landingPoint.geometry[0].toString().includes(searchLat.value)) {
-                                                        addFlights(value.tailNumber, value.landingPoint.geometry);
-                                                }
-                                        }
-                                        if (searchLon.value !== "") {
-                                                if (value.landingPoint.geometry[1].toString().includes(searchLon.value)) {
-                                                        addFlights(value.tailNumber, value.landingPoint.geometry);
-                                                }
-                                        }
-                                });
-                        });
-                });
-
+    var flightDB = {};
+    function searchMarkers() {
+        var meme = $("#tailNumber");
+        if(meme.val() !== "") {
+            if(flightDB.hasOwnProperty(meme.val())) {
+                var test = flightDB[meme.val()];
+                map.setView([test.flightPath[test.flightPath.length-1].geometry[1],test.flightPath[test.flightPath.length-1].geometry[0]], 10)
+            }
         }
+    }
 
-        function allMarkers() {
-                $.getJSON("/fakedata/CorrellatedFlight.json", function(data){
-                        $.each(data, function (key,value) {
-                                addFlights(value.tailNumber, value.landingPoint.geometry);
-                        });
-                });
-        }
-
-
-
-        function addFlights(tail, coords) {
-                var marker;
-                marker = new L.circleMarker(coords, whiteIcon)
-                        .bindPopup("<b>Tail Number: </b>" + tail +
-                                "<br /><b>X: </b>" + coords[0] + "<br /><b>Y: </b>" + coords[1])
-                        .addTo(map);
-                myLayerGroup.addLayer(marker);
-        }
-
-        $(document).ready(function () {
-                $.getJSON("/fakedata/CorrellatedFlight.json", function(data){
-                        $.each(data, function (key,value) {
-                                addFlights(value.tailNumber, value.landingPoint.geometry);
-                        });
-                });
+    function allMarkers() {
+        $.getJSON("/api/correlated_flight?limit=40000&outcome=WARN_IN_PROGRESS", function(data){
+            $.each(data, function (i, doc) {
+                addFlights(doc);
+            });
         });
+    }
+
+
+
+    function addFlights(doc) {
+        var marker = new L.circleMarker([doc.flightPath[doc.flightPath.length-1].geometry[1],doc.flightPath[doc.flightPath.length-1].geometry[0]], whiteIcon)
+            .bindPopup("<b>Tail Number: </b>" + doc.tailNumber +
+                "<br /><b>X: </b>" + doc.flightPath[doc.flightPath.length-1].geometry[1] + "<br /><b>Y: </b>" + doc.flightPath[doc.flightPath.length-1].geometry[0])
+            .addTo(map);
+        flightDB[doc.tailNumber] = doc;
+    }
+
+    $(document).ready(function () {
+        allMarkers();
+    });
 
 
 
