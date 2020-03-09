@@ -8,8 +8,19 @@ const CorrelatedFlight = require('../lib/models/correlatedFlight');
 function filterEmpty(args) {
     for(let arg in args) {
         if(args.hasOwnProperty(arg)) {
-            if (args[arg] === "" || args[arg] === []) {
+            if (args[arg] === "") {
                 delete args[arg];
+            } else if(args[arg] instanceof Array) {
+                let shouldDelete = true;
+                for(let meme of args[arg]) {
+                    if(meme !== "") {
+                        shouldDelete = false;
+                        break;
+                    }
+                }
+                if(shouldDelete) {
+                    delete args[arg];
+                }
             }
         }
     }
