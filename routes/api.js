@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+const ObjectId = require('mongoose').Types.ObjectId;
 
 const Wifi = require('../lib/models/wifi');
 const CorrelatedFlight = require('../lib/models/correlatedFlight');
@@ -8,6 +9,9 @@ const CorrelatedFlight = require('../lib/models/correlatedFlight');
 function filterEmpty(args) {
     for(let arg in args) {
         if(args.hasOwnProperty(arg)) {
+            if(arg === "_id") {
+                args[arg] = new ObjectId(args[arg]);
+            }
             if (args[arg] === "") {
                 delete args[arg];
             } else if(args[arg] instanceof Array) {
