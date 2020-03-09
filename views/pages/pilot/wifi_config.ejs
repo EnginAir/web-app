@@ -16,26 +16,32 @@
     <div class="row h-100 justify-content-center align-items-center m-0">
         <div class="col-2">
             <div class="card border-secondary mb-3">
-                <h4 class="card-header">WIFI CONFIGURATION</h4>
+                <h4 class="card-header">WIFI CONFIG</h4>
                 <div class="card-body">
-                    <h5 class="card-title">Filter by WiFi Strength</h5>
+                    <h5 class="card-title">Filter by Upload Status</h5>
                     <form class="form-group">
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" checked="" value="">
-                                Strong
+                                <input id="success" class="form-check-input" type="checkbox" checked="" value="">
+                                Success
                             </label>
                         </div>
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" checked="" value="">
-                                Medium
+                                <input id="pending" class="form-check-input" type="checkbox" checked="" value="">
+                                Pending
                             </label>
                         </div>
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" checked="" value="">
-                                Weak
+                                <input id="failed" class="form-check-input" type="checkbox" checked="" value="">
+                                Failed
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input id="wifi" class="form-check-input" type="checkbox" checked="" value="">
+                                Show WiFi Access Points
                             </label>
                         </div>
                         <hr class="my-4">
@@ -165,6 +171,64 @@
         heatmapLayer.addTo(map);
     });
 
+    // // api call for getting flights from DB ready to be implamented
+    // $.get("/api/correlatedFlight".toString(), function (data) {
+    //     data.forEach(function (flight) {
+    //         //console.log(flight._id);
+    //         if (flight.outcome.includes('SUCCESS')) {
+    //             console.log("Flight successful: " + flight._id);
+    //             marker = new L.circleMarker(flight.landingPoint.geometry, {
+    //                 radius: 6.0,
+    //                 fillColor: '#4CBB17',
+    //                 color: '#000',
+    //                 weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'successUpload'
+    //             })
+    //                 .bindPopup("<b>Tail Number: </b>" + flight.tailNumber +
+    //                     "<br /><b>X: </b>" + flight.landingPoint.geometry[1] +
+    //                     "<br /><b>Y: </b>" + flight.landingPoint.geometry[0] +
+    //                     "<br /><b>Status: </b> Success")
+    //                 .addTo(map);
+    //         } else if (flight.outcome.includes('WARN')) {
+    //             console.log("Flight pending: " + flight._id);
+    //             marker = new L.circleMarker([flight.flightPath[flight.flightPath.length-1].geometry[1],flight.flightPath[flight.flightPath.length-1].geometry[0]], {
+    //                 radius: 6.0,
+    //                 fillColor: 'yellow',
+    //                 color: '#000',
+    //                 weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'pendingUpload'
+    //             })
+    //                 .bindPopup("<b>Tail Number: </b>" + flight.tailNumber +
+    //                     "<br /><b>X: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[1] +
+    //                     "<br /><b>Y: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[0] +
+    //                     "<br /><b>Status: </b> Pending")
+    //                 .addTo(map);
+    //         } else if (flight.outcome.includes('FAIL')) {
+    //             //console.log("Flight failed: " + flight._id);
+    //             marker = new L.circleMarker([flight.flightPath[flight.flightPath.length-1].geometry[1],flight.flightPath[flight.flightPath.length-1].geometry[0]], {
+    //                 radius: 6.0,
+    //                 fillColor: 'red',
+    //                 color: '#000',
+    //                 weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'failedUpload'
+    //             })
+    //                 .bindPopup("<b>Tail Number: </b>" + flight.tailNumber +
+    //                     "<br /><b>X: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[1] +
+    //                     "<br /><b>Y: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[0] +
+    //                     "<br /><b>Status: </b> Failure")
+    //                 .addTo(map);
+    //         } else {
+    //             console.log('Something went horribly wrong, check mongo DB in correlatedFlights for ID: ' + flight._id)
+    //         }
+    //     });
+    // });
+    //
+    // // gets wifi stuff
+    // $.get("/api/wifi".toString(), function (data) {
+    //     data.forEach(function (wifi) {
+    //         wifiData.data.push({lat: wifi.latLong.geometry[0], lng: wifi.latLong.geometry[1], radius: wifi.range});
+    //     })
+    //     var heatmapLayer = new HeatmapOverlay(cfg);
+    //     heatmapLayer.setData(wifiData);
+    //     heatmapLayer.addTo(map);
+    // });
 
 </script>
 </body>
