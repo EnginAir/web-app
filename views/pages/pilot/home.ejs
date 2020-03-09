@@ -119,6 +119,40 @@
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/bootstrap4-toggle.min.js"></script>
 <script src="/js/map.js"></script>
+<script>
 
+
+
+        $(document).ready(function () {
+                var url = document.location.toString();
+                if (url.match('#')) {
+                        $('.nav-tabs a[href="#' + url.split('#')[1] + '"]').tab('show');
+                }
+
+                // Change hash for page-reload
+                $('.nav-tabs a').on('shown.bs.tab', function (e) {
+                        window.location.hash = e.target.hash;
+                })
+        });
+
+
+        $.get("/api/wifi".toString(), function (data) {
+                data.forEach(function (wifi) {
+                        document.getElementById("wifiTable").innerHTML += "<tr>" +
+                                "<td class=\"align-middle mongoID\" data-mongoid=\"" + wifi._id + "\">" + wifi.ssid + "</td>" +
+                                "<td class=\"align-middle\">" + wifi.password + "</td>" +
+                                "<td class=\"align-middle\">" + wifi.airportCode + "</td>" +
+                                "<td class=\"align-middle\">" + wifi.latLong.geometry[0] + "</td>" +
+                                "<td class=\"align-middle\">" + wifi.latLong.geometry[1] + "</td>" +
+                                "<td class=\"align-middle\">" +
+                                "<a class=\"add\" title=\"Add\" data-toggle=\"tooltip\"><i class=\"material-icons\">&#xE03B;</i></a>" +
+                                "<a class=\"edit\" title=\"Edit\" data-toggle=\"tooltip\"><i class=\"material-icons green_icon\">&#xE254;</i></a>" +
+                                "<a class=\"delete\" title=\"Delete\" data-toggle=\"tooltip\"><i class=\"material-icons red_icon\">&#xE872;</i></a>" +
+                                "</td>" +
+                                "</tr>"
+                });
+        });
+
+</script>
 </body>
 </html>

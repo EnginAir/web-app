@@ -33,7 +33,8 @@
                                                                 <input id="searchLon" type="text" class="form-control">
                                                         </div>
                                                         <hr class="my-4">
-                                                        <button type="button" class="btn btn-primary btn-block" onclick="searchMarkers()">Search</button>
+                                                        <button type="button" class="btn btn-light btn-block" onclick="searchMarkers()">Search</button>
+                                                        <button type="reset" class="btn btn-primary btn-block" onclick="allMarkers()">See All</button>
                                                         <button type="submit" class="btn btn-outline-primary btn-block">Clear</button>
                                                 </form>
                                         </div>
@@ -59,69 +60,71 @@
 <script src="/js/map.js"></script>
 
 <script>
-        $(document).ready(function () {
 
+        var myLayerGroup=L.layerGroup().addTo(map);
+
+
+        function searchMarkers() {
+                map.removeLayer(myLayerGroup);
+
+                var searchLat = document.getElementById("searchLat");
+                var searchLon = document.getElementById("searchLon");
+
+                var TAIL_NUMBER = {};
+                var LANDING = {};
+                $(document).ready(function () {
+                        var statusTextColor;
+                        $.getJSON("/fakedata/CorrellatedFlight.json", function (data) {
+
+                                $.each(data, function (key, value) {
+                                        TAIL_NUMBER[key] = value.tailNumber;
+                                        LANDING[key] = value.landingPoint.geometry;
+
+                                        if (searchLat.value !== "") {
+                                                if (value.landingPoint.geometry[0].toString().includes(searchLat.value)) {
+                                                        addFlights(value.tailNumber, value.landingPoint.geometry);
+                                                }
+                                        }
+                                        if (searchLon.value !== "") {
+                                                if (value.landingPoint.geometry[1].toString().includes(searchLon.value)) {
+                                                        addFlights(value.tailNumber, value.landingPoint.geometry);
+                                                }
+                                        }
+                                });
+                        });
+                });
+
+        }
+
+        function allMarkers() {
                 $.getJSON("/fakedata/CorrellatedFlight.json", function(data){
                         $.each(data, function (key,value) {
+                                addFlights(value.tailNumber, value.landingPoint.geometry);
+                        });
+                });
+        }
 
-                                marker = new L.circleMarker([value.landingPoint.geometry[0], value.landingPoint.geometry[1]], whiteIcon)
-                                        .bindPopup("<b>Tail Number: </b>" + value.tailNumber +
-                                                "<br /><b>X: </b>" + value.landingPoint.geometry[0] +
-                                                "<br /><b>Y: </b>" + value.landingPoint.geometry[1])
-                                        .addTo(map);
+
+
+        function addFlights(tail, coords) {
+                var marker;
+                marker = new L.circleMarker(coords, whiteIcon)
+                        .bindPopup("<b>Tail Number: </b>" + tail +
+                                "<br /><b>X: </b>" + coords[0] + "<br /><b>Y: </b>" + coords[1])
+                        .addTo(map);
+                myLayerGroup.addLayer(marker);
+        }
+
+        $(document).ready(function () {
+                $.getJSON("/fakedata/CorrellatedFlight.json", function(data){
+                        $.each(data, function (key,value) {
+                                addFlights(value.tailNumber, value.landingPoint.geometry);
                         });
                 });
         });
 
 
-        function searchMarkers() {
 
-                //markers.clearLayers();
-                var searchLat = document.getElementById("searchLat");
-                var searchLon = document.getElementById("searchLon");
-                var searchDB = document.getElementById("searchDB");
-                var searchAirport = document.getElementById("searchAirport");
-
-                $(document).ready(function () {
-
-                        var statusTextColor;
-
-                        $.getJSON("/fakedata/CorrellatedFlight.json", function(data){
-
-                                $.each(data, function (key,value) {
-
-                                        if (value.landingPoint.geometry[0].toString().includes(searchLat.value) ||
-                                                value.landingPoint.geometry[1].toString().includes(searchLon.value)) {//TODO DB#  //TODO Airport Code
-
-                                                if (value.outcome.includes('FAIL')) {
-                                                        marker = new L.circleMarker(value.landingPoint.geometry, greenIcon)
-                                                                .bindPopup("<b>Tail Number: </b>" + value.tailNumber +
-                                                                        "<br /><b>X: </b>" + value.landingPoint.geometry[0] +
-                                                                        "<br /><b>Y: </b>" + value.landingPoint.geometry[1] +
-                                                                        "<br /><b>Status: <font color='#279766'>SUCCESSFUL</font></b>")
-                                                                .addTo(map);
-                                                }
-                                                if (value.outcome.includes('FAIL')) {
-                                                        marker = new L.circleMarker(value.landingPoint.geometry, redIcon)
-                                                                .bindPopup("<b>Tail Number: </b>" + value.tailNumber +
-                                                                        "<br /><b>X: </b>" + value.landingPoint.geometry[0] +
-                                                                        "<br /><b>Y: </b>" + value.landingPoint.geometry[1] +
-                                                                        "<br /><b>Status: <font color='#E62F24'>FAILED</font></b>")
-                                                                .addTo(map);
-                                                }
-                                                if (value.outcome.includes('WARN')) {
-                                                        marker = new L.circleMarker(value.landingPoint.geometry, yellowIcon)
-                                                                .bindPopup("<b>Tail Number: </b>" + value.tailNumber +
-                                                                        "<br /><b>X: </b>" + value.landingPoint.geometry[0] +
-                                                                        "<br /><b>Y: </b>" + value.landingPoint.geometry[1] +
-                                                                        "<br /><b>Status: <font color='#E7DC19'>PENDING</font></b>")
-                                                                .addTo(map);
-                                                }
-                                        }
-
-                                });
-
-                        });
 
 </script>
 </body>
