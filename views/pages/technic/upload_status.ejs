@@ -104,131 +104,88 @@
         var searchLat = document.getElementById("searchLat");
         var searchLon = document.getElementById("searchLon");
         var searchDB = document.getElementById("searchDB");
-        var searchAirport = document.getElementById("searchAirport");
+        var searchAirport = (document.getElementById("searchAirport")).value.toUpperCase();
 
+        console.log("LAT: " + searchLat.value + "  LON: " + searchLon.value + "  CODE: " + searchAirport);
+
+        var TAIL_NUMBER = {};
+        var OUTCOME = {};
+        var LANDING = {};
         $(document).ready(function () {
 
             var statusTextColor;
 
-            $.getJSON("/fakedata/CorrellatedFlight.json", function(data){
+            $.getJSON("/fakedata/CorrellatedFlight.json", function (data) {
 
-                $.each(data, function (key,value) {
+                $.each(data, function (key, value) {
+                    TAIL_NUMBER[key] = value.tailNumber;
+                    OUTCOME[key] = value.outcome;
+                    LANDING[key] = value.landingPoint.geometry;
 
-                    if (value.landingPoint.geometry[0].toString().includes(searchLat.value) ||
-                        value.landingPoint.geometry[1].toString().includes(searchLon.value)) {//TODO DB#  //TODO Airport Code
+                    // TODO: fix search here
+                    if (searchLat.value !== "" || searchLon.value !== "") {
+                        if (value.landingPoint.geometry[0].toString().includes(searchLat.value) ||
+                            value.landingPoint.geometry[1].toString().includes(searchLon.value)) {//TODO DB#  //TODO Airport Code
 
-                        if (value.outcome.includes('FAIL')) {
-                            marker = new L.circleMarker(value.landingPoint.geometry, greenIcon)
-                                .bindPopup("<b>Tail Number: </b>" + value.tailNumber +
-                                    "<br /><b>X: </b>" + value.landingPoint.geometry[0] +
-                                    "<br /><b>Y: </b>" + value.landingPoint.geometry[1] +
-                                    "<br /><b>Status: <font color='#279766'>SUCCESSFUL</font></b>")
-                                .addTo(map);
-                        }
-                        if (value.outcome.includes('FAIL')) {
-                            marker = new L.circleMarker(value.landingPoint.geometry, redIcon)
-                                .bindPopup("<b>Tail Number: </b>" + value.tailNumber +
-                                    "<br /><b>X: </b>" + value.landingPoint.geometry[0] +
-                                    "<br /><b>Y: </b>" + value.landingPoint.geometry[1] +
-                                    "<br /><b>Status: <font color='#E62F24'>FAILED</font></b>")
-                                .addTo(map);
-                        }
-                        if (value.outcome.includes('WARN')) {
-                            marker = new L.circleMarker(value.landingPoint.geometry, yellowIcon)
-                                .bindPopup("<b>Tail Number: </b>" + value.tailNumber +
-                                    "<br /><b>X: </b>" + value.landingPoint.geometry[0] +
-                                    "<br /><b>Y: </b>" + value.landingPoint.geometry[1] +
-                                    "<br /><b>Status: <font color='#E7DC19'>PENDING</font></b>")
-                                .addTo(map);
+                            addBasedOnUploadStatus(value.outcome, value.tailNumber, value.landingPoint.geometry);
                         }
                     }
-
                 });
 
             });
 
-            // TODO: not working!!
-            $.getJSON("/fakedata/CEDASUpload.json", function(data){
-
-                $.each(data, function (key,value) {
-
-                    if (value.airportCode === searchAirport.value) {
-
-                        if (value.outcome.includes('FAIL')) {
-                            marker = new L.circleMarker(value.landingPoint.geometry, greenIcon)
-                                .bindPopup("<b>Tail Number: </b>" + value.tailNumber +
-                                    "<br /><b>X: </b>" + value.landingPoint.geometry[0] +
-                                    "<br /><b>Y: </b>" + value.landingPoint.geometry[1] +
-                                    "<br /><b>Status: <font color='#279766'>SUCCESSFUL</font></b>")
-                                .addTo(map);
+            if (searchAirport !== "") {
+                $.getJSON("/fakedata/CEDASUpload.json", function (data) {
+                    $.each(data, function (key, value) {
+                        if (value.airportCode === searchAirport) {
+                            if (TAIL_NUMBER[key] === value.tailNumber) {
+                                addBasedOnUploadStatus(OUTCOME[key], value.tailNumber, LANDING[key]);
+                            }
                         }
-                        if (value.outcome.includes('FAIL')) {
-                            marker = new L.circleMarker(value.landingPoint.geometry, redIcon)
-                                .bindPopup("<b>Tail Number: </b>" + value.tailNumber +
-                                    "<br /><b>X: </b>" + value.landingPoint.geometry[0] +
-                                    "<br /><b>Y: </b>" + value.landingPoint.geometry[1] +
-                                    "<br /><b>Status: <font color='#E62F24'>FAILED</font></b>")
-                                .addTo(map);
-                        }
-                        if (value.outcome.includes('WARN')) {
-                            marker = new L.circleMarker(value.landingPoint.geometry, yellowIcon)
-                                .bindPopup("<b>Tail Number: </b>" + value.tailNumber +
-                                    "<br /><b>X: </b>" + value.landingPoint.geometry[0] +
-                                    "<br /><b>Y: </b>" + value.landingPoint.geometry[1] +
-                                    "<br /><b>Status: <font color='#E7DC19'>PENDING</font></b>")
-                                .addTo(map);
-                        }
-                    }
-
+                    });
                 });
-
-            });
+            }
         });
 
     }
 
-    function allMarkers () {
+    function allMarkers() {
         $(document).ready(function () {
-
-            var statusTextColor;
-
             $.getJSON("/fakedata/CorrellatedFlight.json", function(data){
-
                 $.each(data, function (key,value) {
-
-                    if (value.outcome.includes('SUCCESS')) {
-
-                        marker = new L.circleMarker(value.landingPoint.geometry, greenIcon)
-                            .bindPopup("<b>Tail Number: </b>" + value.tailNumber +
-                                "<br /><b>X: </b>" + value.landingPoint.geometry[0] +
-                                "<br /><b>Y: </b>" + value.landingPoint.geometry[1] +
-                                "<br /><b>Status: <font color='#279766'>SUCCESSFUL</font></b>")
-                            .addTo(map);
-                    }
-                    if (value.outcome.includes('FAIL')) {
-                        marker = new L.circleMarker(value.landingPoint.geometry, redIcon)
-                            .bindPopup("<b>Tail Number: </b>" + value.tailNumber +
-                                "<br /><b>X: </b>" + value.landingPoint.geometry[0] +
-                                "<br /><b>Y: </b>" + value.landingPoint.geometry[1] +
-                                "<br /><b>Status: <font color='#E62F24'>FAILED</font></b>")
-                            .addTo(map);
-                    }
-                    if (value.outcome.includes('WARN')) {
-                        marker = new L.circleMarker(value.landingPoint.geometry, yellowIcon)
-                            .bindPopup("<b>Tail Number: </b>" + value.tailNumber +
-                                "<br /><b>X: </b>" + value.landingPoint.geometry[0] +
-                                "<br /><b>Y: </b>" + value.landingPoint.geometry[1] +
-                                "<br /><b>Status: <font color='#E7DC19'>PENDING</font></b>")
-                            .addTo(map);
-                    }
-
+                    addBasedOnUploadStatus(value.outcome, value.tailNumber, value.landingPoint.geometry);
                 });
-
             });
         });
     }
 
+    // TODO: add to map.js?
+    function addBasedOnUploadStatus(outcome, tail, coords) {
+        if (outcome.includes('SUCCESS')) {
+            marker = new L.circleMarker(coords, greenIcon)
+                .bindPopup("<b>Tail Number: </b>" + tail +
+                    "<br /><b>X: </b>" + coords[0] + "<br /><b>Y: </b>" + coords[1] +
+                    "<br /><b>Status: <font color='#279766'>SUCCESSFUL</font></b>")
+                .addTo(map);
+        }
+        if (outcome.includes('FAIL')) {
+            marker = new L.circleMarker(coords, redIcon)
+                .bindPopup("<b>Tail Number: </b>" + tail +
+                    "<br /><b>X: </b>" + coords[0] +
+                    "<br /><b>Y: </b>" + coords[1] +
+                    "<br /><b>Status: <font color='#E62F24'>FAILED</font></b>")
+                .addTo(map);
+        }
+        if (outcome.includes('WARN')) {
+            marker = new L.circleMarker(coords, yellowIcon)
+                .bindPopup("<b>Tail Number: </b>" + tail +
+                    "<br /><b>X: </b>" + coords[0] +
+                    "<br /><b>Y: </b>" + coords[1] +
+                    "<br /><b>Status: <font color='#E7DC19'>PENDING</font></b>")
+                .addTo(map);
+        }
 
+    }
 
 
     // // api call for getting flights from DB ready to be implamented

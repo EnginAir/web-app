@@ -67,19 +67,19 @@ var greenIcon = {
     radius: 6.0,
     fillColor: '#4CBB17',
     color: '#000',
-    weight: 1, opacity: 1, fillOpacity: 0.8
+    weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'successUpload'
 };
 var yellowIcon = {
     radius: 6.0,
     fillColor: 'yellow',
     color: '#000',
-    weight: 1, opacity: 1, fillOpacity: 0.8
+    weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'pendingUpload'
 };
 var redIcon = {
     radius: 6.0,
     fillColor: 'red',
     color: '#000',
-    weight: 1, opacity: 1, fillOpacity: 0.8
+    weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'failedUpload'
 };
 var whiteIcon = {
     radius: 6.0,
