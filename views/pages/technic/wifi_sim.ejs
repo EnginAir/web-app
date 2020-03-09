@@ -103,7 +103,7 @@
     }
 
     // api call for getting flights from DB ready to be implamented
-    $.get("/api/correlatedFlight".toString(), function (data) {
+    $.get("/api/correlated_flight".toString(), function (data) {
         data.forEach(function (flight) {
             //console.log(flight._id);
             if (flight.outcome.includes('SUCCESS')) {
@@ -154,7 +154,7 @@
     // gets wifi stuff
     $.get("/api/wifi".toString(), function (data) {
         data.forEach(function (wifi) {
-            wifiData.data.push({lat: wifi.latLong.geometry[0], lng: wifi.latLong.geometry[1], radius: wifi.range});
+            wifiData.data.push({lat: wifi.latLong.geometry[1], lng: wifi.latLong.geometry[0], radius: wifi.range});
         })
         var heatmapLayer = new HeatmapOverlay(cfg);
         heatmapLayer.setData(wifiData);

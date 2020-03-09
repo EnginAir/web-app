@@ -85,8 +85,10 @@ router.get('/correlated_flight', function (req, res, next) {
         req.query = {};
     }
     let page = req.query.page;
+    let limit = parseInt(req.query.limit);
     req.query.page = undefined;
-    CorrelatedFlight.paginate(req.query, {page: page ? page : 1, limit: 20}, function (err, doc) {
+    req.query.limit = undefined;
+    CorrelatedFlight.paginate(req.query, {page: page ? page : 1, limit: limit ? limit : 20}, function (err, doc) {
         if (err) {
             throw err;
         }

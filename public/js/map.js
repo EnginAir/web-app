@@ -111,13 +111,13 @@ var cfg = {
     // if set to false the heatmap uses the global maximum for colorization
     // if activated: uses the data maximum within the current map boundaries
     //   (there will always be a red spot with useLocalExtremas true)
-    "useLocalExtrema": true,
+    "useLocalExtrema": false,
     // which field name in your data represents the latitude - default "lat"
-    latField: 'uploadLocation.latitude',
+    //latField: 'uploadLocation.latitude',
     // which field name in your data represents the longitude - default "lng"
-    lngField: 'uploadLocation.longitude',
+    //lngField: 'uploadLocation.longitude',
     // which field name in your data represents the data value - default "value"
-    valueField: 'wapStrength',
+    valueField: 'radius',
 
     gradient: {
         0.0: "rgb(255, 0, 0)",
