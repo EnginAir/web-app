@@ -8,7 +8,7 @@ const CorrelatedFlight = require('../lib/models/correlatedFlight');
 function filterEmpty(args) {
     for(let arg in args) {
         if(args.hasOwnProperty(arg)) {
-            if (args[arg] === "") {
+            if (args[arg] === "" || args[arg] === []) {
                 delete args[arg];
             }
         }
