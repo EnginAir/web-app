@@ -48,30 +48,12 @@
                         <h5 class="card-title">Search By</h5>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text">Lat</span>
-                            </div>
-                            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-                        </div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Lon</span>
-                            </div>
-                            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-                        </div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">DB#</span>
-                            </div>
-                            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-                        </div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
                                 <span class="input-group-text">Airport</span>
                             </div>
-                            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                            <input type="text" id='airportinput' class="form-control" aria-label="Amount (to the nearest dollar)">
                         </div>
                         <hr class="my-4">
-                        <button type="button" class="btn btn-primary btn-block">Search</button>
+                        <button type="button" class="btn btn-primary btn-block" id="searchBoi">Search</button>
                     </form>
                 </div>
             </div>
@@ -98,6 +80,20 @@
 <script src="/js/custom.js"></script>
 <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
 <script>
+    $("#searchBoi").click(function() {
+        var meme = $("#airportinput")
+        if(meme.val() !== "") {
+            var up = meme.val().toUpperCase();
+            for(var item of wifiData.data) {
+                if(item.apCode.toUpperCase() === up) {
+                    map.setView({lat: item.lat, lng: item.lng }, 17);
+                    return;
+                }
+            }
+        } else {
+            map.setView({lat: 0, lng: 0}, 4);
+        }
+    });
     $.get("/api/wifi".toString(), function (data) {
         var markers = L.markerClusterGroup();
         data.forEach(function (wifi) {
@@ -105,7 +101,7 @@
             neuMarker.bindPopup("<b>SSID</b>: " + wifi.ssid + "<br>" +
                 "<b>Airport Code</b>:" + wifi.airportCode + "<br>");
             markers.addLayer(neuMarker);
-            wifiData.data.push({lat: wifi.latLong.geometry[1], lng: wifi.latLong.geometry[0], radius: wifi.range});
+            wifiData.data.push({lat: wifi.latLong.geometry[1], lng: wifi.latLong.geometry[0], radius: wifi.range, apCode: wifi.airportCode});
         })
         var heatmapLayer = new HeatmapOverlay(cfg);
         heatmapLayer.setData(wifiData);
