@@ -7,9 +7,8 @@ const Wifi = require('../lib/models/wifi');
 const CorrelatedFlight = require('../lib/models/correlatedFlight');
 
 function filterEmpty(args) {
-    for(let arg in args) {
         if(args.hasOwnProperty(arg)) {
-            if(arg === "_id") {
+            if(arg === "_id" && args._id !== "") {
                 args[arg] = new ObjectId(args[arg]);
             }
             if (args[arg] === "") {
@@ -114,6 +113,7 @@ router.get('/correlated_flight', function (req, res, next) {
     let limit = parseInt(req.query.limit);
     delete req.query.page;
     delete req.query.limit;
+
     CorrelatedFlight.paginate(filterEmpty(req.query), {page: page ? page : 1, limit: limit ? limit : 20}, function (err, doc) {
         if (err) {
             throw err;
