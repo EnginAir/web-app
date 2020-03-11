@@ -7,6 +7,7 @@ const Wifi = require('../lib/models/wifi');
 const CorrelatedFlight = require('../lib/models/correlatedFlight');
 
 function filterEmpty(args) {
+    for(let arg in args) {
         if(args.hasOwnProperty(arg)) {
             if(arg === "_id" && args._id !== "") {
                 args[arg] = new ObjectId(args[arg]);
