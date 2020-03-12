@@ -12,11 +12,9 @@
     <% include ../../partials/technic_header %>
 </header>
 
-<main>
-    <div class="container-fluid">
 
 
-            <!-------------SEARCH BAR------------->
+            <!-------------SEARCH BAR------------
 <div class="card">
             <div class="card-body" style="height: max-content">
             <form id="clear">
@@ -63,34 +61,39 @@
                 </div>
             </div>
         </div>
+-->
 
             <!-------------DATABASE TABLE------------->
-        <div class="container"><br><br></div>
+        <main>
+            <div class="container-fluid row h-100 m-0 align-middle" id="pageContainer">
+                <table id="dataTable" class="mb-0 table table-responsive-md table-borderless table-hover col-md-12" style="overflow-x:auto"><!--display table table-hover-->
+                    <thead>
+                    <tr id="tableHeader" style="background-color: rgba(255, 255, 255, 0.1); text-align: center;">
+                        <th><h4>ID</h4></th>
+                        <th><h4>RDL</h4></th>
+                        <th><h4>RDT/D</h4></th>
+                        <th><h4>STL</h4></th>
+                        <th><h4>STAT</h4></th>
 
-            <section class="wrapper">
-                <div class="tbl-header">
-                    <table cellpadding="0" cellspacing="0" border="0" >
-                        <thead>
-                            <tr class="filters">
-                                <th>ID</th>
-                                <th>RDL</th>
-                                <th>RDT/D</th>
-                                <th>STL</th>
-                                <th>STAT</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-                    <div class="tbl-content">
-                        <table cellpadding="0" cellspacing="0" border="0" id="flight_data" >
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
+                    </tr>
+                    </thead>
+                    <thead style="text-align: center; background-color: #00efb2">
+                    <tr id="tableSearch">
+                        <th>ID</th>
+                        <th>RDL</th>
+                        <th>RDT/D</th>
+                        <th>STL</th>
+                        <th>STAT</th>
+                    </tr>
+                    </thead>
+                    <tbody id="flight_data">
 
-            </section>
-        </div>
-</main>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+
+
 
 <footer>
     <% include ../../partials/footer %>
@@ -125,7 +128,7 @@
                  statusTextColor = '#e62f24';
              }
 
-             flight_info += '<td>' + flight._id.slice(-4) +'</td>';
+             flight_info += '<tr><td>' + flight._id.slice(-4) +'<td>';
 
              if (flight.landingPoint)
              {
