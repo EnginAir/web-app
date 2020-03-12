@@ -1,4 +1,4 @@
-<!-- views/pages/defaultTemplate.ejs -->
+<!-- views/pages/technic/upload_status.ejs -->
 <% const pageType = "upload_status"; %>
 <!DOCTYPE html>
 <html lang="en">
@@ -6,16 +6,80 @@
     <% include ../../partials/head %>
 </head>
 <body>
-
 <header>
     <% include ../../partials/technic_header %>
 </header>
 <main>
-
-    <!-- ALL BODY CONTENT GO'S HERE! -->
-
-    <div id="map"></div>
-
+    <div class="row h-100 m-0">
+        <div class="col-sm-3">
+            <div class="card align-content-center mb-3">
+                <h4 class="card-header" style="padding: 40px 0 20px">UPLOAD STATUS</h4>
+                <div class="card-body">
+                    <h5 class="card-title">Filter by Upload Status</h5>
+                    <form class="form-group">
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input id="success" class="form-check-input" type="checkbox" checked="" value="">
+                                Success
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input id="pending" class="form-check-input" type="checkbox" checked="" value="">
+                                Pending
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input id="failed" class="form-check-input" type="checkbox" checked="" value="">
+                                Failed
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input id="wifi" class="form-check-input" type="checkbox" checked="" value="">
+                                Show WiFi Access Points
+                            </label>
+                        </div>
+                        <hr class="my-4">
+                        <h5 class="card-title">Search By</h5>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Lat</span>
+                            </div>
+                            <input id="searchLat" type="text" class="form-control">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Lon</span>
+                            </div>
+                            <input id="searchLon" type="text" class="form-control">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">DB#</span>
+                            </div>
+                            <input id="searchDB" type="text" class="form-control">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Tail Number</span>
+                            </div>
+                            <input id="tailNumber" type="text" class="form-control">
+                        </div>
+                        <hr class="my-4">
+                        <!--TODO: FIX: if searched all points then want to see the searched data point, have to clear first-->
+                        <button type="button" class="btn btn-light btn-block" id="search">Search</button>
+                        <button type="reset" class="btn btn-primary btn-block" onclick="allMarkers()">See All</button>
+                        <button type="submit" class="btn btn-outline-primary btn-block" id="">Clear</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col px-0">
+            <div id="map"></div>
+        </div>
+    </div>
 </main>
 <footer>
     <% include ../../partials/footer %>
@@ -24,11 +88,139 @@
 <!---------------------------------------->
 <!-------------LOAD JS FILES-------------->
 <!---------------------------------------->
-<script src="/js/leaflet.js"></script>
 <script src="/js/jquery.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/bootstrap4-toggle.min.js"></script>
+<script src="/js/leaflet.js"></script>
 <script src="/js/map.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/heatmapjs@2.0.2/heatmap.min.js"></script>
+<script src="/js/leaflet-heatmap.js"></script>
+<script src="/js/custom.js"></script>
 
+<script>
+    var myLayerGroup=L.layerGroup().addTo(map);
+    //api call for getting flights from DB ready to be implamented
+    $.get("/api/correlated_flight?limit=40000".toString(), function (data) {
+        data.forEach(function (flight) {
+            //console.log(flight._id);
+            if (flight.outcome.includes('SUCCESS')) {
+                var marker = new L.circleMarker([flight.landingPoint.geometry[1], flight.landingPoint.geometry[0]], {
+                    radius: 6.0,
+                    fillColor: '#4CBB17',
+                    color: '#000',
+                    weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'successUpload'
+                })
+                    .bindPopup("<b>Tail Number: </b>" + flight.tailNumber +
+                        "<br /><b>X: </b>" + flight.landingPoint.geometry[1] +
+                        "<br /><b>Y: </b>" + flight.landingPoint.geometry[0] +
+                        "<br /><b>Status: </b> Success")
+                    .addTo(map);
+                myLayerGroup.addLayer(marker);
+
+                console.log("Flight successful: " + flight._id);
+
+            } else if (flight.outcome.includes('WARN')) {
+                console.log("Flight pending: " + flight._id);
+                var marker = new L.circleMarker([flight.flightPath[flight.flightPath.length-1].geometry[1],flight.flightPath[flight.flightPath.length-1].geometry[0]], {
+                    radius: 6.0,
+                    fillColor: 'yellow',
+                    color: '#000',
+                    weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'pendingUpload'
+                })
+                    .bindPopup("<b>Tail Number: </b>" + flight.tailNumber +
+                        "<br /><b>X: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[1] +
+                        "<br /><b>Y: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[0] +
+                        "<br /><b>Status: </b> Pending")
+                    .addTo(map);
+                myLayerGroup.addLayer(marker);
+            } else if (flight.outcome.includes('FAIL')) {
+                //console.log("Flight failed: " + flight._id);
+                var marker = new L.circleMarker([flight.flightPath[flight.flightPath.length-1].geometry[1],flight.flightPath[flight.flightPath.length-1].geometry[0]], {
+                    radius: 6.0,
+                    fillColor: 'red',
+                    color: '#000',
+                    weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'failedUpload'
+                })
+                    .bindPopup("<b>Tail Number: </b>" + flight.tailNumber +
+                        "<br /><b>X: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[1] +
+                        "<br /><b>Y: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[0] +
+                        "<br /><b>Status: </b> Failure")
+                    .addTo(map);
+                myLayerGroup.addLayer(marker);
+            } else {
+                console.log('Something went horribly wrong, check mongo DB in correlatedFlights for ID: ' + flight._id)
+            }
+        });
+    });
+
+    // gets wifi stuff
+    $.get("/api/wifi".toString(), function (data) {
+        data.forEach(function (wifi) {
+            wifiData.data.push({lat: wifi.latLong.geometry[1], lng: wifi.latLong.geometry[0], radius: wifi.range});
+        })
+        var heatmapLayer = new HeatmapOverlay(cfg);
+        heatmapLayer.setData(wifiData);
+        heatmapLayer.addTo(map);
+    });
+
+
+
+    $("#search").click(function(){
+
+        map.removeLayer(myLayerGroup);
+        console.log("test");
+        $.get("/api/correlated_flight?tailNumber=" + $("#tailNumber").val() + "&_id=" + $("#searchDB").val() + "&landingPoint.geometry=" + $("#searchLon").val() + "&landingPoint.geometry=" + $("#searchLat").val().toString(), function (data) {
+            data.forEach(function (flight) {
+                //console.log(flight._id);
+                if (flight.outcome.includes('SUCCESS')) {
+                    console.log("Flight successful: " + flight._id);
+                    var marker = new L.circleMarker([flight.landingPoint.geometry[1], flight.landingPoint.geometry[0]], {
+                        radius: 6.0,
+                        fillColor: '#4CBB17',
+                        color: '#000',
+                        weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'successUpload'
+                    })
+                        .bindPopup("<b>Tail Number: </b>" + flight.tailNumber +
+                            "<br /><b>X: </b>" + flight.landingPoint.geometry[1] +
+                            "<br /><b>Y: </b>" + flight.landingPoint.geometry[0] +
+                            "<br /><b>Status: </b> Success")
+                        .addTo(map);
+                    myLayerGroup.addLayer(marker);
+                } else if (flight.outcome.includes('WARN')) {
+                    console.log("Flight pending: " + flight._id);
+                    marker = new L.circleMarker([flight.flightPath[flight.flightPath.length-1].geometry[1],flight.flightPath[flight.flightPath.length-1].geometry[0]], {
+                        radius: 6.0,
+                        fillColor: 'yellow',
+                        color: '#000',
+                        weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'pendingUpload'
+                    })
+                        .bindPopup("<b>Tail Number: </b>" + flight.tailNumber +
+                            "<br /><b>X: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[1] +
+                            "<br /><b>Y: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[0] +
+                            "<br /><b>Status: </b> Pending")
+                        .addTo(map);
+                    myLayerGroup.addLayer(marker);
+                } else if (flight.outcome.includes('FAIL')) {
+                    //console.log("Flight failed: " + flight._id);
+                    marker = new L.circleMarker([flight.flightPath[flight.flightPath.length-1].geometry[1],flight.flightPath[flight.flightPath.length-1].geometry[0]], {
+                        radius: 6.0,
+                        fillColor: 'red',
+                        color: '#000',
+                        weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'failedUpload'
+                    })
+                        .bindPopup("<b>Tail Number: </b>" + flight.tailNumber +
+                            "<br /><b>X: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[1] +
+                            "<br /><b>Y: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[0] +
+                            "<br /><b>Status: </b> Failure")
+                        .addTo(map);
+                    myLayerGroup.addLayer(marker);
+                } else {
+                    console.log('Something went horribly wrong, check mongo DB in correlatedFlights for ID: ' + flight._id)
+                }
+            });
+        });
+    });
+
+</script>
 </body>
 </html>

@@ -1,22 +1,43 @@
-<!-- views/pages/index.ejs -->
+<!-- views/pages/technic/home.ejs -->
 <% const pageType = "home"; %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <% include ../../partials/head %>
+    <% include ../../partials/head %>
 </head>
 <body>
 
 <header>
-  <% include ../../partials/technic_header %>
+    <% include ../../partials/technic_header %>
 </header>
-
 <main>
-        <div id="map"></div>
+    <div class="row h-100 m-0">
+        <div class="col-sm-3">
+            <div class="card align-content-center mb-3">
+                <h4 class="card-header">FLIGHTS IN PROGRESS</h4>
+                <div class="card-body">
+                        <form class="form-group">
+                            <h5 class="card-title">Search By</h5>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Tail#</span>
+                                </div>
+                                <input id="tailNumber" type="text" class="form-control">
+                            </div>
+                            <hr class="my-4">
+                            <button type="button" class="btn btn-light btn-block" onclick="searchMarkers()">Search</button>
+                            <button type="reset" class="btn btn-primary btn-block" onclick="allMarkers()">See All</button>
+                        </form>
+                </div>
+            </div>
+        </div>
+        <div class="col px-0">
+            <div id="map"></div>
+        </div>
+    </div>
 </main>
-
 <footer>
-  <% include ../../partials/footer %>
+    <% include ../../partials/footer %>
 </footer>
 
 <!---------------------------------------->
@@ -28,5 +49,43 @@
 <script src="/js/bootstrap4-toggle.min.js"></script>
 <script src="/js/map.js"></script>
 
+<script>
+    var flightDB = {};
+    function searchMarkers() {
+        var meme = $("#tailNumber");
+        if(meme.val() !== "") {
+            if(flightDB.hasOwnProperty(meme.val())) {
+                var test = flightDB[meme.val()];
+                map.setView([test.flightPath[test.flightPath.length-1].geometry[1],test.flightPath[test.flightPath.length-1].geometry[0]], 10)
+            }
+        }
+    }
+
+    function allMarkers() {
+        $.getJSON("/api/correlated_flight?limit=40000&outcome=WARN_IN_PROGRESS", function(data){
+            $.each(data, function (i, doc) {
+                addFlights(doc);
+            });
+        });
+    }
+
+
+
+    function addFlights(doc) {
+        var marker = new L.circleMarker([doc.flightPath[doc.flightPath.length-1].geometry[1],doc.flightPath[doc.flightPath.length-1].geometry[0]], whiteIcon)
+            .bindPopup("<b>Tail Number: </b>" + doc.tailNumber +
+                "<br /><b>X: </b>" + doc.flightPath[doc.flightPath.length-1].geometry[1] + "<br /><b>Y: </b>" + doc.flightPath[doc.flightPath.length-1].geometry[0])
+            .addTo(map);
+        flightDB[doc.tailNumber] = doc;
+    }
+
+    $(document).ready(function () {
+        allMarkers();
+    });
+
+
+
+
+</script>
 </body>
 </html>
