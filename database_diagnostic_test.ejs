@@ -1,0 +1,271 @@
+<!-- views/pages/database_diagnostic_test.ejs -->
+<% const pageType = "database"; %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../../partials/head %>
+   <!-- <link rel="stylesheet" href="/stylesheets/tableStyle.css">-->
+    <link rel="stylesheet" href="/stylesheets/databasePages.css">
+</head>
+<body>
+
+<header>
+    <% include ../../partials/technic_header %>
+</header>
+
+        <!-------------DATABASE TABLE------------->
+<main>
+    < class="container-fluid row h-100 m-0 align-middle" id="pageContainer">
+        <table id="dataTable" class="mb-0 table table-responsive-md table-borderless table-hover col-md-12" style="overflow-x:auto"><!--display table table-hover-->
+            <thead>
+            <tr id="tableHeader" style="background-color: rgba(255, 255, 255, 0.1); text-align: center;">
+                <th><h4>ID</h4></th>
+                <th><h4>GPS Location (UL)</h4></th>
+                <th><h4>WAP Signal Strength (WSS)</h4></th>
+                <th><h4>Landing Date</h4></th>
+                <th><h4>WAP ID (WID)</h4></th>
+                <th><h4>Airport Code</h4></th>
+                <th><h4>Status</h4></th>
+
+            </tr>
+            </thead>
+            <thead style="text-align: center; background-color: #00efb2">
+            <tr id="tableSearch" class="row">
+
+                <th class="col" style="background-color: #00efb2"><form><input placeholder="ID"></form></th>
+                <th class="col" style="background-color: #00efb2"><form><input placeholder="Upload GPS Location (UL)"></form></th>
+                <th class="col" style="background-color: #00efb2"><form><input placeholder="Landing Date"></form></th>
+                <th class="col" style="background-color: #00efb2"><form><input placeholder="WAP Signal Strength (WSS)"></form></th>
+                <th class="col" style="background-color: #00efb2"><form><input placeholder="WAP ID (WID)"></form></th>
+                <th class="col" style="background-color: #00efb2"><form><input placeholder="Airport Code"></form></th>
+                <th class="col" style="background-color: #00efb2"><form><input placeholder="Status"></form></th>
+
+            </tr>
+            </thead>
+            <tbody id="flight_data">
+
+            </tbody>
+        </table>
+    </div>
+
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Modal body text goes here.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+<footer>
+    <% include ../../partials/footer %>
+</footer>
+
+<!---------------------------------------->
+<!-------------LOAD JS FILES-------------->
+<!---------------------------------------->
+<script src="/js/leaflet.js"></script>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/bootstrap4-toggle.min.js"></script>
+<script src="/js/datatables.min.js"></script>
+<!--<script>-->
+<!--    -->
+<!--    $(document).ready(function() {-->
+
+<!--        var searchForm = '';-->
+
+<!--        searchForm += '<form class="form-inline">'-->
+
+<!--        $('#dataTable #tableSearch th').each( function () {-->
+<!--            var title = $(this).text();-->
+<!--            $(this).html( '<div class="col"><input type="text" class="form-control" placeholder="'+title+'"<input/></div>' );-->
+<!--            //searchForm += '<div class="col"><input type="text" class="form-control" placeholder="'+title+'"</div><input/>'-->
+<!--        } );-->
+<!--        searchForm += '<button type="submit" class="btn btn-primary mb-2">SU</button>';-->
+<!--        searchForm += '</form>';-->
+<!--        $('#tableSearch').append(searchForm);-->
+<!--        searchForm = '';-->
+
+<!--        // DataTable-->
+<!--        var table = $('#dataTable').DataTable();-->
+<!--        /*-->
+<!--                // Apply the search-->
+<!--                table.columns().every( function () {-->
+<!--                    var that = this;-->
+
+<!--                    $( 'input', this.head() ).on( 'keyup change clear', function () {-->
+<!--                        if ( that.search() !== this.value ) {-->
+<!--                            that-->
+<!--                                .search( this.value )-->
+<!--                                .draw();-->
+<!--                        }-->
+<!--                    } );-->
+<!--                } );*/-->
+<!--    } );-->
+<!--</script>-->
+
+<script>
+    $(window).on("load resize ", function() {
+        var scrollWidth = $('#flight_data').width() - $('#data-table').width();
+        $('#tableHeader').css({'padding-right':scrollWidth});
+    }).resize();
+</script>
+<script>
+
+    $(document).ready(function () {
+        var flight_info = '';
+        var statusTextColor;
+        $.get("/api/correlated_flight?", function (data) {
+            data.forEach(function (flight) {
+                if(flight.outcome.includes('FAIL')) {
+
+
+                    flight_info += '<tr class="row failure">';
+                    statusTextColor = '#E62f24';
+
+                    flight_info += '<tr style="border-left: 30px solid #E62F24;"><td style="column-gap:2px; text-align: center;">' + flight._id.slice(-4) + '</td>';
+
+                    if (flight.landingPoint) {
+
+
+                        var lat = flight.landingPoint.geometry[1];
+                        var lon = flight.landingPoint.geometry[0];
+                        flight_info += '<td style="column-gap:4px; text-align: center;">' + lat.toFixed(3) + ',' + lon.toFixed(3) + '</td>';
+
+                        var landingDate = flight.landingDate.slice(5, 7) + '/' + flight.landingDate.slice(8, 10) + '/' + flight.landingDate.slice(0, 4);
+                        flight_info += '<td style="column-gap: 4px; text-align: center;">' + landingDate + '</td>';
+                    }
+                    else {
+                        flight_info += '<td style="column-gap: 4px; text-align: center;">' + 'in progress' +  '</td>';
+                    }
+
+                    if (flight.takeoffPoint) {
+
+                        var lat = flight.takeoffPoint.geometry[1];
+                        var lon = flight.takeoffPoint.geometry[0];
+
+                        flight_info += '<td style="column-gap: 4px; text-align: center;">' + lat.toFixed(3) + ',' + lon.toFixed(3) + '</td>';
+                    }
+                    else {
+                        flight_info += '<td style="column-gap: 4px; text-align: center;">' + 'in progress' +  '</td>';
+
+                    }
+                    // TODO: filler
+                    flight_info += '<td style="column-gap: 4px; text-align: center;">' + '#' + '</td>';
+
+                    flight_info += '<td style="column-gap: 4px; text-align: center;"><b>' + flight.outcome.fontcolor(statusTextColor) + '</b></td>';
+                    //flight_info += '<td><button class="button" id="modalBtn" data-target="#exampleModal">' + "Test" + '</button></td>';
+                    flight_info += '</tr>';
+                    $('#flight_data').append(flight_info);
+                    flight_info = '';
+                }
+
+            });
+        });
+
+        // $('#data-table').DataTable( {
+        //     "searching": false,
+        //     "ordering": false,
+        //     "lengthChange": false,
+        //     "bInfo" : false
+        // });
+        // $('.dataTables_length').addClass('bs-select');
+        //
+        // var statusTextColor;
+        // var UL={};
+        // var WSS={};
+        // var WID={};
+        // var CODE={};
+        //
+        // $.getJSON("/fakedata/CEDASUpload.json", function(data){
+        //     $.each(data, function (key,value) {
+        //         console.log(value);
+        //         UL[key] = value.uploadLocation.latitude.slice(0,6) + "," + value.uploadLocation.longitude.slice(0,7);
+        //         WSS[key] = value.wapStrength;
+        //         WID[key] = value.wapID;
+        //         CODE[key] = value.airportCode;
+        //     });
+        // });
+        //
+        // $.getJSON("/fakedata/CorrellatedFlight.json", function(data){
+        //     var flight_info = '';
+        //     var itemNum;
+        //     $.each(data, function (key,value) {
+        //         itemNum = key+1;
+        //         console.log(UL);
+        //         /*if(value.outcome == 'SUCCESS_UPLOAD')
+        //         {
+        //             flight_info += '<tr class="row success">';
+        //             statusTextColor = '#52d29a';
+        //         }
+        //         else if(value.outcome == 'WARN_IN_PROGRESS')
+        //         {
+        //             flight_info += '<tr class="row pending">';
+        //             statusTextColor = '#E2E736';
+        //         }*/
+        //         if (value.outcome.includes("FAIL")) {
+        //             flight_info += '<tr class="row failure">';
+        //             statusTextColor = '#e62f24';
+        //
+        //             flight_info += '<tr><td>' + itemNum + '</td>';
+        //             flight_info += '<td>' + UL[key] + '</td>';
+        //             flight_info += '<td>' + WSS[key] + '</td>';
+        //             flight_info += '<td>' + WID[key] + '</td>';
+        //             flight_info += '<td>' + CODE[key] + '</td>';
+        //             flight_info += '<td>' + value.outcome.fontcolor(statusTextColor) + '</td>';
+        //             flight_info += '<td><button class="button" id="modalBtn">' + "Test" + '</button></td>';
+        //             flight_info += '</tr>';
+        //         }
+        //
+        //         if(value.outcome != 'SUCCESS_UPLOAD' && value.outcome != 'WARN_IN_PROGRESS') {
+        //
+        //             $('#flight_data').append(flight_info);
+        //             flight_info = '';
+        //         }
+        //         flight_info = '';
+        //     });
+        //
+        // });
+    });
+
+
+
+    // var modalBtns = [...document.querySelectorAll(".button")];
+    // modalBtns.forEach(function(btn){
+    //     btn.onclick = function() {
+    //         var modal = btn.getAttribute('data-modal');
+    //         document.getElementById(modal).style.display = "block";
+    //     }
+    // });
+    //
+    // var closeBtns = [...document.querySelectorAll(".close")];
+    // closeBtns.forEach(function(btn){
+    //     btn.onclick = function() {
+    //         var modal = btn.closest('.modal');
+    //         modal.style.display = "none";
+    //     }
+    // });
+    //
+    // window.onclick = function(event) {
+    //     if (event.target.className === "modal") {
+    //         event.target.style.display = "none";
+    //     }
+    // }
+
+</script>
+</body>
+</html>
