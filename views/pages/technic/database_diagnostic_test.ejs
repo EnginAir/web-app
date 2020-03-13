@@ -15,37 +15,47 @@
 
         <!-------------DATABASE TABLE------------->
 <main>
-    < class="container-fluid row h-100 m-0 align-middle" id="pageContainer">
-        <table id="dataTable" class="mb-0 table table-responsive-md table-borderless table-hover col-md-12" style="overflow-x:auto"><!--display table table-hover-->
+    <div class="container-fluid row h-100 m-0 align-middle" id="pageContainer">
+        <table id="dataTable" class="searchable sortable mb-0 table table-responsive-md table-sm table-borderless table-hover col-md-12" style="overflow-x:auto"><!--display table table-hover-->
             <thead>
-            <tr id="tableHeader" style="background-color: rgba(255, 255, 255, 0.1); text-align: center;">
-                <th><h4>ID</h4></th>
-                <th><h4>GPS Location (UL)</h4></th>
-                <th><h4>WAP Signal Strength (WSS)</h4></th>
-                <th><h4>Landing Date</h4></th>
-                <th><h4>WAP ID (WID)</h4></th>
-                <th><h4>Airport Code</h4></th>
-                <th><h4>Status</h4></th>
+            <tr id="tableHeader" style="width:100%; background-color: rgba(255, 255, 255, 0.1); text-align: center;">
+                <th style="text-align:center"><h4>ID</h4></th>
+                <th style="text-align:center"><h4>GPS Location (UL)</h4></th>
+                <th style="text-align:center"><h4>WAP Signal Strength (WSS)</h4></th>
+                <th style="text-align:center"><h4>Landing Date</h4></th>
+                <th style="text-align:center"><h4>WAP ID (WID)</h4></th>
+                <th style="text-align:center"><h4>Airport Code</h4></th>
+                <th style="text-align:center"><h4>Status</h4></th>
 
             </tr>
             </thead>
-            <thead style="text-align: center; background-color: #00efb2">
+            <thead style="text-align: center; background-color: #00efb2; width: 100%">
             <tr id="tableSearch" class="row">
 
-                <th class="col" style="background-color: #00efb2"><form><input placeholder="ID"></form></th>
-                <th class="col" style="background-color: #00efb2"><form><input placeholder="Upload GPS Location (UL)"></form></th>
-                <th class="col" style="background-color: #00efb2"><form><input placeholder="Landing Date"></form></th>
-                <th class="col" style="background-color: #00efb2"><form><input placeholder="WAP Signal Strength (WSS)"></form></th>
-                <th class="col" style="background-color: #00efb2"><form><input placeholder="WAP ID (WID)"></form></th>
-                <th class="col" style="background-color: #00efb2"><form><input placeholder="Airport Code"></form></th>
-                <th class="col" style="background-color: #00efb2"><form><input placeholder="Status"></form></th>
 
+                <th class='tdinput' style="text-align:center"><input type="text" placeholder="ID"/></th>
+                <th class='tdinput' style="text-align:center"><input type="text" placeholder="Upload GPS Location (UL)"/></th>
+                <th class='tdinput pl-1' style="text-align:center"><input type="text" placeholder="Landing Date"/></th>
+                <th class='tdinput pl-1' style="text-align:center"><input type="text" placeholder="WAP Signal Strength (WSS)"/></th>
+                <th class='tdinput pl-1' style="text-align:center"><input type="text" placeholder="WAP ID (WID)"/></th>
+                <th class='tdinput pl-1' style="text-align:center"><input type="text" placeholder="Airport Code"/></th>
+                <th class='tdinput pl-1' style="text-align:center"><input type="text" placeholder="Status"/></th>
+<!--
+                <th class="col" style="text-align:center"><form class="form-inline col-sm-1"><input class="form-control" placeholder="ID"></form></th>
+                <th class="col" style="text-align:center"><form class="form-inline col-sm-1 "><input class="form-control" placeholder="Upload GPS Location (UL)"></form></th>
+                <th class="col" style="text-align:center"><form class="form-inline col-sm-1"><input class="form-control" placeholder="Landing Date"></form></th>
+                <th class="col" style="text-align:center"><form class="form-inline col-sm-1"><input class="form-control" placeholder="WAP Signal Strength (WSS)"></form></th>
+                <th class="col" style="text-align:center"><form class="form-inline col-sm-1"><input class="form-control" placeholder="WAP ID (WID)"></form></th>
+                <th class="col" style="text-align:center"><form class="form-inline col-sm-1"><input class="form-control" placeholder="Airport Code"></form></th>
+                <th class="col" style="text-align:center"><form class="form-inline col-sm-1"><input class="form-control" placeholder="Status"></form></th>
+-->
             </tr>
             </thead>
             <tbody id="flight_data">
 
             </tbody>
         </table>
+
     </div>
 
     <div class="modal" tabindex="-1" role="dialog">
@@ -137,7 +147,7 @@
                     flight_info += '<tr class="row failure">';
                     statusTextColor = '#E62f24';
 
-                    flight_info += '<tr style="border-left: 30px solid #E62F24;"><td style="column-gap:2px; text-align: center;">' + flight._id.slice(-4) + '</td>';
+                    flight_info += '<tr style="border-left:2px solid #E62F24;"><td style="column-gap:2px; text-align: center;">' + flight._id.slice(-4) + '</td>';
 
                     if (flight.landingPoint) {
 
@@ -166,6 +176,9 @@
                     }
                     // TODO: filler
                     flight_info += '<td style="column-gap: 4px; text-align: center;">' + '#' + '</td>';
+
+                    // TODO: filler
+                    flight_info += '<td style="column-gap: 4px; text-align: center;">' + 'ABC' + '</td>';
 
                     flight_info += '<td style="column-gap: 4px; text-align: center;"><b>' + flight.outcome.fontcolor(statusTextColor) + '</b></td>';
                     //flight_info += '<td><button class="button" id="modalBtn" data-target="#exampleModal">' + "Test" + '</button></td>';

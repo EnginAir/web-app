@@ -114,12 +114,7 @@
             //console.log(flight._id);
             if (flight.outcome.includes('SUCCESS')) {
                 console.log("Flight successful: " + flight._id);
-                marker = new L.circleMarker([flight.landingPoint.geometry[1], flight.landingPoint.geometry[0]], {
-                    radius: 6.0,
-                    fillColor: '#4CBB17',
-                    color: '#000',
-                    weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'successUpload'
-                })
+                marker = new L.circleMarker([flight.landingPoint.geometry[1], flight.landingPoint.geometry[0]], greenIcon)
                     .bindPopup("<b>Tail Number: </b>" + flight.tailNumber +
                         "<br /><b>X: </b>" + flight.landingPoint.geometry[1] +
                         "<br /><b>Y: </b>" + flight.landingPoint.geometry[0] +
@@ -127,12 +122,7 @@
                     .addTo(map);
             } else if (flight.outcome.includes('WARN')) {
                 console.log("Flight pending: " + flight._id);
-                marker = new L.circleMarker([flight.flightPath[flight.flightPath.length-1].geometry[1],flight.flightPath[flight.flightPath.length-1].geometry[0]], {
-                    radius: 6.0,
-                    fillColor: 'yellow',
-                    color: '#000',
-                    weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'pendingUpload'
-                })
+                marker = new L.circleMarker([flight.flightPath[flight.flightPath.length-1].geometry[1],flight.flightPath[flight.flightPath.length-1].geometry[0]],yellowIcon)
                     .bindPopup("<b>Tail Number: </b>" + flight.tailNumber +
                         "<br /><b>X: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[1] +
                         "<br /><b>Y: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[0] +
@@ -140,12 +130,7 @@
                     .addTo(map);
             } else if (flight.outcome.includes('FAIL')) {
                 //console.log("Flight failed: " + flight._id);
-                marker = new L.circleMarker([flight.flightPath[flight.flightPath.length-1].geometry[1],flight.flightPath[flight.flightPath.length-1].geometry[0]], {
-                    radius: 6.0,
-                    fillColor: 'red',
-                    color: '#000',
-                    weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'failedUpload'
-                })
+                marker = new L.circleMarker([flight.flightPath[flight.flightPath.length-1].geometry[1],flight.flightPath[flight.flightPath.length-1].geometry[0]],redIcon)
                     .bindPopup("<b>Tail Number: </b>" + flight.tailNumber +
                         "<br /><b>X: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[1] +
                         "<br /><b>Y: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[0] +

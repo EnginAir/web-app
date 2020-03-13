@@ -159,17 +159,19 @@
     height: 100%;
     width:100%;
     position: relative;
-    /*overflow: hidden;*/
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0;
     margin:0;
+    text-align: center;
 }
 
 #tableSearch th {
     font-family: 'Roboto-Light', 'sans-serif';
     font-size: 12px;
+    background-color: #00efb2;
 }
 
 #tableSearch form {
@@ -179,7 +181,8 @@
 main.flex-container {/*BINGO*/
     align-items: center;
     justify-content: center;
-    display: flex;
+    /*display: flex;*/
+    display: inline-block;
     max-height: 28em;
     height: 100%;
     width: 100%;
@@ -191,7 +194,8 @@ main.flex-container {/*BINGO*/
     position: absolute;
 }
 
-main.flex-container#data-table {
+/*data #data-table*/
+table#data-table {
     border-collapse: collapse;
     vertical-align: baseline;
     display: table;
@@ -202,6 +206,7 @@ main.flex-container#data-table {
 thead {
     background-color: rgba(255,255,255,0.3);
     border-left: 3px solid rgba(255, 255, 255, 0.1);
+    width: 100%;
 }
 
 h4 {
@@ -219,7 +224,7 @@ td {
 }
 
 td:hover {
-    height: 80px;
+    height: 50px;
 }
 
 
@@ -237,6 +242,7 @@ table .row {
     list-style: none;
     display: inline-block;
     box-sizing: border-box;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 
@@ -299,6 +305,5 @@ table .row {
 ::-webkit-scrollbar-thumb {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 }
-
 
 
