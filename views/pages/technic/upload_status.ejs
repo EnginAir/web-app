@@ -70,9 +70,9 @@
                         <hr class="my-4">
                         <!--TODO: FIX: if searched all points then want to see the searched data point, have to clear first-->
                         <button type="button" class="btn btn-light btn-block" id="search">Search</button>
-                        <button type="reset" class="btn btn-primary btn-block" onclick="allMarkers()">See All</button>
-                        <button type="submit" class="btn btn-outline-primary btn-block" id="">Clear</button>
-                    </form>
+<!--                        <button type="reset" class="btn btn-primary btn-block" id="search">See All</button>-->
+<!--                        <button type="submit" class="btn btn-outline-primary btn-block" id="">Clear</button>-->
+<!--                    </form>-->
                 </div>
             </div>
         </div>
@@ -168,8 +168,9 @@
     $("#search").click(function(){
 
         map.removeLayer(myLayerGroup);
+
         console.log("test");
-        $.get("/api/correlated_flight?tailNumber=" + $("#tailNumber").val() + "&_id=" + $("#searchDB").val() + "&landingPoint.geometry=" + $("#searchLon").val() + "&landingPoint.geometry=" + $("#searchLat").val().toString(), function (data) {
+        $.get("/api/correlated_flight?limit=40000&tailNumber=" + $("#tailNumber").val() + "&_id=" + $("#searchDB").val() + "&landingPoint.geometry=" + $("#searchLon").val() + "&landingPoint.geometry=" + $("#searchLat").val().toString(), function (data) {
             data.forEach(function (flight) {
                 //console.log(flight._id);
                 if (flight.outcome.includes('SUCCESS')) {
