@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <% include ../../partials/head %>
-   <!-- <link rel="stylesheet" href="/stylesheets/tableStyle.css">-->
+    <link rel="stylesheet" href="/stylesheets/tableStyle.css">
     <link rel="stylesheet" href="/stylesheets/databasePages.css">
 </head>
 <body>
@@ -13,67 +13,119 @@
     <% include ../../partials/technic_header %>
 </header>
 
-        <!-------------DATABASE TABLE------------->
 <main>
-    <div class="container-fluid row h-100 m-0 align-middle" id="pageContainer">
-        <table id="dataTable" class="searchable sortable mb-0 table table-responsive-md table-sm table-borderless table-hover col-md-12" style="overflow-x:auto"><!--display table table-hover-->
+    <div class="container-fluid">
+
+
+        <!-------------SEARCH BAR------------->
+        <div class="card">
+            <div class="card-body">
+                <form id="clear">
+                    <div class="row justify-content-md-center">
+                        <div class="col-md-1 pl-1 ">
+                            <div class="form-group">
+                                <label>ID</label>
+                                <input type="text" id="ID" name="ID" class="form-control" placeholder="ID">
+                            </div>
+                        </div>
+                        <div class="col-md-1 pl-1">
+                            <div class="form-group">
+                                <label>UL</label>
+                                <input type="text" id="UL" class="form-control"  placeholder="UL">
+                            </div>
+                        </div>
+                        <div class="col-md-1 pl-1">
+                            <div class="form-group">
+                                <label>WSS</label>
+                                <input type="text" id="WSS" class="form-control"  placeholder="Strength">
+                            </div>
+                        </div>
+                        <div class="col-md-1 pl-1">
+                            <div class="form-group">
+                                <label>WID</label>
+                                <input type="text" id="WID" class="form-control"  placeholder="WID">
+                            </div>
+                        </div>
+                        <div class="col-md-1 pl-1">
+                            <div class="form-group">
+                                <label>CODE</label>
+                                <input type="text" id="CODE" class="form-control"  placeholder="CODE">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="text-center">
+                    <a class="btn btn-success btn-lg " href="#"><i class="fa fa-filter "></i> Filter</a>
+                    <a class="btn btn-secondary btn-lg " onclick="clear()" href="#"><i class="fa fa-eraser "></i> Clear Filter</a>
+                </div>
+            </div>
+        </div>
+
+        <!-------------DATABASE TABLE------------->
+        <div class="container"><br><br></div>
+        <section class="wrapper">
+            <div class="tbl-header">
+                <table cellpadding="0" cellspacing="0" border="0">
+                    <thead>
+                    <tr class="filters">
+                        <th>ID</th>
+                        <th>Upload GPS Location (UL)</th>
+                        <th>WAP Signal Strength (WSS)</th>
+                        <th>WAP ID (WID)</th>
+                        <th>Airport Code</th>
+                        <th>Status</th>
+                        <th>Run Test</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="tbl-content">
+                <table cellpadding="0" cellspacing="0" border="0" id="flight_data" >
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+
+        </section>
+
+        <!-- <table class="table table-striped table-bordered table-sm w-100" id="table">
             <thead>
-            <tr id="tableHeader" style="width:100%; background-color: rgba(255, 255, 255, 0.1); text-align: center;">
-                <th style="text-align:center"><h4>ID</h4></th>
-                <th style="text-align:center"><h4>GPS Location (UL)</h4></th>
-                <th style="text-align:center"><h4>WAP Signal Strength (WSS)</h4></th>
-                <th style="text-align:center"><h4>Landing Date</h4></th>
-                <th style="text-align:center"><h4>WAP ID (WID)</h4></th>
-                <th style="text-align:center"><h4>Airport Code</h4></th>
-                <th style="text-align:center"><h4>Status</h4></th>
-
+            <tr class="table-dark">
+                <th>ID</th>
+                <th>Upload GPS Location (UL)</th>
+                <th>WAP Signal Strength (WSS)</th>
+                <th>WAP ID (WID)</th>
+                <th>Airport Code</th>
+                <th>Status</th>
+                <th>Run Test</th>
             </tr>
             </thead>
-            <thead style="text-align: center; background-color: #00efb2; width: 100%">
-            <tr id="tableSearch" class="row">
-
-
-                <th class='tdinput' style="text-align:center"><input type="text" placeholder="ID"/></th>
-                <th class='tdinput' style="text-align:center"><input type="text" placeholder="Upload GPS Location (UL)"/></th>
-                <th class='tdinput pl-1' style="text-align:center"><input type="text" placeholder="Landing Date"/></th>
-                <th class='tdinput pl-1' style="text-align:center"><input type="text" placeholder="WAP Signal Strength (WSS)"/></th>
-                <th class='tdinput pl-1' style="text-align:center"><input type="text" placeholder="WAP ID (WID)"/></th>
-                <th class='tdinput pl-1' style="text-align:center"><input type="text" placeholder="Airport Code"/></th>
-                <th class='tdinput pl-1' style="text-align:center"><input type="text" placeholder="Status"/></th>
-<!--
-                <th class="col" style="text-align:center"><form class="form-inline col-sm-1"><input class="form-control" placeholder="ID"></form></th>
-                <th class="col" style="text-align:center"><form class="form-inline col-sm-1 "><input class="form-control" placeholder="Upload GPS Location (UL)"></form></th>
-                <th class="col" style="text-align:center"><form class="form-inline col-sm-1"><input class="form-control" placeholder="Landing Date"></form></th>
-                <th class="col" style="text-align:center"><form class="form-inline col-sm-1"><input class="form-control" placeholder="WAP Signal Strength (WSS)"></form></th>
-                <th class="col" style="text-align:center"><form class="form-inline col-sm-1"><input class="form-control" placeholder="WAP ID (WID)"></form></th>
-                <th class="col" style="text-align:center"><form class="form-inline col-sm-1"><input class="form-control" placeholder="Airport Code"></form></th>
-                <th class="col" style="text-align:center"><form class="form-inline col-sm-1"><input class="form-control" placeholder="Status"></form></th>
--->
-            </tr>
-            </thead>
-            <tbody id="flight_data">
+            <tbody>
 
             </tbody>
         </table>
-
-    </div>
-
-    <div class="modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
+    </div>-->
+        <div id="testModal" class="modal">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Modal title</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                <a class="close">&times;</a>
+
+                <h3 class="text-center" style="font-family: 'Roboto-Bold', 'sans-serif'">TEST RESULT</h3>
+
+                <div id="testResults">
+                    <h6 class="text-center" id="results-id">ID:</h6>
+                    <table class="table-condensed table-bordered">
+                        <thead>
+                        <tr class="table-dark">
+                            <th>Aircraft</th>
+                            <th>Landings</th>
+                        </tr>
+                        </thead>
+                        <tbody id="result-data">
+
+                        </tbody>
+                    </table>
                 </div>
-                <div class="modal-body">
-                    <p>Modal body text goes here.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
+
             </div>
         </div>
     </div>
@@ -92,192 +144,92 @@
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/bootstrap4-toggle.min.js"></script>
 <script src="/js/datatables.min.js"></script>
-<!--<script>-->
-<!--    -->
-<!--    $(document).ready(function() {-->
-
-<!--        var searchForm = '';-->
-
-<!--        searchForm += '<form class="form-inline">'-->
-
-<!--        $('#dataTable #tableSearch th').each( function () {-->
-<!--            var title = $(this).text();-->
-<!--            $(this).html( '<div class="col"><input type="text" class="form-control" placeholder="'+title+'"<input/></div>' );-->
-<!--            //searchForm += '<div class="col"><input type="text" class="form-control" placeholder="'+title+'"</div><input/>'-->
-<!--        } );-->
-<!--        searchForm += '<button type="submit" class="btn btn-primary mb-2">SU</button>';-->
-<!--        searchForm += '</form>';-->
-<!--        $('#tableSearch').append(searchForm);-->
-<!--        searchForm = '';-->
-
-<!--        // DataTable-->
-<!--        var table = $('#dataTable').DataTable();-->
-<!--        /*-->
-<!--                // Apply the search-->
-<!--                table.columns().every( function () {-->
-<!--                    var that = this;-->
-
-<!--                    $( 'input', this.head() ).on( 'keyup change clear', function () {-->
-<!--                        if ( that.search() !== this.value ) {-->
-<!--                            that-->
-<!--                                .search( this.value )-->
-<!--                                .draw();-->
-<!--                        }-->
-<!--                    } );-->
-<!--                } );*/-->
-<!--    } );-->
-<!--</script>-->
 
 <script>
-    $(window).on("load resize ", function() {
-        var scrollWidth = $('#flight_data').width() - $('#data-table').width();
-        $('#tableHeader').css({'padding-right':scrollWidth});
-    }).resize();
-</script>
-<script>
-
     $(document).ready(function () {
-        var flight_info = '';
+        $('#table').DataTable({"searching": false, "ordering": false});
+        $('.dataTables_length').addClass('bs-select');
+
         var statusTextColor;
-        $.get("/api/correlated_flight?", function (data) {
-            data.forEach(function (flight) {
-                if(flight.outcome.includes('FAIL')) {
+        var UL={};
+        var WSS={};
+        var WID={};
+        var CODE={};
 
-
-                    flight_info += '<tr class="row failure">';
-                    statusTextColor = '#E62f24';
-
-                    flight_info += '<tr style="border-left:2px solid #E62F24;"><td style="column-gap:2px; text-align: center;">' + flight._id.slice(-4) + '</td>';
-
-                    if (flight.landingPoint) {
-
-
-                        var lat = flight.landingPoint.geometry[1];
-                        var lon = flight.landingPoint.geometry[0];
-                        flight_info += '<td style="column-gap:4px; text-align: center;">' + lat.toFixed(3) + ',' + lon.toFixed(3) + '</td>';
-
-                        var landingDate = flight.landingDate.slice(5, 7) + '/' + flight.landingDate.slice(8, 10) + '/' + flight.landingDate.slice(0, 4);
-                        flight_info += '<td style="column-gap: 4px; text-align: center;">' + landingDate + '</td>';
-                    }
-                    else {
-                        flight_info += '<td style="column-gap: 4px; text-align: center;">' + 'in progress' +  '</td>';
-                    }
-
-                    if (flight.takeoffPoint) {
-
-                        var lat = flight.takeoffPoint.geometry[1];
-                        var lon = flight.takeoffPoint.geometry[0];
-
-                        flight_info += '<td style="column-gap: 4px; text-align: center;">' + lat.toFixed(3) + ',' + lon.toFixed(3) + '</td>';
-                    }
-                    else {
-                        flight_info += '<td style="column-gap: 4px; text-align: center;">' + 'in progress' +  '</td>';
-
-                    }
-                    // TODO: filler
-                    flight_info += '<td style="column-gap: 4px; text-align: center;">' + '#' + '</td>';
-
-                    // TODO: filler
-                    flight_info += '<td style="column-gap: 4px; text-align: center;">' + 'ABC' + '</td>';
-
-                    flight_info += '<td style="column-gap: 4px; text-align: center;"><b>' + flight.outcome.fontcolor(statusTextColor) + '</b></td>';
-                    //flight_info += '<td><button class="button" id="modalBtn" data-target="#exampleModal">' + "Test" + '</button></td>';
-                    flight_info += '</tr>';
-                    $('#flight_data').append(flight_info);
-                    flight_info = '';
-                }
-
+        $.getJSON("/fakedata/CEDASUpload.json", function(data){
+            $.each(data, function (key,value) {
+                console.log(value);
+                UL[key] = value.uploadLocation.latitude.slice(0,6) + "," + value.uploadLocation.longitude.slice(0,7);
+                WSS[key] = value.wapStrength;
+                WID[key] = value.wapID;
+                CODE[key] = value.airportCode;
             });
         });
 
-        // $('#data-table').DataTable( {
-        //     "searching": false,
-        //     "ordering": false,
-        //     "lengthChange": false,
-        //     "bInfo" : false
-        // });
-        // $('.dataTables_length').addClass('bs-select');
-        //
-        // var statusTextColor;
-        // var UL={};
-        // var WSS={};
-        // var WID={};
-        // var CODE={};
-        //
-        // $.getJSON("/fakedata/CEDASUpload.json", function(data){
-        //     $.each(data, function (key,value) {
-        //         console.log(value);
-        //         UL[key] = value.uploadLocation.latitude.slice(0,6) + "," + value.uploadLocation.longitude.slice(0,7);
-        //         WSS[key] = value.wapStrength;
-        //         WID[key] = value.wapID;
-        //         CODE[key] = value.airportCode;
-        //     });
-        // });
-        //
-        // $.getJSON("/fakedata/CorrellatedFlight.json", function(data){
-        //     var flight_info = '';
-        //     var itemNum;
-        //     $.each(data, function (key,value) {
-        //         itemNum = key+1;
-        //         console.log(UL);
-        //         /*if(value.outcome == 'SUCCESS_UPLOAD')
-        //         {
-        //             flight_info += '<tr class="row success">';
-        //             statusTextColor = '#52d29a';
-        //         }
-        //         else if(value.outcome == 'WARN_IN_PROGRESS')
-        //         {
-        //             flight_info += '<tr class="row pending">';
-        //             statusTextColor = '#E2E736';
-        //         }*/
-        //         if (value.outcome.includes("FAIL")) {
-        //             flight_info += '<tr class="row failure">';
-        //             statusTextColor = '#e62f24';
-        //
-        //             flight_info += '<tr><td>' + itemNum + '</td>';
-        //             flight_info += '<td>' + UL[key] + '</td>';
-        //             flight_info += '<td>' + WSS[key] + '</td>';
-        //             flight_info += '<td>' + WID[key] + '</td>';
-        //             flight_info += '<td>' + CODE[key] + '</td>';
-        //             flight_info += '<td>' + value.outcome.fontcolor(statusTextColor) + '</td>';
-        //             flight_info += '<td><button class="button" id="modalBtn">' + "Test" + '</button></td>';
-        //             flight_info += '</tr>';
-        //         }
-        //
-        //         if(value.outcome != 'SUCCESS_UPLOAD' && value.outcome != 'WARN_IN_PROGRESS') {
-        //
-        //             $('#flight_data').append(flight_info);
-        //             flight_info = '';
-        //         }
-        //         flight_info = '';
-        //     });
-        //
-        // });
+        $.getJSON("/fakedata/CorrellatedFlight.json", function(data){
+            var flight_info = '';
+            var itemNum;
+            $.each(data, function (key,value) {
+                itemNum = key+1;
+                console.log(UL);
+                /*if(value.outcome == 'SUCCESS_UPLOAD')
+                {
+                    flight_info += '<tr class="row success">';
+                    statusTextColor = '#52d29a';
+                }
+                else if(value.outcome == 'WARN_IN_PROGRESS')
+                {
+                    flight_info += '<tr class="row pending">';
+                    statusTextColor = '#E2E736';
+                }*/
+                if (value.outcome.includes("FAIL")) {
+                    flight_info += '<tr class="row failure">';
+                    statusTextColor = '#e62f24';
+
+                    flight_info += '<td>' + itemNum + '</td>';
+                    flight_info += '<td>' + UL[key] + '</td>';
+                    flight_info += '<td>' + WSS[key] + '</td>';
+                    flight_info += '<td>' + WID[key] + '</td>';
+                    flight_info += '<td>' + CODE[key] + '</td>';
+                    flight_info += '<td>' + value.outcome.fontcolor(statusTextColor) + '</td>';
+                    flight_info += '<td><button class="button" id="modalBtn">' + "Test" + '</button></td>';
+                    flight_info += '</tr>';
+                }
+
+                if(value.outcome != 'SUCCESS_UPLOAD' && value.outcome != 'WARN_IN_PROGRESS') {
+
+                    $('#flight_data').append(flight_info);
+                    flight_info = '';
+                }
+                flight_info = '';
+            });
+
+        });
     });
 
 
 
-    // var modalBtns = [...document.querySelectorAll(".button")];
-    // modalBtns.forEach(function(btn){
-    //     btn.onclick = function() {
-    //         var modal = btn.getAttribute('data-modal');
-    //         document.getElementById(modal).style.display = "block";
-    //     }
-    // });
-    //
-    // var closeBtns = [...document.querySelectorAll(".close")];
-    // closeBtns.forEach(function(btn){
-    //     btn.onclick = function() {
-    //         var modal = btn.closest('.modal');
-    //         modal.style.display = "none";
-    //     }
-    // });
-    //
-    // window.onclick = function(event) {
-    //     if (event.target.className === "modal") {
-    //         event.target.style.display = "none";
-    //     }
-    // }
+    var modalBtns = [...document.querySelectorAll(".button")];
+    modalBtns.forEach(function(btn){
+        btn.onclick = function() {
+            var modal = btn.getAttribute('data-modal');
+            document.getElementById(modal).style.display = "block";
+        }
+    });
+
+    var closeBtns = [...document.querySelectorAll(".close")];
+    closeBtns.forEach(function(btn){
+        btn.onclick = function() {
+            var modal = btn.closest('.modal');
+            modal.style.display = "none";
+        }
+    });
+
+    window.onclick = function(event) {
+        if (event.target.className === "modal") {
+            event.target.style.display = "none";
+        }
+    }
 
 </script>
 </body>
