@@ -56,7 +56,7 @@ html {
 }
 
 .pricing-plan {
-    border-bottom: 1px solid #9FDFC4;
+    border-bottom: 1px solid #000000;
     padding: 25px;
 }
 
@@ -90,21 +90,21 @@ html {
 }
 
 .pricing-features {
-    color: #00BC8C;
+    color: #000000;
     font-weight: 600;
     letter-spacing: 1px;
     margin: 50px 0 25px;
 }
 
 .pricing-features-item {
-    border-top: 1px solid #9FDFC4;
+    border-top: 1px solid #000000;
     font-size: 12px;
     line-height: 1.5;
     padding: 15px 0;
 }
 
 .pricing-features-item:last-child {
-    border-bottom: 1px solid #9FDFC4;
+    border-bottom: 1px solid #000000;
 }
 
 .pricing-price {
@@ -140,6 +140,3 @@ html {
     background-color: #00BC8C;
 }
 
-#footer {
-    padding: 0;
-}

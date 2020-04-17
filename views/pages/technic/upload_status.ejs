@@ -70,9 +70,9 @@
                         <hr class="my-4">
                         <!--TODO: FIX: if searched all points then want to see the searched data point, have to clear first-->
                         <button type="button" class="btn btn-light btn-block" id="search">Search</button>
-                        <button type="reset" class="btn btn-primary btn-block" onclick="allMarkers()">See All</button>
-                        <button type="submit" class="btn btn-outline-primary btn-block" id="">Clear</button>
-                    </form>
+<!--                        <button type="reset" class="btn btn-primary btn-block" id="search">See All</button>-->
+<!--                        <button type="submit" class="btn btn-outline-primary btn-block" id="">Clear</button>-->
+<!--                    </form>-->
                 </div>
             </div>
         </div>
@@ -168,18 +168,14 @@
     $("#search").click(function(){
 
         map.removeLayer(myLayerGroup);
+
         console.log("test");
-        $.get("/api/correlated_flight?tailNumber=" + $("#tailNumber").val() + "&_id=" + $("#searchDB").val() + "&landingPoint.geometry=" + $("#searchLon").val() + "&landingPoint.geometry=" + $("#searchLat").val().toString(), function (data) {
+        $.get("/api/correlated_flight?limit=40000&tailNumber=" + $("#tailNumber").val() + "&_id=" + $("#searchDB").val() + "&landingPoint.geometry=" + $("#searchLon").val() + "&landingPoint.geometry=" + $("#searchLat").val().toString(), function (data) {
             data.forEach(function (flight) {
                 //console.log(flight._id);
                 if (flight.outcome.includes('SUCCESS')) {
                     console.log("Flight successful: " + flight._id);
-                    var marker = new L.circleMarker([flight.landingPoint.geometry[1], flight.landingPoint.geometry[0]], {
-                        radius: 6.0,
-                        fillColor: '#4CBB17',
-                        color: '#000',
-                        weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'successUpload'
-                    })
+                    var marker = new L.circleMarker([flight.landingPoint.geometry[1], flight.landingPoint.geometry[0]],greenIcon)
                         .bindPopup("<b>Tail Number: </b>" + flight.tailNumber +
                             "<br /><b>X: </b>" + flight.landingPoint.geometry[1] +
                             "<br /><b>Y: </b>" + flight.landingPoint.geometry[0] +
@@ -188,12 +184,7 @@
                     myLayerGroup.addLayer(marker);
                 } else if (flight.outcome.includes('WARN')) {
                     console.log("Flight pending: " + flight._id);
-                    marker = new L.circleMarker([flight.flightPath[flight.flightPath.length-1].geometry[1],flight.flightPath[flight.flightPath.length-1].geometry[0]], {
-                        radius: 6.0,
-                        fillColor: 'yellow',
-                        color: '#000',
-                        weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'pendingUpload'
-                    })
+                    marker = new L.circleMarker([flight.flightPath[flight.flightPath.length-1].geometry[1],flight.flightPath[flight.flightPath.length-1].geometry[0]], yellowIcon)
                         .bindPopup("<b>Tail Number: </b>" + flight.tailNumber +
                             "<br /><b>X: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[1] +
                             "<br /><b>Y: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[0] +
@@ -202,12 +193,7 @@
                     myLayerGroup.addLayer(marker);
                 } else if (flight.outcome.includes('FAIL')) {
                     //console.log("Flight failed: " + flight._id);
-                    marker = new L.circleMarker([flight.flightPath[flight.flightPath.length-1].geometry[1],flight.flightPath[flight.flightPath.length-1].geometry[0]], {
-                        radius: 6.0,
-                        fillColor: 'red',
-                        color: '#000',
-                        weight: 1, opacity: 1, fillOpacity: 0.8, 'className': 'failedUpload'
-                    })
+                    marker = new L.circleMarker([flight.flightPath[flight.flightPath.length-1].geometry[1],flight.flightPath[flight.flightPath.length-1].geometry[0]], redIcon)
                         .bindPopup("<b>Tail Number: </b>" + flight.tailNumber +
                             "<br /><b>X: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[1] +
                             "<br /><b>Y: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[0] +
