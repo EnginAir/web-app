@@ -6,7 +6,7 @@ const logger = require('morgan');
 const mongoose = require("mongoose");
 
 
-mongoose.connect("mongodb://127.0.0.1:27017/flightTest", function(err) {
+mongoose.connect("mongodb://mongo:27017/flightTest", function(err) {
 
 });
 
