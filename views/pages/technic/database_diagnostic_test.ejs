@@ -1,0 +1,189 @@
+<!-- views/pages/database_diagnostic_test.ejs -->
+<% const pageType = "database"; %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../../partials/head %>
+</head>
+<body>
+
+<header>
+    <% include ../../partials/technic_header %>
+</header>
+
+<main>
+    <div class="container-fluid">
+        <br>
+        <!-------------SEARCH BAR------------->
+        <div class="card">
+            <div class="card-body">
+                <form id="clear">
+                    <div class="row justify-content-md-center">
+                        <div class="col-md-1 pl-1 ">
+                            <div class="form-group">
+                                <label>ID</label>
+                                <input type="text" id="ID" name="ID" class="form-control" placeholder="ID">
+                            </div>
+                        </div>
+                        <div class="col-md-1 pl-1">
+                            <div class="form-group">
+                                <label>UL</label>
+                                <input type="text" id="UL" class="form-control"  placeholder="UL">
+                            </div>
+                        </div>
+                        <div class="col-md-1 pl-1">
+                            <div class="form-group">
+                                <label>WSS</label>
+                                <input type="text" id="WSS" class="form-control"  placeholder="Strength">
+                            </div>
+                        </div>
+                        <div class="col-md-1 pl-1">
+                            <div class="form-group">
+                                <label>WID</label>
+                                <input type="text" id="WID" class="form-control"  placeholder="WID">
+                            </div>
+                        </div>
+                        <div class="col-md-1 pl-1">
+                            <div class="form-group">
+                                <label>CODE</label>
+                                <input type="text" id="CODE" class="form-control"  placeholder="CODE">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <a class="btn btn-primary btn-lg" id="search"><i class="fa fa-filter "></i> Filter</a>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+        <div class="container"><br><br></div>
+
+        <section class="wrapper" id="table">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Upload GPS Location (UL)</th>
+                    <th scope="col">WAP Signal Strength (WSS)</th>
+                    <th scope="col">WAP ID (WID)</th>
+                    <th scope="col">Airport Code</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Run Test</th>
+                </tr>
+                </thead>
+                <tbody id="flight_data">
+                </tbody>
+            </table>
+
+        </section>
+
+        <div id="testModal" class="modal">
+            <div class="modal-content">
+                <a class="close">&times;</a>
+
+                <h3 class="text-center" style="font-family: 'Roboto-Bold', 'sans-serif'">TEST RESULT</h3>
+
+                <div id="testResults">
+                    <h6 class="text-center" id="results-id">ID:</h6>
+                    <table class="table-condensed table-bordered">
+                        <thead>
+                        <tr class="table-dark">
+                            <th>Aircraft</th>
+                            <th>Landings</th>
+                        </tr>
+                        </thead>
+                        <tbody id="result-data">
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</main>
+
+
+<footer>
+    <% include ../../partials/footer %>
+</footer>
+
+<!---------------------------------------->
+<!-------------LOAD JS FILES-------------->
+<!---------------------------------------->
+<script src="/js/leaflet.js"></script>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/bootstrap4-toggle.min.js"></script>
+<script src="/js/datatables.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        var UL={};
+        var WSS={};
+        var WID={};
+        var CODE={};
+
+        $.getJSON("/fakedata/CEDASUpload.json", function(data){
+            $.each(data, function (key,value) {
+                console.log(value);
+                UL[key] = value.uploadLocation.latitude.slice(0,6) + "," + value.uploadLocation.longitude.slice(0,7);
+                WSS[key] = value.wapStrength;
+                WID[key] = value.wapID;
+                CODE[key] = value.airportCode;
+            });
+        });
+
+        $.getJSON("/fakedata/CorrellatedFlight.json", function(data){
+            var flight_info = '';
+            var itemNum;
+            $.each(data, function (key,value) {
+                itemNum = key+1;
+                console.log(UL);
+                if (value.outcome.includes("FAIL")) {
+                    flight_info += '<tr class="table-danger">';
+                    flight_info += '<td>' + itemNum + '</td>';
+                    flight_info += '<td>' + UL[key] + '</td>';
+                    flight_info += '<td>' + WSS[key] + '</td>';
+                    flight_info += '<td>' + WID[key] + '</td>';
+                    flight_info += '<td>' + CODE[key] + '</td>';
+                    flight_info += '<td>' + value.outcome + '</td>';
+                    flight_info += '<td><button class="btn btn-primary" id="modalBtn">' + "Test" + '</button></td>';
+                    flight_info += '</tr>';
+                    $('#flight_data').append(flight_info);
+
+                }
+            });
+        });
+    });
+
+
+
+    // var modalBtns = [...document.querySelectorAll(".button")];
+    // modalBtns.forEach(function(btn){
+    //     btn.onclick = function() {
+    //         var modal = btn.getAttribute('data-modal');
+    //         document.getElementById(modal).style.display = "block";
+    //     }
+    // });
+    //
+    // var closeBtns = [...document.querySelectorAll(".close")];
+    // closeBtns.forEach(function(btn){
+    //     btn.onclick = function() {
+    //         var modal = btn.closest('.modal');
+    //         modal.style.display = "none";
+    //     }
+    // });
+    //
+    // window.onclick = function(event) {
+    //     if (event.target.className === "modal") {
+    //         event.target.style.display = "none";
+    //     }
+    // }
+
+</script>
+</body>
+</html>

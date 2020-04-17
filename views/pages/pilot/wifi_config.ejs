@@ -1,0 +1,149 @@
+<!-- views/pages/pilot/wifi_config.ejs -->
+<% const pageType = "wifi_config"; %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../../partials/head %>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css">
+</head>
+<body>
+
+<header>
+    <% include ../../partials/pilot_header %>
+</header>
+<main>
+    <div class="row h-100 justify-content-center align-items-center m-0">
+        <div class="col-2">
+            <div class="card border-secondary mb-3">
+                <h4 class="card-header">WIFI CONFIGURATION</h4>
+                <div class="card-body">
+                    <h5 class="card-title">Filter by Upload Status</h5>
+                    <form class="form-group">
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input id="success" class="form-check-input" type="checkbox" checked="" value="">
+                                Success
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input id="pending" class="form-check-input" type="checkbox" checked="" value="">
+                                Pending
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input id="failed" class="form-check-input" type="checkbox" checked="" value="">
+                                Failed
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input id="wifi" class="form-check-input" type="checkbox" checked="" value="">
+                                Show WiFi Access Points
+                            </label>
+                        </div>
+                        <hr class="my-4">
+                        <h5 class="card-title">Search By</h5>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Airport</span>
+                            </div>
+                            <input type="text" id='airportinput' class="form-control" aria-label="Amount (to the nearest dollar)">
+                        </div>
+                        <hr class="my-4">
+                        <button type="button" class="btn btn-primary btn-block btn-sm" id="searchBoi">Search</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col px-0">
+            <div id="map"></div>
+        </div>
+    </div>
+</main>
+<footer>
+    <% include ../../partials/footer %>
+</footer>
+
+<!---------------------------------------->
+<!-------------LOAD JS FILES-------------->
+<!---------------------------------------->
+<script src="/js/leaflet.js"></script>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/bootstrap4-toggle.min.js"></script>
+<script src="/js/map.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/heatmapjs@2.0.2/heatmap.min.js"></script>
+<script src="/js/leaflet-heatmap.js"></script>
+<script src="/js/custom.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+<script>
+    $("#searchBoi").click(function() {
+        var meme = $("#airportinput")
+        if(meme.val() !== "") {
+            var up = meme.val().toUpperCase();
+            for(var item of wifiData.data) {
+                if(item.apCode.toUpperCase() === up) {
+                    map.setView({lat: item.lat, lng: item.lng }, 17);
+                    return;
+                }
+            }
+        } else {
+            map.setView({lat: 0, lng: 0}, 4);
+        }
+    });
+    $.get("/api/wifi".toString(), function (data) {
+        var markers = L.markerClusterGroup();
+        data.forEach(function (wifi) {
+            var neuMarker = L.circle([wifi.latLong.geometry[1], wifi.latLong.geometry[0]], { title: wifi.ssid, radius: wifi.range });
+            neuMarker.bindPopup("<b>SSID</b>: " + wifi.ssid + "<br>" +
+                "<b>Airport Code</b>:" + wifi.airportCode + "<br>");
+            markers.addLayer(neuMarker);
+            wifiData.data.push({lat: wifi.latLong.geometry[1], lng: wifi.latLong.geometry[0], radius: wifi.range, apCode: wifi.airportCode});
+        })
+        var heatmapLayer = new HeatmapOverlay(cfg);
+        heatmapLayer.setData(wifiData);
+        heatmapLayer.addTo(map);
+        map.addLayer(markers);
+    });
+    // api call for getting flights from DB ready to be implamented
+    $.get("/api/correlated_flight?limit=40000".toString(), function (data) {
+        data.forEach(function (flight) {
+            //console.log(flight._id);
+            if (flight.outcome.includes('SUCCESS')) {
+                console.log("Flight successful: " + flight._id);
+                marker = new L.circleMarker([flight.landingPoint.geometry[1], flight.landingPoint.geometry[0]], greenIcon)
+                    .bindPopup("<b>Tail Number: </b>" + flight.tailNumber +
+                        "<br /><b>X: </b>" + flight.landingPoint.geometry[1] +
+                        "<br /><b>Y: </b>" + flight.landingPoint.geometry[0] +
+                        "<br /><b>Status: </b> Success")
+                    .addTo(map);
+            } else if (flight.outcome.includes('WARN')) {
+                console.log("Flight pending: " + flight._id);
+                marker = new L.circleMarker([flight.flightPath[flight.flightPath.length-1].geometry[1],flight.flightPath[flight.flightPath.length-1].geometry[0]], yellowIcon)
+                    .bindPopup("<b>Tail Number: </b>" + flight.tailNumber +
+                        "<br /><b>X: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[1] +
+                        "<br /><b>Y: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[0] +
+                        "<br /><b>Status: </b> Pending")
+                    .addTo(map);
+            } else if (flight.outcome.includes('FAIL')) {
+                //console.log("Flight failed: " + flight._id);
+                marker = new L.circleMarker([flight.flightPath[flight.flightPath.length-1].geometry[1],flight.flightPath[flight.flightPath.length-1].geometry[0]], redIcon)
+                    .bindPopup("<b>Tail Number: </b>" + flight.tailNumber +
+                        "<br /><b>X: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[1] +
+                        "<br /><b>Y: </b>" + flight.flightPath[flight.flightPath.length-1].geometry[0] +
+                        "<br /><b>Status: </b> Failure")
+                    .addTo(map);
+            } else {
+                console.log('Something went horribly wrong, check mongo DB in correlatedFlights for ID: ' + flight._id)
+            }
+        });
+    });
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,234 @@
+<!-- views/pages/database_table.ejs -->
+<% const pageType = "database"; %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../../partials/head %>
+    <!--<link rel="stylesheet" href="/stylesheets/databasePages.css">-->
+</head>
+<body>
+
+<header>
+    <% include ../../partials/technic_header %>
+</header>
+
+<main>
+    <div class="container-fluid">
+        <br>
+        <!-------------SEARCH BAR------------->
+        <div class="card">
+            <div class="card-body" style="height: max-content">
+                <form id="clear">
+                    <div class="row justify-content-md-center">
+                        <div class="col-md-1 pl-1 ">
+                            <div class="form-group">
+                                <label>ID</label>
+                                <input type="text" id="ID" name="ID" class="form-control" placeholder="ID">
+                            </div>
+                        </div>
+                        <div class="col-md-1 pl-1">
+                            <div class="form-group">
+                                <label>RDL</label>
+                                <input type="text" id="RDL" class="form-control" placeholder="RDL">
+                            </div>
+                        </div>
+                        <div class="col-md-1 pl-1">
+                            <div class="form-group">
+                                <label>RDT/D</label>
+                                <input type="text" id="RDTD" class="form-control"  placeholder="RTD/T">
+                            </div>
+                        </div>
+                        <div class="col-md-1 pl-1">
+                            <div class="form-group">
+                                <label>STL</label>
+                                <input type="text" id="STL" class="form-control"  placeholder="STL">
+                            </div>
+                        </div>
+                        <div class="col-md-1 pl-1">
+                            <div class="form-group">
+                                <label>CODE</label>
+                                <select id="CodeID" class="form-control">
+                                    <option value="">Please select</option>
+                                    <option value="SUCCESS_UPLOAD">SUCCESS</option>
+                                    <option value="WARN_IN_PROGRESS">PENDING</option>
+                                    <option value="FAIL">FAILED</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <a class="btn btn-primary btn-lg" id="search"><i class="fa fa-filter "></i> Filter</a>
+                        <!--<a class="btn btn-secondary btn-lg " onclick="clear()" href="#"><i class="fa fa-eraser "></i> Clear Filter</a>-->
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-------------DATABASE TABLE------------->
+        <div class="container"><br><br></div>
+
+        <section class="wrapper" id="table">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">RDL</th>
+                    <th scope="col">RDT/D</th>
+                    <th scope="col">STL</th>
+                    <th scope="col">STATUS</th>
+                </tr>
+                </thead>
+                <tbody id="flight_data">
+                </tbody>
+            </table>
+
+        </section>
+    </div>
+</main>
+
+<footer>
+    <% include ../../partials/footer %>
+</footer>
+
+<!---------------------------------------->
+<!-------------LOAD JS FILES-------------->
+<!---------------------------------------->
+<script src="/js/leaflet.js"></script>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/bootstrap4-toggle.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var flight_info = '';
+        $.get("/api/correlated_flight?", function (data) {
+            data.forEach(function (flight) {
+                var flight_info = '';
+
+                var outcome = flight.outcome;
+                switch(outcome){
+                    case "SUCCESS_UPLOAD":
+                        flight_info += '<tr class="table-success">';
+                        break;
+
+                    case "WARN_IN_PROGRESS":
+                        flight_info += '<tr class="table-warning">';
+                        break;
+
+                    default:
+                        flight_info += '<tr class="table-danger">';
+                        break;
+                }
+
+                flight_info += '<td>' + flight._id +'</td>';
+                if(flight.landingPoint){
+                    var lat = flight.landingPoint.geometry[1];
+                    var lon = flight.landingPoint.geometry[0];
+                    flight_info += '<td>' + lat.toFixed(3) +','+ lon.toFixed(3) +'</td>';
+
+                    var landingDate = flight.landingDate.slice(5,7) + '/'+ flight.landingDate.slice(8,10) + '/' + flight.landingDate.slice(0,4);
+                    flight_info += '<td>' + landingDate + '</td>';
+                }
+                else {
+                    flight_info += '<td> in progress </td>';
+                    flight_info += '<td> in progress </td>';
+                }
+                if (flight.takeoffPoint) {
+                    var lat = flight.takeoffPoint.geometry[1];
+                    var lon = flight.takeoffPoint.geometry[0];
+                    flight_info += '<td>' + lat.toFixed(3) +','+ lon.toFixed(3) +'</td>';
+                }
+                else {
+                    flight_info += '<td> in progress </td>';
+                }
+                flight_info += '<td>' + flight.outcome + '</td></tr>';
+
+                $('#flight_data').append(flight_info);
+            });
+        });
+
+
+    });
+    $("#search").click(function(){
+
+        var rdl = $("#RDL").val().split(",");
+        var status = $("#CodeID").val();
+        var id = $("#ID").val();
+        var failFail = false;
+
+        console.log(status);
+
+        if(rdl.length === 1){
+            rdl[0] = '';
+            rdl[1] = '';
+        }
+        if(status === undefined || status === null || status === "FAIL"){
+            status = '';
+            failFail = true;
+        }
+        if(id === undefined){
+            id = '';
+        }
+
+        $.get("/api/correlated_flight?limit=40000&_id=" + id + "&landingPoint.geometry=" + rdl[0] + "&landingPoint.geometry=" + rdl[1] +"&outcome=" + status, function (data) {
+
+            $("#flight_data > tr").remove();
+
+            data.forEach(function (flight) {
+                console.log(flight._id);
+                var flight_info = '';
+
+                var outcome = flight.outcome;
+
+
+                switch(outcome){
+                    case "SUCCESS_UPLOAD":
+                        flight_info += '<tr class="table-success">';
+                        break;
+
+                    case "WARN_IN_PROGRESS":
+                        flight_info += '<tr class="table-warning">';
+                        break;
+
+                    default:
+                        flight_info += '<tr class="table-danger">';
+                        break;
+                }
+
+                if(failFail){
+                    flight_info = '<tr class="table-danger">';
+                }
+                if(failFail && !flight.outcome.includes("FAIL")){
+                    return;
+                }
+
+                flight_info += '<td>' + flight._id +'</td>';
+                if(flight.landingPoint){
+                    var lat = flight.landingPoint.geometry[1];
+                    var lon = flight.landingPoint.geometry[0];
+                    flight_info += '<td>' + lat.toFixed(3) +','+ lon.toFixed(3) +'</td>';
+
+                    var landingDate = flight.landingDate.slice(5,7) + '/'+ flight.landingDate.slice(8,10) + '/' + flight.landingDate.slice(0,4);
+                    flight_info += '<td>' + landingDate + '</td>';
+                }
+                else {
+                    flight_info += '<td> in progress </td>';
+                    flight_info += '<td> in progress </td>';
+                }
+                if (flight.takeoffPoint) {
+                    var lat = flight.takeoffPoint.geometry[1];
+                    var lon = flight.takeoffPoint.geometry[0];
+                    flight_info += '<td>' + lat.toFixed(3) +','+ lon.toFixed(3) +'</td>';
+                }
+                else {
+                    flight_info += '<td> in progress </td>';
+                }
+                flight_info += '<td>' + flight.outcome + '</td></tr>';
+
+                $('#flight_data').append(flight_info);
+
+            });
+        });
+    });
+</script>
+</body>
+</html>
