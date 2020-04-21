@@ -18,43 +18,99 @@
         <div class="card">
             <div class="card-body">
                 <form id="clear">
-                    <div class="row justify-content-md-center">
-                        <div class="col-md-1 pl-1 ">
-                            <div class="form-group">
-                                <label>ID</label>
-                                <input type="text" id="ID" name="ID" class="form-control" placeholder="ID">
-                            </div>
-                        </div>
-                        <div class="col-md-1 pl-1">
-                            <div class="form-group">
-                                <label>UL</label>
-                                <input type="text" id="UL" class="form-control"  placeholder="UL">
-                            </div>
-                        </div>
-                        <div class="col-md-1 pl-1">
-                            <div class="form-group">
-                                <label>WSS</label>
-                                <input type="text" id="WSS" class="form-control"  placeholder="Strength">
-                            </div>
-                        </div>
-                        <div class="col-md-1 pl-1">
-                            <div class="form-group">
-                                <label>WID</label>
-                                <input type="text" id="WID" class="form-control"  placeholder="WID">
-                            </div>
-                        </div>
-                        <div class="col-md-1 pl-1">
-                            <div class="form-group">
-                                <label>CODE</label>
-                                <input type="text" id="CODE" class="form-control"  placeholder="CODE">
+                    <div class="row justify-content-center">
+                        <!-- Trigger the modal with a button -->
+                        <button type="button" class="btn btn-primary btn-lg mr-3" data-toggle="modal" data-target="#noWifiAirport">No Wifi Airport</button>
+                        <button type="button" class="btn btn-primary btn-lg mr-3" data-toggle="modal" data-target="#noWifiAircraft">No Wifi Aircraft</button>
+                        <button type="button" class="btn btn-primary btn-lg mr-3" data-toggle="modal" data-target="#deadEDG">Dead EDG 100</button>
+                        <button type="button" class="btn btn-primary btn-lg mr-3" data-toggle="modal" data-target="#wapChange">WAP Change</button>
+
+                    </div>
+
+                    <!-- No Wifi Airport Modal -->
+                    <div id="noWifiAirport" class="modal fade" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">No Wifi Airport</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <label>Airport ID:</label>
+                                    <input type="text" id="airportCode" class="form-control"  placeholder="PHX">
+                                </div>
+                                <div class="modal-footer justify-content-center">
+                                    <button id="noWifiAirportSearch" type="button" class="btn btn-primary">Search</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row justify-content-center">
-                        <a class="btn btn-primary btn-lg" id="search"><i class="fa fa-filter "></i> Filter</a>
+
+                    <!-- No Wifi Aircraft Modal -->
+                    <div id="noWifiAircraft" class="modal fade" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">No Wifi Aircraft</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <label>Airport ID:</label>
+                                    <input type="text" id="noWifiAircraftCode" class="form-control"  placeholder="PHX">
+                                </div>
+                                <div class="modal-footer justify-content-center">
+                                    <button id="noWifiAircraftSearch" type="button" class="btn btn-primary">Search</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dead EDG 100 Modal -->
+                    <div id="deadEDG" class="modal fade" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Dead EDG 100</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <label>Tail Number:</label>
+                                    <input type="text" id="deadEDGTail" class="form-control"  placeholder="N538FX">
+                                </div>
+                                <div class="modal-footer justify-content-center">
+                                    <button id="deadEDGSearch" type="button" class="btn btn-primary">Search</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- WAP Change Modal -->
+                    <div id="wapChange" class="modal fade" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">WAP Change</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <label>Tail Number:</label>
+                                    <input type="text" id="wapChangeTail" class="form-control"  placeholder="N538FX">
+                                </div>
+                                <div class="modal-footer justify-content-center">
+                                    <button id="wapChangeSearch" type="button" class="btn btn-primary">Search</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </form>
-
             </div>
         </div>
 
@@ -129,7 +185,7 @@
 
         $.getJSON("/fakedata/CEDASUpload.json", function(data){
             $.each(data, function (key,value) {
-                console.log(value);
+                //console.log(value);
                 UL[key] = value.uploadLocation.latitude.slice(0,6) + "," + value.uploadLocation.longitude.slice(0,7);
                 WSS[key] = value.wapStrength;
                 WID[key] = value.wapID;
@@ -142,7 +198,7 @@
             var itemNum;
             $.each(data, function (key,value) {
                 itemNum = key+1;
-                console.log(UL);
+                //console.log(UL);
                 if (value.outcome.includes("FAIL")) {
                     flight_info += '<tr class="table-danger">';
                     flight_info += '<td>' + itemNum + '</td>';
@@ -160,29 +216,30 @@
         });
     });
 
+    $("#noWifiAirportSearch").click(function () {
+        $('#noWifiAirport').modal('hide');
+        console.log($("#airportCode").val());
 
+        $.get("/api/no_wifi_airport?iata=" + $("#airportCode").val(), function (data) {
 
-    // var modalBtns = [...document.querySelectorAll(".button")];
-    // modalBtns.forEach(function(btn){
-    //     btn.onclick = function() {
-    //         var modal = btn.getAttribute('data-modal');
-    //         document.getElementById(modal).style.display = "block";
-    //     }
-    // });
-    //
-    // var closeBtns = [...document.querySelectorAll(".close")];
-    // closeBtns.forEach(function(btn){
-    //     btn.onclick = function() {
-    //         var modal = btn.closest('.modal');
-    //         modal.style.display = "none";
-    //     }
-    // });
-    //
-    // window.onclick = function(event) {
-    //     if (event.target.className === "modal") {
-    //         event.target.style.display = "none";
-    //     }
-    // }
+        })
+
+    });
+
+    $("#noWifiAircraftSearch").click(function () {
+        $('#noWifiAircraft').modal('hide');
+
+    });
+
+    $("#deadEDGSearch").click(function () {
+        $('#deadEDG').modal('hide');
+
+    });
+
+    $("#wapChangeSearch").click(function () {
+        $('#wapChange').modal('hide');
+
+    });
 
 </script>
 </body>

@@ -4,6 +4,7 @@ const router = express.Router();
 const ObjectId = require('mongoose').Types.ObjectId;
 
 const Wifi = require('../lib/models/wifi');
+const Airport = require('../lib/models/airport');
 const CorrelatedFlight = require('../lib/models/correlatedFlight');
 
 function filterEmpty(args) {
@@ -121,6 +122,61 @@ router.get('/correlated_flight', function (req, res, next) {
         }
         res.json(doc.docs);
     });
+});
+
+
+router.get('/no_wifi_airport', function (req, res, next) {
+    if(req.query === undefined) {
+        req.query = {};
+    }
+    Airport.find({IATA: req.query.iata}).
+    then(ap => {
+        console.log("FOUND AIRPORT: " + ap[0]._id);
+
+  //      CorrelatedFlight.index({landingPoint:"2dsphere"});
+
+        CorrelatedFlight.collection.getIndexes({full: true}).then(indexes => {
+            console.log("indexes:", indexes);
+            // ...
+        }).catch(console.error);
+
+        CorrelatedFlight.find({
+            landingPoint: {
+                $nearSphere: {
+                    $maxDistance: 16100,
+                    $geometry: {
+                        type: "Point",
+                        coordinates: ap[0].location.geometry
+                    }
+                }
+            }}).find((error, results) => {
+            if (error){
+                console.log(error);
+            }
+            else{
+                console.log(results[0])
+            }
+
+        });
+    });
+
+    console.log("REQ IATA: " + req.query.iata);
+    //console.log("FOUND AIRPORT: " + ap[0].IATA);
+
+    res.json({});
+});
+
+
+router.get('/no_wifi_aircraft', function (req, res, next) {
+
+});
+
+router.get('/dead_edg', function (req, res, next) {
+
+});
+
+router.get('/wap_change', function (req, res, next) {
+
 });
 
 module.exports = router;
