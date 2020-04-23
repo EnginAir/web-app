@@ -119,7 +119,7 @@
         <section class="wrapper" id="table">
             <table class="table table-hover">
                 <thead>
-                <tr>
+                <tr id="flight_data_head">
                     <th scope="col">ID</th>
                     <th scope="col">Upload GPS Location (UL)</th>
                     <th scope="col">WAP Signal Strength (WSS)</th>
@@ -178,50 +178,66 @@
 <script>
     $(document).ready(function () {
 
-        var UL={};
-        var WSS={};
-        var WID={};
-        var CODE={};
+        // var UL={};
+        // var WSS={};
+        // var WID={};
+        // var CODE={};
+        //
+        // $.getJSON("/fakedata/CEDASUpload.json", function(data){
+        //     $.each(data, function (key,value) {
+        //         //console.log(value);
+        //         UL[key] = value.uploadLocation.latitude.slice(0,6) + "," + value.uploadLocation.longitude.slice(0,7);
+        //         WSS[key] = value.wapStrength;
+        //         WID[key] = value.wapID;
+        //         CODE[key] = value.airportCode;
+        //     });
+        // });
 
-        $.getJSON("/fakedata/CEDASUpload.json", function(data){
-            $.each(data, function (key,value) {
-                //console.log(value);
-                UL[key] = value.uploadLocation.latitude.slice(0,6) + "," + value.uploadLocation.longitude.slice(0,7);
-                WSS[key] = value.wapStrength;
-                WID[key] = value.wapID;
-                CODE[key] = value.airportCode;
-            });
-        });
-
-        $.getJSON("/fakedata/CorrellatedFlight.json", function(data){
-            var flight_info = '';
-            var itemNum;
-            $.each(data, function (key,value) {
-                itemNum = key+1;
-                //console.log(UL);
-                if (value.outcome.includes("FAIL")) {
-                    flight_info += '<tr class="table-danger">';
-                    flight_info += '<td>' + itemNum + '</td>';
-                    flight_info += '<td>' + UL[key] + '</td>';
-                    flight_info += '<td>' + WSS[key] + '</td>';
-                    flight_info += '<td>' + WID[key] + '</td>';
-                    flight_info += '<td>' + CODE[key] + '</td>';
-                    flight_info += '<td>' + value.outcome + '</td>';
-                    flight_info += '<td><button class="btn btn-primary" id="modalBtn">' + "Test" + '</button></td>';
-                    flight_info += '</tr>';
-                    $('#flight_data').append(flight_info);
-
-                }
-            });
-        });
+        // $.getJSON("/fakedata/CorrellatedFlight.json", function(data){
+        //     var flight_info = '';
+        //     var itemNum;
+        //     $.each(data, function (key,value) {
+        //         itemNum = key+1;
+        //         //console.log(UL);
+        //         if (value.outcome.includes("FAIL")) {
+        //             flight_info += '<tr class="table-danger">';
+        //             flight_info += '<td>' + itemNum + '</td>';
+        //             flight_info += '<td>' + UL[key] + '</td>';
+        //             flight_info += '<td>' + WSS[key] + '</td>';
+        //             flight_info += '<td>' + WID[key] + '</td>';
+        //             flight_info += '<td>' + CODE[key] + '</td>';
+        //             flight_info += '<td>' + value.outcome + '</td>';
+        //             flight_info += '<td><button class="btn btn-primary" id="modalBtn">' + "Test" + '</button></td>';
+        //             flight_info += '</tr>';
+        //             $('#flight_data').append(flight_info);
+        //
+        //         }
+        //     });
+        // });
     });
 
     $("#noWifiAirportSearch").click(function () {
         $('#noWifiAirport').modal('hide');
         console.log($("#airportCode").val());
 
-        $.get("/api/no_wifi_airport?iata=" + $("#airportCode").val(), function (data) {
+        $("#flight_data_head > th").remove();
+        $("#flight_data > tr").remove();
 
+
+
+        $('#flight_data_head').append('<th scope="col">ID</th><th scope="col">Tail Number</th><th scope="col">IATA</th><th scope="col">Status Code</th>');
+
+        $.get("/api/no_wifi_airport?iata=" + $("#airportCode").val().toUpperCase(), function (data) {
+
+            data.forEach(function (flight) {
+                let results = '<tr class="table-danger">';
+                results+='<td>' + flight._id + '</td>';
+                results+='<td>' + flight.tailNumber + '</td>';
+                results+='<td>' + $("#airportCode").val() + '</td>';
+                results+='<td>' + flight.outcome + '</td></tr>';
+
+                $('#flight_data').append(results);
+            })
         })
 
     });
@@ -229,10 +245,79 @@
     $("#noWifiAircraftSearch").click(function () {
         $('#noWifiAircraft').modal('hide');
 
+        $("#flight_data_head > th").remove();
+        $("#flight_data > tr").remove();
+
+        $('#flight_data_head').append('<th scope="col">ID</th><th scope="col">Tail Number</th><th scope="col">IATA</th><th scope="col">LAT</th><th scope="col">LON</th><th scope="col">Status Code</th>');
+
+        $.get("/api/no_wifi_aircraft?iata=" + $("#noWifiAircraftCode").val().toUpperCase(), function (data) {
+
+            data.forEach(function (flight) {
+                let results = '<tr class="table-danger">';
+                results+='<td>' + flight._id + '</td>';
+                results+='<td>' + flight.tailNumber + '</td>';
+                results+='<td>' + $("#noWifiAircraftCode").val() + '</td>';
+                results+='<td>' + flight.landingPoint.geometry[1] + '</td>';
+                results+='<td>' + flight.landingPoint.geometry[0] + '</td>';
+                results+='<td>' + flight.outcome + '</td></tr>';
+
+                $('#flight_data').append(results);
+            })
+        })
+
     });
 
     $("#deadEDGSearch").click(function () {
         $('#deadEDG').modal('hide');
+        $("#flight_data_head > th").remove();
+        $("#flight_data > tr").remove();
+
+        $('#flight_data_head').append('<th scope="col">ID</th><th scope="col">Tail Number</th><th scope="col">LAT</th><th scope="col">LON</th><th scope="col">DATE</th><th scope="col">Status Code</th>');
+
+
+        $.get("/api/dead_edg?status=failed&tailNumber=" + $("#deadEDGTail").val().toUpperCase(), function (data) {
+
+            data.forEach(function (flight) {
+                let results = '<tr class="table-danger">';
+                results+='<td>' + flight._id + '</td>';
+                results+='<td>' + flight.tailNumber + '</td>';
+                results+='<td>' + flight.landingPoint.geometry[1] + '</td>';
+                results+='<td>' + flight.landingPoint.geometry[0] + '</td>';
+                results += '<td>' + flight.landingDate + '</td>';
+                results+='<td>' + flight.outcome + '</td></tr>';
+
+                $('#flight_data').append(results);
+            })
+        })
+
+        $.get("/api/dead_edg?status=pass&tailNumber=" + $("#deadEDGTail").val().toUpperCase(), function (data) {
+
+            data.forEach(function (flight) {
+                let results = '';
+
+                if(flight.outcome.includes("FAIL") && flight.outcome !== "FAIL_DEAD_EDG100") {
+                    results += '<tr class="table-danger">';
+                    results += '<td>' + flight._id + '</td>';
+                    results += '<td>' + flight.tailNumber + '</td>';
+                    results += '<td>' + flight.landingPoint.geometry[1] + '</td>';
+                    results += '<td>' + flight.landingPoint.geometry[0] + '</td>';
+                    results += '<td>' + flight.landingDate + '</td>';
+                    results += '<td>' + flight.outcome + '</td></tr>';
+
+                    $('#flight_data').append(results);
+                }
+                else if(flight.outcome !== "WARN_IN_PROGRESS" && !flight.outcome.includes("FAIL")){
+                    results += '<tr class="table-success">'
+                    results += '<td>' + flight._id + '</td>';
+                    results += '<td>' + flight.tailNumber + '</td>';
+                    results += '<td>' + flight.landingPoint.geometry[1] + '</td>';
+                    results += '<td>' + flight.landingPoint.geometry[0] + '</td>';
+                    results += '<td>' + flight.landingDate + '</td>';
+                    results += '<td>' + flight.outcome + '</td></tr>';
+                    $('#flight_data').append(results);
+                }
+            })
+        })
 
     });
 
