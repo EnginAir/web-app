@@ -141,15 +141,16 @@ router.get('/no_wifi_airport', function (req, res, next) {
         }).catch(console.error);
 
         CorrelatedFlight.find({
-            landingPoint: {
-                $nearSphere: {
-                    $maxDistance: 16100,
-                    $geometry: {
-                        type: "Point",
-                        coordinates: ap[0].location.geometry
+            "landingPoint.geometry": {
+                    $nearSphere: {
+                        $maxDistance: 8000,
+                        $geometry: {
+                            type: "Point",
+                            coordinates: ap[0].location.geometry
+                        }
                     }
                 }
-            }}).find((error, results) => {
+            }).find((error, results) => {
             if (error){
                 console.log(error);
             }
