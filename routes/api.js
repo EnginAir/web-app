@@ -4,6 +4,7 @@ const router = express.Router();
 const ObjectId = require('mongoose').Types.ObjectId;
 
 const Wifi = require('../lib/models/wifi');
+const Airport = require('../lib/models/airport');
 const CorrelatedFlight = require('../lib/models/correlatedFlight');
 
 function filterEmpty(args) {
@@ -121,6 +122,90 @@ router.get('/correlated_flight', function (req, res, next) {
         }
         res.json(doc.docs);
     });
+});
+
+
+router.get('/no_wifi_airport', function (req, res, next) {
+    if(req.query === undefined) {
+        req.query = {};
+    }
+    Airport.find({IATA: req.query.iata}).
+    then(ap => {
+        CorrelatedFlight.find({
+            "landingPoint.geometry": {
+                    $nearSphere: {
+                        $maxDistance: 8000,
+                        $geometry: {
+                            type: "Point",
+                            coordinates: ap[0].location.geometry
+                        }
+                    }
+                },
+            "outcome": "FAIL_NO_WIFI_AIRPORT"
+            }).find((error, results) => {
+            if (error){
+                console.log(error);
+            }
+            else{
+                res.json(results);
+            }
+
+        });
+    });
+
+    console.log("REQ IATA: " + req.query.iata);
+
+});
+
+
+router.get('/no_wifi_aircraft', function (req, res, next) {
+    if(req.query === undefined) {
+        req.query = {};
+    }
+    Airport.find({IATA: req.query.iata}).
+    then(ap => {
+        CorrelatedFlight.find({
+            "landingPoint.geometry": {
+                $nearSphere: {
+                    $maxDistance: 8000,
+                    $geometry: {
+                        type: "Point",
+                        coordinates: ap[0].location.geometry
+                    }
+                }
+            },
+            "outcome": "FAIL_NO_WIFI_AIRCRAFT"
+        }).find((error, results) => {
+            if (error){
+                console.log(error);
+            }
+            else{
+                res.json(results);
+            }
+
+        });
+    });
+
+    console.log("REQ IATA: " + req.query.iata);
+
+});
+router.get('/dead_edg', function (req, res, next) {
+
+    if(req.query.status === "failed") {
+        CorrelatedFlight.find({tailNumber: req.query.tailNumber, outcome: "FAIL_DEAD_EDG100"}).find((error, result) =>{
+            res.json(result);
+        });
+    }
+    else{
+        CorrelatedFlight.find({tailNumber: req.query.tailNumber}).find((error, result) =>{
+            res.json(result);
+        });
+    }
+
+});
+
+router.get('/wap_change', function (req, res, next) {
+
 });
 
 module.exports = router;

@@ -18,43 +18,99 @@
         <div class="card">
             <div class="card-body">
                 <form id="clear">
-                    <div class="row justify-content-md-center">
-                        <div class="col-md-1 pl-1 ">
-                            <div class="form-group">
-                                <label>ID</label>
-                                <input type="text" id="ID" name="ID" class="form-control" placeholder="ID">
-                            </div>
-                        </div>
-                        <div class="col-md-1 pl-1">
-                            <div class="form-group">
-                                <label>UL</label>
-                                <input type="text" id="UL" class="form-control"  placeholder="UL">
-                            </div>
-                        </div>
-                        <div class="col-md-1 pl-1">
-                            <div class="form-group">
-                                <label>WSS</label>
-                                <input type="text" id="WSS" class="form-control"  placeholder="Strength">
-                            </div>
-                        </div>
-                        <div class="col-md-1 pl-1">
-                            <div class="form-group">
-                                <label>WID</label>
-                                <input type="text" id="WID" class="form-control"  placeholder="WID">
-                            </div>
-                        </div>
-                        <div class="col-md-1 pl-1">
-                            <div class="form-group">
-                                <label>CODE</label>
-                                <input type="text" id="CODE" class="form-control"  placeholder="CODE">
+                    <div class="row justify-content-center">
+                        <!-- Trigger the modal with a button -->
+                        <button type="button" class="btn btn-primary btn-lg mr-3" data-toggle="modal" data-target="#noWifiAirport">No Wifi Airport</button>
+                        <button type="button" class="btn btn-primary btn-lg mr-3" data-toggle="modal" data-target="#noWifiAircraft">No Wifi Aircraft</button>
+                        <button type="button" class="btn btn-primary btn-lg mr-3" data-toggle="modal" data-target="#deadEDG">Dead EDG 100</button>
+                        <button type="button" class="btn btn-primary btn-lg mr-3" data-toggle="modal" data-target="#wapChange">WAP Change</button>
+
+                    </div>
+
+                    <!-- No Wifi Airport Modal -->
+                    <div id="noWifiAirport" class="modal fade" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">No Wifi Airport</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <label>Airport ID:</label>
+                                    <input type="text" id="airportCode" class="form-control"  placeholder="PHX">
+                                </div>
+                                <div class="modal-footer justify-content-center">
+                                    <button id="noWifiAirportSearch" type="button" class="btn btn-primary">Search</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row justify-content-center">
-                        <a class="btn btn-primary btn-lg" id="search"><i class="fa fa-filter "></i> Filter</a>
+
+                    <!-- No Wifi Aircraft Modal -->
+                    <div id="noWifiAircraft" class="modal fade" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">No Wifi Aircraft</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <label>Airport ID:</label>
+                                    <input type="text" id="noWifiAircraftCode" class="form-control"  placeholder="PHX">
+                                </div>
+                                <div class="modal-footer justify-content-center">
+                                    <button id="noWifiAircraftSearch" type="button" class="btn btn-primary">Search</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dead EDG 100 Modal -->
+                    <div id="deadEDG" class="modal fade" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Dead EDG 100</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <label>Tail Number:</label>
+                                    <input type="text" id="deadEDGTail" class="form-control"  placeholder="N538FX">
+                                </div>
+                                <div class="modal-footer justify-content-center">
+                                    <button id="deadEDGSearch" type="button" class="btn btn-primary">Search</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- WAP Change Modal -->
+                    <div id="wapChange" class="modal fade" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">WAP Change</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <label>Tail Number:</label>
+                                    <input type="text" id="wapChangeTail" class="form-control"  placeholder="N538FX">
+                                </div>
+                                <div class="modal-footer justify-content-center">
+                                    <button id="wapChangeSearch" type="button" class="btn btn-primary">Search</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </form>
-
             </div>
         </div>
 
@@ -63,7 +119,7 @@
         <section class="wrapper" id="table">
             <table class="table table-hover">
                 <thead>
-                <tr>
+                <tr id="flight_data_head">
                     <th scope="col">ID</th>
                     <th scope="col">Upload GPS Location (UL)</th>
                     <th scope="col">WAP Signal Strength (WSS)</th>
@@ -122,67 +178,153 @@
 <script>
     $(document).ready(function () {
 
-        var UL={};
-        var WSS={};
-        var WID={};
-        var CODE={};
+        // var UL={};
+        // var WSS={};
+        // var WID={};
+        // var CODE={};
+        //
+        // $.getJSON("/fakedata/CEDASUpload.json", function(data){
+        //     $.each(data, function (key,value) {
+        //         //console.log(value);
+        //         UL[key] = value.uploadLocation.latitude.slice(0,6) + "," + value.uploadLocation.longitude.slice(0,7);
+        //         WSS[key] = value.wapStrength;
+        //         WID[key] = value.wapID;
+        //         CODE[key] = value.airportCode;
+        //     });
+        // });
 
-        $.getJSON("/fakedata/CEDASUpload.json", function(data){
-            $.each(data, function (key,value) {
-                console.log(value);
-                UL[key] = value.uploadLocation.latitude.slice(0,6) + "," + value.uploadLocation.longitude.slice(0,7);
-                WSS[key] = value.wapStrength;
-                WID[key] = value.wapID;
-                CODE[key] = value.airportCode;
-            });
-        });
-
-        $.getJSON("/fakedata/CorrellatedFlight.json", function(data){
-            var flight_info = '';
-            var itemNum;
-            $.each(data, function (key,value) {
-                itemNum = key+1;
-                console.log(UL);
-                if (value.outcome.includes("FAIL")) {
-                    flight_info += '<tr class="table-danger">';
-                    flight_info += '<td>' + itemNum + '</td>';
-                    flight_info += '<td>' + UL[key] + '</td>';
-                    flight_info += '<td>' + WSS[key] + '</td>';
-                    flight_info += '<td>' + WID[key] + '</td>';
-                    flight_info += '<td>' + CODE[key] + '</td>';
-                    flight_info += '<td>' + value.outcome + '</td>';
-                    flight_info += '<td><button class="btn btn-primary" id="modalBtn">' + "Test" + '</button></td>';
-                    flight_info += '</tr>';
-                    $('#flight_data').append(flight_info);
-
-                }
-            });
-        });
+        // $.getJSON("/fakedata/CorrellatedFlight.json", function(data){
+        //     var flight_info = '';
+        //     var itemNum;
+        //     $.each(data, function (key,value) {
+        //         itemNum = key+1;
+        //         //console.log(UL);
+        //         if (value.outcome.includes("FAIL")) {
+        //             flight_info += '<tr class="table-danger">';
+        //             flight_info += '<td>' + itemNum + '</td>';
+        //             flight_info += '<td>' + UL[key] + '</td>';
+        //             flight_info += '<td>' + WSS[key] + '</td>';
+        //             flight_info += '<td>' + WID[key] + '</td>';
+        //             flight_info += '<td>' + CODE[key] + '</td>';
+        //             flight_info += '<td>' + value.outcome + '</td>';
+        //             flight_info += '<td><button class="btn btn-primary" id="modalBtn">' + "Test" + '</button></td>';
+        //             flight_info += '</tr>';
+        //             $('#flight_data').append(flight_info);
+        //
+        //         }
+        //     });
+        // });
     });
 
+    $("#noWifiAirportSearch").click(function () {
+        $('#noWifiAirport').modal('hide');
+        console.log($("#airportCode").val());
+
+        $("#flight_data_head > th").remove();
+        $("#flight_data > tr").remove();
 
 
-    // var modalBtns = [...document.querySelectorAll(".button")];
-    // modalBtns.forEach(function(btn){
-    //     btn.onclick = function() {
-    //         var modal = btn.getAttribute('data-modal');
-    //         document.getElementById(modal).style.display = "block";
-    //     }
-    // });
-    //
-    // var closeBtns = [...document.querySelectorAll(".close")];
-    // closeBtns.forEach(function(btn){
-    //     btn.onclick = function() {
-    //         var modal = btn.closest('.modal');
-    //         modal.style.display = "none";
-    //     }
-    // });
-    //
-    // window.onclick = function(event) {
-    //     if (event.target.className === "modal") {
-    //         event.target.style.display = "none";
-    //     }
-    // }
+
+        $('#flight_data_head').append('<th scope="col">ID</th><th scope="col">Tail Number</th><th scope="col">IATA</th><th scope="col">Status Code</th>');
+
+        $.get("/api/no_wifi_airport?iata=" + $("#airportCode").val().toUpperCase(), function (data) {
+
+            data.forEach(function (flight) {
+                let results = '<tr class="table-danger">';
+                results+='<td>' + flight._id + '</td>';
+                results+='<td>' + flight.tailNumber + '</td>';
+                results+='<td>' + $("#airportCode").val() + '</td>';
+                results+='<td>' + flight.outcome + '</td></tr>';
+
+                $('#flight_data').append(results);
+            })
+        })
+
+    });
+
+    $("#noWifiAircraftSearch").click(function () {
+        $('#noWifiAircraft').modal('hide');
+
+        $("#flight_data_head > th").remove();
+        $("#flight_data > tr").remove();
+
+        $('#flight_data_head').append('<th scope="col">ID</th><th scope="col">Tail Number</th><th scope="col">IATA</th><th scope="col">LAT</th><th scope="col">LON</th><th scope="col">Status Code</th>');
+
+        $.get("/api/no_wifi_aircraft?iata=" + $("#noWifiAircraftCode").val().toUpperCase(), function (data) {
+
+            data.forEach(function (flight) {
+                let results = '<tr class="table-danger">';
+                results+='<td>' + flight._id + '</td>';
+                results+='<td>' + flight.tailNumber + '</td>';
+                results+='<td>' + $("#noWifiAircraftCode").val() + '</td>';
+                results+='<td>' + flight.landingPoint.geometry[1] + '</td>';
+                results+='<td>' + flight.landingPoint.geometry[0] + '</td>';
+                results+='<td>' + flight.outcome + '</td></tr>';
+
+                $('#flight_data').append(results);
+            })
+        })
+
+    });
+
+    $("#deadEDGSearch").click(function () {
+        $('#deadEDG').modal('hide');
+        $("#flight_data_head > th").remove();
+        $("#flight_data > tr").remove();
+
+        $('#flight_data_head').append('<th scope="col">ID</th><th scope="col">Tail Number</th><th scope="col">LAT</th><th scope="col">LON</th><th scope="col">DATE</th><th scope="col">Status Code</th>');
+
+
+        $.get("/api/dead_edg?status=failed&tailNumber=" + $("#deadEDGTail").val().toUpperCase(), function (data) {
+
+            data.forEach(function (flight) {
+                let results = '<tr class="table-danger">';
+                results+='<td>' + flight._id + '</td>';
+                results+='<td>' + flight.tailNumber + '</td>';
+                results+='<td>' + flight.landingPoint.geometry[1] + '</td>';
+                results+='<td>' + flight.landingPoint.geometry[0] + '</td>';
+                results += '<td>' + flight.landingDate + '</td>';
+                results+='<td>' + flight.outcome + '</td></tr>';
+
+                $('#flight_data').append(results);
+            })
+        })
+
+        $.get("/api/dead_edg?status=pass&tailNumber=" + $("#deadEDGTail").val().toUpperCase(), function (data) {
+
+            data.forEach(function (flight) {
+                let results = '';
+
+                if(flight.outcome.includes("FAIL") && flight.outcome !== "FAIL_DEAD_EDG100") {
+                    results += '<tr class="table-danger">';
+                    results += '<td>' + flight._id + '</td>';
+                    results += '<td>' + flight.tailNumber + '</td>';
+                    results += '<td>' + flight.landingPoint.geometry[1] + '</td>';
+                    results += '<td>' + flight.landingPoint.geometry[0] + '</td>';
+                    results += '<td>' + flight.landingDate + '</td>';
+                    results += '<td>' + flight.outcome + '</td></tr>';
+
+                    $('#flight_data').append(results);
+                }
+                else if(flight.outcome !== "WARN_IN_PROGRESS" && !flight.outcome.includes("FAIL")){
+                    results += '<tr class="table-success">'
+                    results += '<td>' + flight._id + '</td>';
+                    results += '<td>' + flight.tailNumber + '</td>';
+                    results += '<td>' + flight.landingPoint.geometry[1] + '</td>';
+                    results += '<td>' + flight.landingPoint.geometry[0] + '</td>';
+                    results += '<td>' + flight.landingDate + '</td>';
+                    results += '<td>' + flight.outcome + '</td></tr>';
+                    $('#flight_data').append(results);
+                }
+            })
+        })
+
+    });
+
+    $("#wapChangeSearch").click(function () {
+        $('#wapChange').modal('hide');
+
+    });
 
 </script>
 </body>
